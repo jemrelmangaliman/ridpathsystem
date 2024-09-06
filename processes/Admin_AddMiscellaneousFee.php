@@ -4,9 +4,10 @@ $conn = require '../config/config.php';
 
     $amount = $_POST['amount'];
     $strand = $_POST['strand'];
+    $description = $_POST['description'];
 
    
-            $Query = "INSERT INTO miscellaneousfees (amount, strandID) values ('$amount','$strand')";
+            $Query = "INSERT INTO miscellaneousfees (amount, description, strandID) values ('$amount','$description','$strand')";
 
             if (mysqli_query($conn, $Query)) {
                 $_SESSION['action-success'] = "Miscellaneous fee added.";

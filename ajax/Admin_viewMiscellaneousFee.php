@@ -5,6 +5,7 @@ $miscID = $_REQUEST['ID'];
 $fetchData = mysqli_query($conn, "SELECT * FROM miscellaneousfees LEFT JOIN strands ON miscellaneousfees.strandID = strands.strandID WHERE miscellaneousfees.miscID='$miscID'");
 $DataArray = mysqli_fetch_assoc($fetchData);
 $amount = $DataArray['amount'];
+$description = $DataArray['description'];
 $strandID = $DataArray['strandID'];
 $strandname = $DataArray['strandname'];
 $status = $DataArray['isactive'];
@@ -32,6 +33,12 @@ echo '<form action="../processes/Admin_EditMiscellaneousFee.php" method="POST">
                                                         <select class="form-select" name="strand" required>
                                                         '.$strandOptiontext.'
                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <small>Description</small>
+                                                        <input type="text" class="form-control" name="description" value="'.$description.'" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">

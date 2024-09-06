@@ -32,6 +32,7 @@
                                         <tr>
                                             <th scope="col" class="text-center" id="th"><small>Misc Fee ID</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Strand</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Description</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Miscellaneous Fee</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Actions</small></th>
                                         </tr>
@@ -46,11 +47,12 @@
                                             $ID = $DataArray['miscID'];
                                             $strandname = $DataArray['strandname'];
                                             $amount = $DataArray['amount'];
-                                            
+                                            $description = $DataArray['description'];
                                             ?>
                                             <tr>
                                                 <td class="text-center" id="td"><?php echo $ID; ?></td>
                                                 <td class="text-center" id="td"><?php echo $strandname; ?></td>
+                                                <td class="text-center" id="td"><?php echo $description; ?></td>
                                                 <td class="text-center" id="td">₱<?php echo $amount; ?></td>
                                                 <td class="text-center" id="td">
                                                     <button class="btn btn-success border-0" title="Edit" id="table-button"
@@ -112,6 +114,12 @@
                                                             }
                                                             ?>
                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <small>Description</small>
+                                                        <input type="text" class="form-control" name="description" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">
