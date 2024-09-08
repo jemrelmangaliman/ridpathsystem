@@ -36,6 +36,7 @@ if (!isset($_SESSION['user_id'])) {
 
     <link href="../css/bootstrap5.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link href="../css/style.css" rel="stylesheet">
 
     <script src="../js/jquery-3.3.1.slim.min.js" ></script>
     <script src="../js/bootstrap.bundle.min.js"></script>

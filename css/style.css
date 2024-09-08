@@ -1,0 +1,8 @@
+#qr-preview, #v-qr-preview {
+    height: 160px;
+    width: 160px;
+}
+#table-qr-preview {
+    height: 50px;
+    width: 50px;
+}

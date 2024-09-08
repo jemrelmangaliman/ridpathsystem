@@ -1,5 +1,5 @@
 <?php
-    require 'shared/header.php';
+    require '../shared/header.php';
 ?>
 
                 <!-- Begin Page Content -->
@@ -337,5 +337,5 @@
             <!-- End of Main Content -->
 
 <?php
-    require 'shared/footer.php';
+    require '../shared/footer.php';
 ?>
