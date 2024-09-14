@@ -1,17 +1,5 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "ridpathdb";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+$conn = require 'config/config.php';
 
 // Function to generate a unique tempID
 function generateUniqueTempID($conn) {
@@ -37,27 +25,24 @@ function generateUniqueTempID($conn) {
 // Process registration form
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Retrieve form data
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
+    $firstname = $_POST['firstname'];
+    $middlename = $_POST['middlename'];
+    $lastname = $_POST['lastname'];
     $email = $_POST['email'];
+    $contactnumber = $_POST['contactnumber'];
+    $userrole = 4;
     $password = $_POST['password'];
-    $repeatPassword = $_POST['repeatPassword'];
+    $repeatpassword = $_POST['repeatpassword'];
 
     // Validate data
-    if ($password !== $repeatPassword) {
+    if ($password !== $repeatpassword) {
         header('Location: register_form.php?error=password_mismatch');
         exit;
     }
 
-    // Create username by concatenating first name and last name
-    $username = $lastName . $firstName;
-
-    // Generate a unique tempID
-    $tempID = generateUniqueTempID($conn);
-
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO studentaccount (tempID, firstname, lastname, email, password, username) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssss", $tempID, $firstName, $lastName, $email, $password, $username);
+    $stmt = $conn->prepare("INSERT INTO students ( firstname, middlename, lastname, email, contactnumber, userRole, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssis", $firstname, $middlename, $lastname, $email, $contactnumber, $userrole, $password);
 
     // Execute the statement
     if ($stmt->execute()) {

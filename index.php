@@ -51,11 +51,11 @@ session_unset();
                                         <div class="form-group">
                                             <input type="text" name="username" class="form-control form-control-user"
                                                 id="username" aria-describedby="username"
-                                                placeholder="username">
+                                                placeholder="username or email" required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"
-                                                id="password" placeholder="Password">
+                                                id="password" placeholder="Password" required>
                                         </div>
                                        
                                         <button class="btn btn-primary btn-user btn-block" type="submit">Login</button>

@@ -3,7 +3,7 @@
 require '../config/config.php';
 
 session_start(); 
-if (!isset($_SESSION['user_id']) && $_SESSION['userrole'] == 4) {
+if (!isset($_SESSION['user_id']) && $_SESSION['userrole'] != 4) {
     header('Location: ../index.php');
     exit(); 
 }
@@ -56,7 +56,7 @@ if (!isset($_SESSION['user_id']) && $_SESSION['userrole'] == 4) {
     <!-- Page Wrapper -->
     <div id="wrapper">
         <?php
-        require 'sidebar.php';
+        require 'sidebar_student.php';
         ?>
 
         <!-- Content Wrapper -->

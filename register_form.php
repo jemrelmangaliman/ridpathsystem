@@ -26,33 +26,35 @@
                             </div>
                             <form class="user" action="register.php" method="POST">
                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" name="firstName" placeholder="First Name" required>
+                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" name="firstname" placeholder="First Name" required>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" name="lastName" placeholder="Last Name" required>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control form-control-user" name="middlename" placeholder="Middle Name" required>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control form-control-user" name="lastname" placeholder="Last Name" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" name="email" placeholder="Email Address" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" name="contactnumber" placeholder="Contact Number" required>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input type="password" class="form-control form-control-user" name="password" placeholder="Password" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user" name="repeatPassword" placeholder="Repeat Password" required>
+                                        <input type="password" class="form-control form-control-user" name="repeatpassword" placeholder="Repeat Password" required>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account
                                 </button>
-                                <hr>
                             </form>
                             <hr>
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
                             <div class="text-center">
                                 <a class="small" href="index.php">Already have an account? Login!</a>
                             </div>
