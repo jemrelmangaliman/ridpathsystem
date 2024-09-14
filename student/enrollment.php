@@ -75,13 +75,54 @@ $contactnumber = $DataArray['contactnumber'];
                                         <div class="container border shadow mb-3">
                                             <div class="row mx-1 mt-2">
                                                 <div class="col">
-                                                    <small>Attach Academic Document</small>
+                                                    <small>Original Copy of PSA</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" id="attachment" name="attachment" required>
+                                                        <input type="file" class="form-control" name="attachment1">
                                                     </div>
                                                 </div>
-                                            </div> 
-                                            
+                                                <div class="col">
+                                                    <small>Certificate of Good Moral Character</small>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" class="form-control" name="attachment2">
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                            <div class="row mx-1 mt-2">
+                                                <div class="col">
+                                                    <small>Original Report Card</small>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" class="form-control" name="attachment3">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <small>2pcs 2×2 and 1x1 picture (white background)</small>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" class="form-control" name="attachment4">
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                            <div class="row mx-1 mt-2">
+                                                <div class="col">
+                                                    <small>Duly Accomplished Enrolment Form</small>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" class="form-control" name="attachment5">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <small>Certificate of Completion (grade 10)</small>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" class="form-control" name="attachment6">
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                            <div class="row mx-1 mt-2">
+                                                <div class="col-6">
+                                                    <small>Form 137</small>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" class="form-control" name="attachment7">
+                                                    </div>
+                                                </div>
+                                            </div>  
                                         </div>     
 
                                         <h5>Enrollment Costs</h5>
@@ -127,8 +168,8 @@ $contactnumber = $DataArray['contactnumber'];
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     <small>Interests</small>
-                                                    <select class="form-select w-100" id="interest-dropdown" onchange="getSuggestedStrands()">
-                                                        <option disabled selected>--Select an interest--</option>
+                                                    <select class="form-select w-100" name="interest" id="interest-dropdown" onchange="getSuggestedStrands()">
+                                                        <option value="0" disabled selected>--Select an interest--</option>
                                                         <?php 
                                                         $fetchQuery2 = "SELECT DISTINCT (description) FROM interests WHERE isactive = 'Yes' ORDER BY description ASC";
                                                         $fetchedData2 = mysqli_query($conn, $fetchQuery2);
@@ -150,8 +191,8 @@ $contactnumber = $DataArray['contactnumber'];
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     <small>Chosen Strand</small>
-                                                    <select class="form-select w-100" id="strand-dropdown"onchange="getTuitionFee()" required>
-                                                        <option disabled selected>--Select a strand--</option>
+                                                    <select class="form-select w-100" name="strand" id="strand-dropdown" onchange="getTuitionFee()" required>
+                                                        <option value="0" disabled selected>--Select a strand--</option>
                                                         <?php 
                                                         $fetchQuery3 = "SELECT * FROM strands WHERE isactive = 'Yes' ORDER BY strandname ASC";
                                                         $fetchedData3 = mysqli_query($conn, $fetchQuery3);
