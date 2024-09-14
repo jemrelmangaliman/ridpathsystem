@@ -43,6 +43,11 @@
         <i class="fas fa-fw fa-wrench"></i>
         <span>My Profile</span></a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="admission.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>Admission</span></a>
+</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">

@@ -44,7 +44,7 @@ else {
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Enrollment Status
                                 </div>
-                                <div class="fs-4 mb-0 font-weight-bold text-gray-800">
+                                <div class="fs-5 mb-0 font-weight-bold text-gray-800">
                                     <?php echo $enrollmentstatus; ?>
                                 </div>
                             </div>              

@@ -40,7 +40,7 @@ $contactnumber = $DataArray['contactnumber'];
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
-                            <form action="../processes/Student_Enroll.php" method="POST" enctype="multipart/form-data">
+                            <form action="../processes/Student_SubmitEnrollment.php" method="POST" enctype="multipart/form-data">
                                 <div class="row w-100 mx-1">
                                     <div class="col-8">
                                         <h5>Personal Information</h5>
@@ -77,13 +77,13 @@ $contactnumber = $DataArray['contactnumber'];
                                                 <div class="col">
                                                     <small>Original Copy of PSA</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="attachment1">
+                                                        <input type="file" class="form-control" name="psa">
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <small>Certificate of Good Moral Character</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="attachment2">
+                                                        <input type="file" class="form-control" name="goodmoral">
                                                     </div>
                                                 </div>
                                             </div>   
@@ -91,13 +91,13 @@ $contactnumber = $DataArray['contactnumber'];
                                                 <div class="col">
                                                     <small>Original Report Card</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="attachment3">
+                                                        <input type="file" class="form-control" name="reportcard">
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <small>2pcs 2×2 and 1x1 picture (white background)</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="attachment4">
+                                                        <input type="file" class="form-control" name="idpicture">
                                                     </div>
                                                 </div>
                                             </div>  
@@ -105,13 +105,13 @@ $contactnumber = $DataArray['contactnumber'];
                                                 <div class="col">
                                                     <small>Duly Accomplished Enrolment Form</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="attachment5">
+                                                        <input type="file" class="form-control" name="enrollmentform">
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <small>Certificate of Completion (grade 10)</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="attachment6">
+                                                        <input type="file" class="form-control" name="coc">
                                                     </div>
                                                 </div>
                                             </div>   
@@ -119,7 +119,7 @@ $contactnumber = $DataArray['contactnumber'];
                                                 <div class="col-6">
                                                     <small>Form 137</small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="attachment7">
+                                                        <input type="file" class="form-control" name="form137">
                                                     </div>
                                                 </div>
                                             </div>  
