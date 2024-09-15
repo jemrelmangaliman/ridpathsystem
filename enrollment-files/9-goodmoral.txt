@@ -1,0 +1,73 @@
+StudentAccounts
+tempID (int AI PK)
+firstname(varchar)
+middlename (varchar)
+lastname (varchar)
+email (varchar)
+password (varchar)
+contactnumber (varchar)
+studentnumber (int)
+userrole (int [4])
+
+
+Interests
+-InterestId (int AI PK)
+-Description (Varchar)
+-StrandId (int FK - from Strand table)
+
+
+Strands
+-StrandId (int AI PK)
+-StrandName (varchar)
+-Abbreviation (varchar)
+
+
+EnrollmentRecords
+-EnrollmentId (int AI PK)
+-studentTempID (int FK - from Students table)
+-StrandId (int FK - from Strands table)
+-PaymentModeId (int FK - from PaymentModes table)
+-EnrollmentStatusId (int FK - from EnrollmentStatus table)
+-InterestId (int FK - from Interests table) 
+-LEFT JOIN TuitionFees (ON StrandId)
+-LEFT JOIN MiscellaneousFees (ON StrandId)
+
+
+EnrollmentStatus
+-StatusId (int AI PK)
+-Description (varchar)
+
+
+TuitionFees
+-TuitionId (int AI PK)
+-StrandId (int FK from Strands table)
+-Amount (int)
+
+
+MiscellaneousFees
+-MiscId (int AI PK)
+-StrandId (int FK from Strands table)
+-Description (varchar)
+-Amount (int)
+
+
+PaymentModes
+-PaymentModeId (int AI PK)
+-Name (varchar)
+-isOnline (int)
+-QRImageUrl (varchar)
+
+
+PaymentRecord
+-TransactionId (int AI PK)
+-StudentId (int FK from Students table)
+-PaymentModeId (int FK from PaymentModes table)
+-Amount (int)
+-Status (varchar - Pending Payment/Paid)
+
+FileAttachments
+fileID
+tempID
+enrollmentID
+attachmentname
+attachmenturl

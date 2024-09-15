@@ -25,30 +25,17 @@ function processsAttachmentFiles($attachment, $enrollmentID, $studentid, $conn) 
 
 //process starts here
 $studentid = $_SESSION['user_id'];
-$strandID = $_POST['strand'];
-$enrollmentstatusID = 2;
-$interest = $_POST['interest'];
-
-if ($strandID == 0 || $interest == '') {
-    $_SESSION['action-error'] = "Invalid interests/strand.";
-    header("Location: ../student/enrollment.php");
-    exit();
-}
-
-$Query = "INSERT INTO enrollmentrecords 
-(studentID, strandID, enrollmentStatusID, interest) 
-VALUES ('$studentid','$strandID','$enrollmentstatusID','$interest')";
-
-$conn->query($Query);
-
-$enrollmentID = $conn->insert_id;
+$enrollmentID = $_POST['enrollmentID'];
 
 $attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc','form137'];
 foreach($attachmentlist as $attachment) {
-    processsAttachmentFiles($attachment, $enrollmentID, $studentid, $conn);
+    if (isset($_FILES[$attachment])) {
+        processsAttachmentFiles($attachment, $enrollmentID, $studentid, $conn);
+    }
+
 }
 
-$_SESSION['action-success'] = "Enrollment successful.";
+$_SESSION['action-success'] = "Checklist updated successfully.";
 header("Location: ../student/admission.php");
 exit();
 

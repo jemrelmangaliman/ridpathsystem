@@ -28,11 +28,11 @@
 </div>
 
 <!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
+<!-- <li class="nav-item">
     <a class="nav-link" href="classSchedule.php">
         <i class="fas fa-fw fa-wrench"></i>
         <span>Class Schedule</span></a>
-</li>
+</li> -->
 <li class="nav-item">
     <a class="nav-link" href="">
         <i class="fas fa-fw fa-wrench"></i>

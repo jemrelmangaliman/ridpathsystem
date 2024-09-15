@@ -19,8 +19,21 @@ $contactnumber = $DataArray['contactnumber'];
 $strandname = $DataArray['strandname'];
 $tuitionfee = $DataArray['amount'];
 $enrollmentstatus = $DataArray['statusname'];
+$enrollmentstatusID = $DataArray['statusID'];
 $strandID = $DataArray['strandID'];
 $interest = $DataArray['interest'];
+$enrollmentID = $DataArray['enrollmentID'];
+
+$proceedtopayment = '';
+$resubmit = 'disabled';
+
+if ($enrollmentstatusID != 4) {
+    $proceedtopayment = 'disabled';
+}
+
+if ($enrollmentstatusID == 3) {
+    $resubmit = '';
+}
 
 //get misc fee total using fetched strand ID in the first query
 $MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strandID='$strandID'");
@@ -29,7 +42,7 @@ $totalamount += $tuitionfee; //add the tuition fee to the total amount
 $miscfeetext = '';
 
 if (mysqli_num_rows($MiscFeeData) != 0) {
-   while ($Data = mysqli_fetch_assoc($fetchData)) {
+   while ($Data = mysqli_fetch_assoc($MiscFeeData)) {
     $amount = $Data['amount'];
     $totalamount += $amount; //add the misc fee to the total
     $description = $Data['description'];
@@ -42,7 +55,8 @@ else {
 
 //get current uploaded enrollment attachments
 $attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc','form137'];
-$MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strandID='$strandID'");
+$attachmentlabellist = 
+['Original Copy of PSA','Certificate of Good Moral Character','Original Report Card','2pcs 2×2 and 1x1 picture (white background)','Duly Accomplished Enrolment Form','Certificate of Completion (grade 10)','Form 137'];
 ?>
 
 <style>
@@ -73,7 +87,7 @@ $MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strand
                         <!-- Card Body -->
                         <div class="card-body">
                                 <div class="row w-100 mx-1">
-                                    <div class="col-9">
+                                    <div class="col-8">
                                         <h5>Personal Information</h5>
                                         <div class="container border shadow mb-3">
                                             <div class="row w-100 mx-1 my-2">
@@ -155,19 +169,67 @@ $MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strand
                                                     </div> 
                                                 </div> 
                                             </div>
+                                            <div class="row w-100 mt-3 ml-1 mb-3">
+                                                <div class="col">
+                                                    <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" name="UpdateChecklist" <?php echo $proceedtopayment; ?>>Proceed to Payment</button>
+                                                </div>
+                                                <div class="col">
+                                                    <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" name="Resubmit" <?php echo $resubmit; ?>>Resubmit Enrollment</button>
+                                                </div>
+                                            </div>
                                         </div> 
                                     </div>
 
-                                    <div class="col-3">
-                                        <form action="../processes/Student_SubmitPendingFiles.php" method="POST" enctype="multipart/form-data">
-                                            <h5>Attachment Checklist</h5>
+                                    <div class="col-4">
+                                        <form action="../processes/Student_UpdateChecklist.php" method="POST" enctype="multipart/form-data">
+                                            <h5>Checklist</h5>
                                             <div class="container border shadow">
+                                                <?php 
+                                                $ctr = 0;
                                                 
-                                            </div> 
-                                            
-                                            <div class="row mt-3 ml-2 mr-2">
+                                                foreach ($attachmentlist as $attachmentitem) {
+                                                    $isfound = 0;
+                                                    $attachmentname = '';
+                                                    $attachmentlabel = $attachmentlabellist[$ctr];
+                                                    $attachmentsData = mysqli_query($conn, "SELECT * FROM fileattachments WHERE enrollmentID='$enrollmentID'");
+                                                    
+                                                    while ($fetchedAttachments = mysqli_fetch_assoc($attachmentsData)) {
+                                                            $attachmentname = $fetchedAttachments['attachmentname'];
+                                                            $filename = $fetchedAttachments['filename'];
+                                                            $attachmentlink = $fetchedAttachments['attachmenturl'];
+                                                            if ($attachmentitem == $attachmentname) {
+                                                                echo '<div class="row mx-1 mt-2">
+                                                                        <div class="col">
+                                                                            <small>'.$attachmentlabel.'</small>
+                                                                            <div class="input-group mb-3">
+                                                                                <i class="bi bi-check-circle-fill text-success mr-2"></i><a href="'.$attachmentlink.'" download="'.$filename.'">'.$attachmentlink.'</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>';
+                                                                $isfound = 1;
+                                                                break;
+                                                            }  
+                                                    } 
+                                                    
+                                                    //if an attachment is not found, display a file input field instead
+                                                    if ($isfound == 0) {
+                                                        echo '<div class="row mx-1 mt-2">
+                                                                <div class="col">
+                                                                    <small>'.$attachmentlabel.'</small>
+                                                                    <div class="input-group mb-3">
+                                                                        <input type="file" class="form-control" name="'.$attachmentitem.'">
+                                                                    </div>
+                                                                </div>
+                                                            </div>   ';
+                                                    }
+                                                    $ctr++;
+                                                }
+                                                ?>
+                                                <div class="row mt-3 ml-2 mr-2 mb-3">
+                                                    <input type="hidden" class="form-control" name="enrollmentID" value="<?php echo $enrollmentID; ?>">
                                                     <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="UpdateChecklist">Update Checklist</button>
-                                            </div>
+                                                </div>
+                                            </div> 
                                         </form>
                                     </div>
                                 </div> 
