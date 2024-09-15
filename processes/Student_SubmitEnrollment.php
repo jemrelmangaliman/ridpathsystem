@@ -28,6 +28,12 @@ $strandID = $_POST['strand'];
 $enrollmentstatusID = 2;
 $interest = $_POST['interest'];
 
+if ($strandID == 0 || $interest == '') {
+    $_SESSION['action-error'] = "Invalid interests/strand.";
+    header("Location: ../student/enrollment.php");
+    exit();
+}
+
 $Query = "INSERT INTO enrollmentrecords 
 (studentID, strandID, enrollmentStatusID, interest) 
 VALUES ('$studentid','$strandID','$enrollmentstatusID','$interest')";
@@ -42,7 +48,7 @@ foreach($attachmentlist as $attachment) {
 }
 
 $_SESSION['action-success'] = "Enrollment successful.";
-header("Location: ../admin/admission.php");
+header("Location: ../student/admission.php");
 exit();
 
 ?>

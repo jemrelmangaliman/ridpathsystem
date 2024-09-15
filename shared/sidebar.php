@@ -39,7 +39,7 @@
         <span>My Records</span></a>
 </li>
 <li class="nav-item">
-    <a class="nav-link" href="">
+    <a class="nav-link" href="profile.php">
         <i class="fas fa-fw fa-wrench"></i>
         <span>My Profile</span></a>
 </li>
