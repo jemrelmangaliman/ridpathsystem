@@ -3,7 +3,7 @@
 require '../config/config.php';
 session_start(); 
 
-if (isset($_SESSION['user_id']) && $_SESSION['userrole'] != 1) {
+if (isset($_SESSION['user_id']) && $_SESSION['userrole'] != 2) {
         session_unset();
         header('Location: ../index.php');
         exit(); 
@@ -57,7 +57,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['userrole'] != 1) {
     <!-- Page Wrapper -->
     <div id="wrapper">
         <?php
-        require 'sidebar.php';
+        require 'sidebar_registrar.php';
         ?>
 
         <!-- Content Wrapper -->

@@ -174,7 +174,10 @@ $attachmentlabellist =
                                                     <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" name="UpdateChecklist" <?php echo $proceedtopayment; ?>>Proceed to Payment</button>
                                                 </div>
                                                 <div class="col">
-                                                    <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" name="Resubmit" <?php echo $resubmit; ?>>Resubmit Enrollment</button>
+                                                    <form action="../processes/Student_ResubmitEnrollment.php">
+                                                        <input type="hidden" value="<?php $enrollmentID; ?>" name="enrollmentID">
+                                                        <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="Resubmit" <?php echo $resubmit; ?>>Resubmit Enrollment</button>
+                                                    </form> 
                                                 </div>
                                             </div>
                                         </div> 

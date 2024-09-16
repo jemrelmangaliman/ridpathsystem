@@ -1,5 +1,5 @@
 <?php
-    require '../shared/header.php';
+    require '../shared/header_registrar.php';
 ?>
 
 
@@ -7,6 +7,11 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Enrollment Records</h1>
+                        
+                    </div>
                     <!-- Content Row -->
 
                     <div class="row">
@@ -15,71 +20,51 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Manage User Accounts</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Pending Enrollment Approval</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="row" id="page-btn-container">
-                                        <div class="col-4">
-                                        <button class="btn btn-primary" id="page-btn" data-bs-toggle="modal" data-bs-target="#modal-Add"><i class="bi bi-plus-lg"></i> Add New User</button>
-                                        </div>
-                                    </div>
 
                                     <div class="container">
                                     <div class="table-responsive mt-4">
                                     <table class="table table-hover table-bordered table-sm w-100" id="table">
                                         <thead>
                                         <tr>
-                                            <th scope="col" class="text-center" id="th"><small>userID</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>Username</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>Full Name</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>User Role</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>ID</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Student Name</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Chosen Strand</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Enrollment Status</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Actions</small></th>
                                         </tr>
                                         </thead>
                                         <tbody>
 
                                         <?php
-                                        $fetchQuery = "SELECT * FROM users";
+                                        $fetchQuery = "SELECT * FROM enrollmentrecords ER 
+                                        LEFT JOIN  students ST ON ST.tempID = ER.studentID
+                                        LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID
+                                        LEFT JOIN strands SD ON SD.strandID = ER.strandID";
                                         $fetchedData = mysqli_query($conn, $fetchQuery);
                                         
                                         while($DataArray = mysqli_fetch_assoc($fetchedData)){
-                                            $userID = $DataArray['userID'];
-                                            $username = $DataArray['username'];
-                                            $fullname = $DataArray['fullname'];
-                                            $userRole = $DataArray['userRole'];
-                                            $status = $DataArray['isActive'];
+                                            $ID = $DataArray['enrollmentID'];
+                                            $studentname = ucfirst($DataArray['lastname']).', '.ucfirst($DataArray['firstname']).' '.ucfirst($DataArray['middlename']);
+                                            $strandname = $DataArray['strandname'];
+                                            $enrollmentstatus = $DataArray['statusname'];
                                             
                                             ?>
                                             <tr>
-                                                <td class="text-center" id="td"><?php echo $userID; ?></td>
-                                                <td class="text-center" id="td"><?php echo $username; ?></td>
-                                                <td class="text-center" id="td"><?php echo $fullname; ?></td>
-                                                <td class="text-center" id="td">
-                                                    <?php
-                                                        if ($userRole == 1)
-                                                            echo 'Administrator'; 
-                                                        else
-                                                            echo 'Registrar'; 
-                                                     ?> 
-                                                </td>
-                                                <td class="text-center" id="td">
-                                                    <?php
-                                                        if ($status == 1)
-                                                            echo 'Yes'; 
-                                                        else
-                                                            echo 'No'; 
-                                                     ?>
-                                                        
-                                                </td>
+                                                <td class="text-center" id="td"><?php echo $ID; ?></td>
+                                                <td class="text-center" id="td"><?php echo $studentname; ?></td>
+                                                <td class="text-center" id="td"><?php echo $strandname; ?></td>
+                                                <td class="text-center" id="td"><?php echo $enrollmentstatus; ?></td>
                                                 <td class="text-center" id="td">
                                                     <button class="btn btn-success border-0" title="Edit" id="table-button"
                                                             data-bs-toggle="modal"
-                                                            data-bs-target="#modal-Edit"
-                                                            data-bs-userID="<?php echo $userID;?>"
+                                                            data-bs-target="#modal-View"
+                                                            data-bs-enrollmentID="<?php echo $ID;?>"
                                                             >
-                                                            <i class="bi bi-pencil-fill" id="table-btn-icon"></i> <span id="tablebutton-text">Edit</span>
+                                                            <i class="bi bi-pencil-fill" id="table-btn-icon"></i> <span id="tablebutton-text">View</span>
                                                     </button>        
                                                 </td>
                                             </tr>
@@ -104,7 +89,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body p-4" style="font-family: Arial;">
-                                            <h5>Edit User Information</h5>
+                                            <h5>Edit Strand Information</h5>
                                             <div class="container mb-2" id="edit-container">
                                                 
                                             </div>      
@@ -116,40 +101,35 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-body p-4" style="font-family: Arial;">
-                                        <h5><b>User Information</b></h5>
+                                        <h5><b>Strand Information</b></h5>
                                         <div class="container mb-2">
-                                            <form action="../processes/Admin_AddUser.php" method="POST">
+                                            <form action="../processes/Admin_AddStrand.php" method="POST">
                                                 <div class="row mb-1">
                                                     <div class="col">
-                                                        <small>UserName</small>
-                                                        <input type="text" class="form-control" name="username"  required>
+                                                        <small>Strand Name</small>
+                                                        <input type="text" class="form-control" name="strandname" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">
                                                     <div class="col">
-                                                        <small>Last Name</small>
-                                                        <input type="text" class="form-control" name="lastname"  required>
+                                                        <small>Abbreviation</small>
+                                                        <input type="text" class="form-control" name="abbreviation" required>
                                                     </div>
                                                 </div>
+                                            
                                                 <div class="row mb-1">
-                                                    <div class="col">
-                                                        <small>First Name</small>
-                                                        <input type="text" class="form-control" name="firstname"  required>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <small>User Role</small>
+                                                    <small>Is Active</small>
                                                     <div class="col">
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="userRole" id="registrar" value="2" required checked>
-                                                            <label class="form-check-label" for="no">
-                                                                Registrar
+                                                            <input class="form-check-input" type="radio" name="isactive" id="yes" value="Yes" required checked>
+                                                            <label class="form-check-label" for="yes">
+                                                                Yes
                                                             </label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="userRole" id="admin" value="1" required>
-                                                            <label class="form-check-label" for="yes">
-                                                                Administrator
+                                                            <input class="form-check-input" type="radio" name="isactive" id="no" value="No" required>
+                                                            <label class="form-check-label" for="no">
+                                                                No
                                                             </label>
                                                         </div>
                                                     </div>
@@ -158,7 +138,7 @@
                                                     <center>
                                                         <div class="row">
                                                                 <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                                                                <button class="btn btn-success" id="page-btn" name="AddUser" style="width:50%;">Submit</button>
+                                                                <button class="btn btn-success" id="page-btn" name="AddStrand" style="width:50%;">Submit</button>
                                                         </div>
                                                     </center>
                                                 </div>
@@ -184,7 +164,7 @@
     exampleModal.addEventListener('show.bs.modal', function (event) {
         // Button that triggered the modal
         var button = event.relatedTarget
-        var userID = button.getAttribute('data-bs-userID');
+        var strandID = button.getAttribute('data-bs-strandID');
         
         //ajax call 
         var ajax = new XMLHttpRequest();
@@ -197,7 +177,7 @@
                         console.log(this.status);
                     }
                 };
-            ajax.open("GET", "../ajax/Admin_viewUser.php?userID="+userID, true);
+            ajax.open("GET", "../ajax/Admin_viewStrand.php?ID="+strandID, true);
             ajax.send(); 
     });
 

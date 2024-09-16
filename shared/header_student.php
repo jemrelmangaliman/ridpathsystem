@@ -3,9 +3,19 @@
 require '../config/config.php';
 
 session_start(); 
-if (!isset($_SESSION['user_id']) && $_SESSION['userrole'] != 4) {
+if (!isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
-    exit(); 
+    exit();
+}
+else if ($_SESSION['userrole'] == 4) {
+    // no arg
+}
+else if ($_SESSION['userrole'] == 5) {
+    // no arg
+}
+else {
+    header('Location: ../index.php');
+    exit();
 }
 ?>
 
