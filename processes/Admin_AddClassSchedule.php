@@ -5,12 +5,12 @@ $conn = require '../config/config.php';
 $sectionID = $_POST['section'];
 $semesterID = $_POST['semester'];
 $subjectID = $_POST['subject'];
-$day = $_POST['day'];
+$dayID = $_POST['dayname'];
 $starttime = $_POST['starttime'];
 $endtime = $_POST['endtime'];
 
 
-$Query = "INSERT INTO classschedule (sectionID, semesterID, subjectID, day, starttime, endtime) values ('$sectionID','$semesterID','$subjectID','$day','$starttime','$endtime')";
+$Query = "INSERT INTO classschedule (sectionID, semesterID, subjectID, dayID, starttime, endtime) values ('$sectionID','$semesterID','$subjectID','$dayID','$starttime','$endtime')";
 
 if (mysqli_query($conn, $Query)) {
     $_SESSION['action-success'] = "Class Schedule added.";
