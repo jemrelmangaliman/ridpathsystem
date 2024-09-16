@@ -3,7 +3,7 @@ session_start();
 $conn = require 'config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -22,8 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['user_name'] = $user['username'];
         $_SESSION['userrole'] = $user['userRole'];
         $_SESSION['logged_username'] = $user['fullname'];
-        header("Location: admin/dashboard.php");
-        exit();
+
+        if ($user['userRole'] == 1) {
+            header("Location: admin/dashboard.php");
+            exit();
+        }
+        else if ($user['userRole'] == 2) {
+            header("Location: registrar/dashboard.php");
+            exit();
+        }
     } else {
         // Check in `studentaccount` table
         $stmt2 = $conn->prepare("SELECT * FROM students WHERE email = ? AND password = ?");

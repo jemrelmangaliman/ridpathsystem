@@ -48,13 +48,13 @@ else {
 
 if ($userRole == 1) {
     $userRoletext .= '<div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="userRole" id="no" value="0" required>
+                                                            <input class="form-check-input" type="radio" name="userRole" id="registrar" value="2" required>
                                                             <label class="form-check-label" for="no">
-                                                                User
+                                                                Registrar
                                                             </label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="userRole" id="yes" value="1" required checked>
+                                                            <input class="form-check-input" type="radio" name="userRole" id="admin" value="1" required checked>
                                                             <label class="form-check-label" for="yes">
                                                                 Administrator
                                                             </label>
@@ -62,13 +62,13 @@ if ($userRole == 1) {
 }
 else {
     $userRoletext .= '<div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="userRole" id="no" value="0" required checked>
+                                                            <input class="form-check-input" type="radio" name="userRole" id="registar" value="2" required checked>
                                                             <label class="form-check-label" for="no">
-                                                                User
+                                                                Registrar
                                                             </label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="userRole" id="yes" value="1" required >
+                                                            <input class="form-check-input" type="radio" name="userRole" id="admin" value="1" required >
                                                             <label class="form-check-label" for="yes">
                                                                 Administrator
                                                             </label>
