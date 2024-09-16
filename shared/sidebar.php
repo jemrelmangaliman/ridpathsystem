@@ -74,6 +74,47 @@
     </div>
 </li>
 
+<!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
+        aria-expanded="true" aria-controls="collapseThree">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Manage Enrollment</span>
+    </a>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Components:</h6>
+            <a class="collapse-item" href="studentEnrollment.php">Student Enrollment</a>
+            <a class="collapse-item" href="courseEnrollment.php">Course Enrollment</a>
+            <a class="collapse-item" href="classSchedule.php">Class Schedule</a>
+            <a class="collapse-item" href="studentRecords.php">Student Records</a>
+            
+        </div>
+    </div>
+</li>
+
+<!-- Nav Item - Utilities Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link" href="section.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>Section</span></a>
+</li>
+
+<!-- Nav Item - Utilities Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link" href="subject.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>Subject</span></a>
+</li>
+
+<!-- Nav Item - Utilities Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link" href="semester.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>Semester</span></a>
+</li>
+
+
 <!-- Nav Item - Utilities Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link" href="manageUserAccounts.php">
@@ -100,9 +141,9 @@
 
 <!-- Nav Item - Tables -->
 <li class="nav-item">
-    <a class="nav-link" href="tables.php">
+    <a class="nav-link" href="assessments.php">
         <i class="fas fa-fw fa-table"></i>
-        <span>Tables</span></a>
+        <span>Assessments</span></a>
 </li>
 
 <!-- Divider -->
