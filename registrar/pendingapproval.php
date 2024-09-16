@@ -43,7 +43,7 @@
                                         $fetchQuery = "SELECT * FROM enrollmentrecords ER 
                                         LEFT JOIN  students ST ON ST.tempID = ER.studentID
                                         LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID
-                                        LEFT JOIN strands SD ON SD.strandID = ER.strandID";
+                                        LEFT JOIN strands SD ON SD.strandID = ER.strandID WHERE ER.enrollmentStatusID = 2";
                                         $fetchedData = mysqli_query($conn, $fetchQuery);
                                         
                                         while($DataArray = mysqli_fetch_assoc($fetchedData)){
@@ -59,12 +59,12 @@
                                                 <td class="text-center" id="td"><?php echo $strandname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $enrollmentstatus; ?></td>
                                                 <td class="text-center" id="td">
-                                                    <button class="btn btn-success border-0" title="Edit" id="table-button"
+                                                    <button class="btn btn-success border-0" title="View" id="table-button"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#modal-View"
                                                             data-bs-enrollmentID="<?php echo $ID;?>"
                                                             >
-                                                            <i class="bi bi-pencil-fill" id="table-btn-icon"></i> <span id="tablebutton-text">View</span>
+                                                            <i class="bi bi-eye-fill" id="table-btn-icon"></i> <span id="tablebutton-text">View</span>
                                                     </button>        
                                                 </td>
                                             </tr>
@@ -85,68 +85,16 @@
 
 
                     <!-- Modals -->
-                     <div class="modal fade" id="modal-Edit" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
+                     <div class="modal fade" id="modal-View" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-xl modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body p-4" style="font-family: Arial;">
-                                            <h5>Edit Strand Information</h5>
-                                            <div class="container mb-2" id="edit-container">
+                                            <div class="container mb-2" id="view-container">
                                                 
                                             </div>      
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                    <div class="modal fade" id="modal-Add" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-body p-4" style="font-family: Arial;">
-                                        <h5><b>Strand Information</b></h5>
-                                        <div class="container mb-2">
-                                            <form action="../processes/Admin_AddStrand.php" method="POST">
-                                                <div class="row mb-1">
-                                                    <div class="col">
-                                                        <small>Strand Name</small>
-                                                        <input type="text" class="form-control" name="strandname" required>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <div class="col">
-                                                        <small>Abbreviation</small>
-                                                        <input type="text" class="form-control" name="abbreviation" required>
-                                                    </div>
-                                                </div>
-                                            
-                                                <div class="row mb-1">
-                                                    <small>Is Active</small>
-                                                    <div class="col">
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="isactive" id="yes" value="Yes" required checked>
-                                                            <label class="form-check-label" for="yes">
-                                                                Yes
-                                                            </label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="isactive" id="no" value="No" required>
-                                                            <label class="form-check-label" for="no">
-                                                                No
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3">
-                                                    <center>
-                                                        <div class="row">
-                                                                <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                                                                <button class="btn btn-success" id="page-btn" name="AddStrand" style="width:50%;">Submit</button>
-                                                        </div>
-                                                    </center>
-                                                </div>
-                                            </form>
-                                        </div>                         
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -160,24 +108,24 @@
         $('#table').DataTable();
     });
 
-    var exampleModal = document.getElementById('modal-Edit')
+    var exampleModal = document.getElementById('modal-View')
     exampleModal.addEventListener('show.bs.modal', function (event) {
         // Button that triggered the modal
         var button = event.relatedTarget
-        var strandID = button.getAttribute('data-bs-strandID');
+        var enrollmentID = button.getAttribute('data-bs-enrollmentID');
         
         //ajax call 
         var ajax = new XMLHttpRequest();
             ajax.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    var editcontainer = exampleModal.querySelector('#edit-container');
-                        editcontainer.innerHTML = this.responseText;   
+                    var viewcontainer = exampleModal.querySelector('#view-container');
+                    viewcontainer.innerHTML = this.responseText;   
                     }
                     else {
                         console.log(this.status);
                     }
                 };
-            ajax.open("GET", "../ajax/Admin_viewStrand.php?ID="+strandID, true);
+            ajax.open("GET", "../ajax/Registrar_viewPendingEnrollment.php?ID="+enrollmentID, true);
             ajax.send(); 
     });
 

@@ -205,7 +205,7 @@ $attachmentlabellist =
                                                                         <div class="col">
                                                                             <small>'.$attachmentlabel.'</small>
                                                                             <div class="input-group mb-3">
-                                                                                <i class="bi bi-check-circle-fill text-success mr-2"></i><a href="'.$attachmentlink.'" download="'.$filename.'">'.$attachmentlink.'</a>
+                                                                                <i class="bi bi-check-circle-fill text-success mr-2"></i><a href="'.$attachmentlink.'" download="'.$filename.'">'.$filename.'</a>
                                                                             </div>
                                                                         </div>
                                                                     </div>';
