@@ -1,5 +1,14 @@
 <?php
 require '../shared/header.php';
+
+$daylist = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday',]
+
+
+
+
+
+
+
 ?>
 
 <!-- Custom CSS for Wider Dropdown -->
@@ -49,240 +58,234 @@ require '../shared/header.php';
                     <!-- Content Row -->
                     <div class="row">
 
-                      <!-- List of Class Label -->
-<div class="row">
-    <div class="col-xl-12 col-md-12 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            List of Class
+                        <!-- List of Class Label with Button and Modal -->
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    List of Class
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Button -->
+                                        <div class="row mt-3">
+                                            <div class="col">
+                                                <!-- Button to trigger modal -->
+                                                <button class="btn btn-primary" data-toggle="modal" data-target="#addClassModal">Add New Class</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="addClassModal" tabindex="-1" role="dialog" aria-labelledby="addClassModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addClassModalLabel">Add New Class</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Modal content (form) -->
+                                        <form action="../processes/Admin_AddClassSchedule.php" method="POST" id="addClassForm">
+                                            <div class="form-group">
+                                                <label for="section">Section</label>
+                                                <select class="form-select w-100" name="section" id="sectiondropdown" required>
+                                                    <option value="0" disabled selected>--Select a section--</option>
+                                                    <?php
+                                                    $fetchQuery3 = "SELECT * FROM sections WHERE isactive = 'Yes' ORDER BY sectionname ASC";
+                                                    $fetchedData3 = mysqli_query($conn, $fetchQuery3);
+                                                    while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
+                                                        echo '<option value="' . $DataArray3['sectionID'] . '">' . $DataArray3['sectionname'] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="semester">Semester</label>
+                                                <select class="form-select w-100" name="semester" id="semesterdropdown" required>
+                                                    <option value="0" disabled selected>--Select a Semester--</option>
+                                                    <?php
+                                                    $fetchQuery3 = "SELECT * FROM semester WHERE isactive = 'Yes' ORDER BY Semestername ASC";
+                                                    $fetchedData3 = mysqli_query($conn, $fetchQuery3);
+                                                    while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
+                                                        echo '<option value="' . $DataArray3['semesterID'] . '">' . $DataArray3['semestername'] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="subject">Subject</label>
+                                                <select class="form-select w-100" name="subject" id="subjectdropdown" required>
+                                                    <option value="0" disabled selected>--Select a subject--</option>
+                                                    <?php
+                                                    $fetchQuery3 = "SELECT * FROM subjects WHERE isactive = 'Yes' ORDER BY subjectname ASC";
+                                                    $fetchedData3 = mysqli_query($conn, $fetchQuery3);
+                                                    while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
+                                                        echo '<option value="' . $DataArray3['subjectID'] . '">' . $DataArray3['subjectname'] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="day">Day</label>
+                                                <select class="form-select w-100" name="dayname" id="daydropdown" required>
+                                                    <option value="0" disabled selected>--Select a day--</option>
+                                                    <?php
+                                                    $fetchQuery3 = "SELECT * FROM days ";
+                                                    $fetchedData3 = mysqli_query($conn, $fetchQuery3);
+                                                    while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
+                                                        echo '<option value="' . $DataArray3['dayID'] . '">' . $DataArray3['dayname'] . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="end-time">Start Time</label>
+                                                <input type="time" class="form-control" id="starttime" name="starttime" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="end-time">End Time</label>
+                                                <input type="time" class="form-control" id="endtime" name="endtime" required>
+                                            </div>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" id="btnSaveClass" class="btn btn-primary">Save Class</button>
+                                    </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Search Field -->
+                        <div class="row mb-3">
+                            <div class="col-xl-12 col-md-12">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search for classes...">
+                            </div>
+                        </div>
+
+                        <!-- Class Table -->
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">Class Overview</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive mt-4">
+                                            <table class="table table-hover table-bordered table-sm w-100" id="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-center" id="th"><small>Class ID</small></th>
+                                                        <th scope="col" class="text-center" id="th"><small>Section Name</small></th>
+                                                        <th scope="col" class="text-center" id="th"><small>Semester</small></th>
+                                                        <th scope="col" class="text-center" id="th"><small>Subject</small></th>
+                                                        <th scope="col" class="text-center" id="th"><small>Day</small></th>
+                                                        <th scope="col" class="text-center" id="th"><small>Start Time</small></th>
+                                                        <th scope="col" class="text-center" id="th"><small>End Time</small></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <?php
+                                                    $fetchQuery = "SELECT * FROM classschedule cs 
+                                                    left join sections s on s.sectionID = cs.sectionID
+                                                    left join semester st on st.semesterID = cs.semesterID
+                                                    left join subjects sb on sb.subjectID = cs.subjectID
+                                                    left join days d on d.dayID = cs.dayID
+                                                    ";
+                                                    $fetchedData = mysqli_query($conn, $fetchQuery);
+
+                                                    while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
+
+                                                        $counter = 0;
+                                                        $ID = $DataArray['classID'];
+                                                        $sectionname = $DataArray['sectionname'];
+                                                        $semestername = $DataArray['semestername'];
+                                                        $subjectname = $DataArray['subjectname'];
+                                                        $dayname = $DataArray['dayname'];
+                                                        $starttime = $DataArray['starttime'];
+                                                        $endtime = $DataArray['endtime'];
+
+                                                    ?>
+                                                        <tr>
+                                                            <td class="text-center" id="td"><?php echo $ID; ?></td>
+                                                            <td class="text-center" id="td"><?php echo $sectionname; ?></td>
+                                                            <td class="text-center" id="td"><?php echo $semestername; ?></td>
+                                                            <td class="text-center" id="td"><?php echo $subjectname; ?></td>
+                                                            <td class="text-center" id="td"><?php echo $dayname; ?></td>
+                                                            <td class="text-center" id="td"><?php echo $starttime; ?></td>
+                                                            <td class="text-center" id="td"><?php echo $endtime; ?></td>
+                                                            <td class="text-center" id="td">
+                                                                <button class="btn btn-success border-0" title="Edit" id="table-button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modal-Edit"
+                                                                    data-bs-SectionID="<?php echo $ID; ?>">
+                                                                    <i class="bi bi-pencil-fill" id="table-btn-icon"></i> <span id="tablebutton-text">Edit</span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    <?php
+                                                    }
+                                                    ?>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Search Field -->
-<div class="row mb-3">
-    <div class="col-xl-12 col-md-12">
-        <input type="text" class="form-control" id="searchInput" placeholder="Search for classes...">
-    </div>
-</div>
-
-<!-- Class Table -->
-<div class="row">
-    <div class="col-xl-12 col-md-12">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Class Overview</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="classTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Classname</th>
-                                <th>Instructor</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="classTableBody">
-                            <tr>
-                                <td>1</td>
-                                <td>Introduction to Programming</td>
-                                <td>John Doe</td>
-                                <td><button class="btn btn-primary btn-sm">Edit</button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Data Structures</td>
-                                <td>Jane Smith</td>
-                                <td><button class="btn btn-primary btn-sm">Edit</button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Web Development</td>
-                                <td>Michael Lee</td>
-                                <td><button class="btn btn-primary btn-sm">Edit</button></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Database Management</td>
-                                <td>Chris Evans</td>
-                                <td><button class="btn btn-primary btn-sm">Edit</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
-                                </div>
-                            </div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                    <!-- /.container-fluid -->
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
 
             </div>
-            <!-- End of Main Content -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- /.container-fluid -->
 
-</div>
-<!-- /.container-fluid -->
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="vendor/chart.js/Chart.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
 
-<!-- Custom Script for Dynamic Table Population -->
-<script>
-    function showSubjects(className) {
-    var subjects = {
-        'Introduction to Programming': [
-            { name: 'Variables and Data Types', description: 'Understanding basic data types and variables in programming.' },
-            { name: 'Control Structures', description: 'Learning about loops, conditionals, and flow control.' },
-            { name: 'Functions', description: 'Introduction to functions and modular programming.' }
-        ],
-        'Data Structures': [
-            { name: 'Arrays and Lists', description: 'Understanding arrays, lists, and their usage.' },
-            { name: 'Stacks and Queues', description: 'Learning about stack and queue data structures.' },
-            { name: 'Trees and Graphs', description: 'Introduction to tree and graph data structures.' }
-        ],
-        'Web Development': [
-            { name: 'HTML & CSS', description: 'Basics of web development using HTML and CSS.' },
-            { name: 'JavaScript', description: 'Learning the fundamentals of JavaScript for web development.' },
-            { name: 'Web Frameworks', description: 'Introduction to popular web development frameworks.' }
-        ],
-        'Database Management': [
-            { name: 'SQL Basics', description: 'Learning SQL and database management basics.' },
-            { name: 'Normalization', description: 'Understanding database normalization and its importance.' },
-            { name: 'Advanced SQL Queries', description: 'Writing advanced SQL queries and optimizing them.' }
-        ],
-        'Machine Learning': [
-            { name: 'Supervised Learning', description: 'Introduction to supervised learning techniques.' },
-            { name: 'Unsupervised Learning', description: 'Learning about unsupervised learning and clustering.' },
-            { name: 'Neural Networks', description: 'Understanding the basics of neural networks and deep learning.' }
-        ]
-    };
 
-    var tableBody = document.getElementById('subjectsTableBody');
-    tableBody.innerHTML = '';
-
-    if (subjects[className]) {
-        subjects[className].forEach(function (subject) {
-            var row = document.createElement('tr');
-            var nameCell = document.createElement('td');
-            nameCell.textContent = subject.name;
-            var descriptionCell = document.createElement('td');
-            descriptionCell.textContent = subject.description;
-            row.appendChild(nameCell);
-            row.appendChild(descriptionCell);
-            tableBody.appendChild(row);
-        });
-    } else {
-        var row = document.createElement('tr');
-        var cell = document.createElement('td');
-        cell.colSpan = 2;
-        cell.textContent = 'No subjects found for the selected class.';
-        row.appendChild(cell);
-        tableBody.appendChild(row);
-    }
-
-    // Update the selected class name
-    var selectedClassDiv = document.getElementById('selectedClass');
-    selectedClassDiv.textContent = 'Selected Class: ' + className;
-}
-
-</script>
-
-<?php
-require '../shared/footer.php';
-?>
+    <?php
+    require '../shared/footer.php';
+    ?>
