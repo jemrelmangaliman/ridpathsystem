@@ -52,7 +52,7 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-2">
                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        For Admission
+                                        For Balance Settlement
                                     </div>
                                     <div class="fs-5 mb-0 font-weight-bold text-gray-800">
                                         <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForAdmission)); ?>

@@ -171,11 +171,16 @@ $attachmentlabellist =
                                             </div>
                                             <div class="row w-100 mt-3 ml-1 mb-3">
                                                 <div class="col">
-                                                    <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" name="UpdateChecklist" <?php echo $proceedtopayment; ?>>Proceed to Payment</button>
+                                                    <button class="btn btn-success w-100 ml-auto mr-auto" 
+                                                    id="page-btn" name="UpdateChecklist"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modal-View"
+                                                    data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
+                                                    <?php echo $proceedtopayment; ?>>Proceed to Payment</button>
                                                 </div>
                                                 <div class="col">
-                                                    <form action="../processes/Student_ResubmitEnrollment.php">
-                                                        <input type="hidden" value="<?php $enrollmentID; ?>" name="enrollmentID">
+                                                    <form action="../processes/Student_ResubmitEnrollment.php" method="POST">
+                                                        <input type="hidden" value="<?php echo $enrollmentID; ?>" name="enrollmentID">
                                                         <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="Resubmit" <?php echo $resubmit; ?>>Resubmit Enrollment</button>
                                                     </form> 
                                                 </div>
@@ -239,23 +244,93 @@ $attachmentlabellist =
                         </div>
                 </div>
             </div>
+<!-- Modals -->
+<div class="modal fade" id="modal-View" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4" style="font-family: Arial;">
+                        <h5>Select Payment Mode</h5>
+                        <form action="../processes/Student_updatePaymentMode.php" method="POST">
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <small>Payment Option</small>
+                                    <select class="form-select" name="paymentmode" id="paymentmode" required>
+                                    <?php
+                                        $fetchQuery = "SELECT * FROM paymentmodes WHERE isactive = 'Yes' ORDER BY description ASC";
+                                        $fetchedData = mysqli_query($conn, $fetchQuery);
 
+                                        while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
+                                                echo '<option value="'.$DataArray['paymentModeID'].'">'.$DataArray['description'].' ('.$DataArray['paymenttype'].')</option>';
+                                        }
+                                        ?>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <div class="container d-flex justify-content-center">
+                                        <img class="img-thumbnail border shadow" id="qr-preview" style="display: none;">
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="text-danger">*for offline payments, please pay at the school registrar.</small>
+                            <div class="row mt-3 ml-2 mr-2 mb-3">
+                                <input type="hidden" class="form-control" id ="enrollmentID_hidden" name="enrollmentID">
+                                <div class="col">
+                                    <button class="btn btn-success ml-auto mr-auto w-100" id="page-btn" type="button" name="UpdateChecklist">Save</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" id="page-btn" class="btn btn-danger w-100" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>   
+                </div>
+            </div>
+        </div>
+</div>
 
     </div>
     <!-- End of Main Content -->
     <script>
-        document.getElementById('show-more-btn').addEventListener('click', function() {
-            var moreCourses = document.getElementById('more-courses');
-            var btn = document.getElementById('show-more-btn');
+        var exampleModal = document.getElementById('modal-View')
+        exampleModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        var enrollmentID = button.getAttribute('data-bs-enrollmentID');
+        
+        var enrollmentIDHidden = exampleModal.querySelector('#enrollmentID_hidden'); 
 
-            if (moreCourses.style.display === 'none' || moreCourses.style.display === '') {
-                moreCourses.style.display = 'block';
-                btn.textContent = 'Show Less Courses';
-            } else {
-                moreCourses.style.display = 'none';
-                btn.textContent = 'Show All Courses';
-            }
-        });
+        enrollmentIDHidden.value = enrollmentID;
+
+        var paymentOptionDropdown = exampleModal.querySelector('#paymentmode');
+        var qrPreview = exampleModal.querySelector('#qr-preview');
+
+        paymentOptionDropdown.addEventListener("change", function() {
+            var paymentOptionValue = paymentOptionDropdown.value;
+
+            var ajax = new XMLHttpRequest();
+            ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var src = this.responseText;
+
+                        if (src != "") {
+                            qrPreview.style.display = "block";
+                            qrPreview.src = src;
+                        }
+                        else {
+                            qrPreview.style.display = "none";
+                        }
+                    }
+                };
+            ajax.open("GET", "../ajax/Student_getQRurl.php?ID="+paymentOptionValue, true);
+            ajax.send();
+
+            });
+        
+
+
+    });
     </script>
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

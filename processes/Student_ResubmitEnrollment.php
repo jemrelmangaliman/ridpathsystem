@@ -5,7 +5,7 @@ $conn = require '../config/config.php';
     $ID = $_POST['enrollmentID'];
 
 
-    $Query = "UPDATE strands SET enrollmentStatusID = 2 WHERE enrollmentID = '$ID'";
+    $Query = "UPDATE enrollmentrecords SET enrollmentStatusID = 2 WHERE enrollmentID = '$ID'";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Enrollment has been resubmitted.";
