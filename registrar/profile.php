@@ -86,7 +86,6 @@
                                                        <button class="btn btn-success" id="page-btn" type="submit" name="EditUser" style="width:50%;">Save</button>
                                                 </div>
                                             </form>
-                                    
                                 </div>
                             </div>
                         </div>

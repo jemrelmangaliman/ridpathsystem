@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2024 at 05:32 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: Sep 17, 2024 at 03:13 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,6 +24,54 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `classschedule`
+--
+
+CREATE TABLE `classschedule` (
+  `classID` int(254) NOT NULL,
+  `sectionID` int(254) NOT NULL,
+  `subjectID` int(254) NOT NULL,
+  `semesterID` int(254) NOT NULL,
+  `dayID` int(254) NOT NULL,
+  `starttime` varchar(254) NOT NULL,
+  `endtime` varchar(254) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `classschedule`
+--
+
+INSERT INTO `classschedule` (`classID`, `sectionID`, `subjectID`, `semesterID`, `dayID`, `starttime`, `endtime`) VALUES
+(1, 0, 0, 0, 1, '10:19', '11:19'),
+(2, 6, 2, 2, 2, '10:21', '11:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `days`
+--
+
+CREATE TABLE `days` (
+  `dayID` int(254) NOT NULL,
+  `dayname` varchar(254) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `days`
+--
+
+INSERT INTO `days` (`dayID`, `dayname`) VALUES
+(1, 'Monday'),
+(2, 'Tuesday'),
+(3, 'Wednesday'),
+(4, 'Thursday'),
+(5, 'Friday'),
+(6, 'Saturday'),
+(7, 'Sunday');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `enrollmentrecords`
 --
 
@@ -33,8 +81,8 @@ CREATE TABLE `enrollmentrecords` (
   `strandID` int(254) NOT NULL,
   `paymentModeID` int(254) NOT NULL,
   `enrollmentStatusID` int(254) NOT NULL,
-  `interestID` int(254) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `interest` varchar(254) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -44,8 +92,34 @@ CREATE TABLE `enrollmentrecords` (
 
 CREATE TABLE `enrollmentstatus` (
   `statusID` int(254) NOT NULL,
-  `description` varchar(254) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `statusname` varchar(254) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `enrollmentstatus`
+--
+
+INSERT INTO `enrollmentstatus` (`statusID`, `statusname`) VALUES
+(1, 'Not Enrolled'),
+(2, 'Pending Registrar Assessment'),
+(3, 'For Resubmit'),
+(4, 'Pending Balance Settlement'),
+(5, 'Awaiting Admission Confirmation');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fileattachments`
+--
+
+CREATE TABLE `fileattachments` (
+  `fileID` int(254) NOT NULL,
+  `tempID` int(254) NOT NULL,
+  `enrollmentID` int(254) NOT NULL,
+  `filename` varchar(200) NOT NULL,
+  `attachmentname` varchar(254) NOT NULL,
+  `attachmenturl` varchar(254) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -58,7 +132,7 @@ CREATE TABLE `interests` (
   `description` varchar(254) NOT NULL,
   `strandID` int(254) NOT NULL,
   `isactive` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `interests`
@@ -69,7 +143,10 @@ INSERT INTO `interests` (`interestID`, `description`, `strandID`, `isactive`) VA
 (2, 'Politics', 5, 'Yes'),
 (3, 'Public Service', 5, 'Yes'),
 (4, 'Geology', 4, 'Yes'),
-(5, 'Computers', 7, 'Yes');
+(5, 'Computers', 7, 'Yes'),
+(6, 'Computers', 4, 'Yes'),
+(7, 'Technology', 4, 'Yes'),
+(8, 'Technology', 7, 'Yes');
 
 -- --------------------------------------------------------
 
@@ -82,7 +159,7 @@ CREATE TABLE `miscellaneousfees` (
   `strandID` int(254) NOT NULL,
   `description` varchar(254) NOT NULL,
   `amount` int(254) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `miscellaneousfees`
@@ -103,7 +180,7 @@ CREATE TABLE `paymentmodes` (
   `paymenttype` varchar(20) NOT NULL,
   `qrimgurl` varchar(500) NOT NULL,
   `isactive` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `paymentmodes`
@@ -127,7 +204,54 @@ CREATE TABLE `paymentrecord` (
   `paymentModeID` int(254) NOT NULL,
   `amount` int(254) NOT NULL,
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sections`
+--
+
+CREATE TABLE `sections` (
+  `sectionID` int(254) NOT NULL,
+  `sectionname` varchar(254) NOT NULL,
+  `isactive` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sections`
+--
+
+INSERT INTO `sections` (`sectionID`, `sectionname`, `isactive`) VALUES
+(1, 'Grade 11 - Anahaw', 'Yes'),
+(4, 'Grade 11 - Narra', 'Yes'),
+(5, 'Grade 11 - Abanico', 'Yes'),
+(6, 'Grade 11 - Rosewood', 'Yes'),
+(7, 'Grade 12 - Bonifacio', 'Yes');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `semester`
+--
+
+CREATE TABLE `semester` (
+  `semesterID` int(254) NOT NULL,
+  `semestername` varchar(254) NOT NULL,
+  `isactive` varchar(20) NOT NULL,
+  `startdate` varchar(254) NOT NULL,
+  `enddate` varchar(254) NOT NULL,
+  `formattedstarrdate` varchar(254) NOT NULL,
+  `formattedenddate` varchar(254) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `semester`
+--
+
+INSERT INTO `semester` (`semesterID`, `semestername`, `isactive`, `startdate`, `enddate`, `formattedstarrdate`, `formattedenddate`) VALUES
+(1, '1st Sem', 'Yes', '2024-09-04', '2024-09-17', '', ''),
+(2, '2nd sem', 'Yes', '2024-06-03', '2024-10-31', '', '');
 
 -- --------------------------------------------------------
 
@@ -140,7 +264,7 @@ CREATE TABLE `strands` (
   `strandname` varchar(254) NOT NULL,
   `abbreviation` varchar(254) NOT NULL,
   `isactive` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `strands`
@@ -155,6 +279,52 @@ INSERT INTO `strands` (`strandID`, `strandname`, `abbreviation`, `isactive`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `students`
+--
+
+CREATE TABLE `students` (
+  `tempID` int(254) NOT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `middlename` varchar(100) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `contactnumber` varchar(100) NOT NULL,
+  `studentnumber` varchar(100) NOT NULL,
+  `password` varchar(254) NOT NULL,
+  `userRole` int(10) NOT NULL,
+  `isactive` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`tempID`, `firstname`, `middlename`, `lastname`, `email`, `contactnumber`, `studentnumber`, `password`, `userRole`, `isactive`) VALUES
+(1, 'John', 'Titor', 'Smith', 'johnsmith@gmail.com', '09123456789', '', 'password', 4, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subjects`
+--
+
+CREATE TABLE `subjects` (
+  `subjectID` int(254) NOT NULL,
+  `subjectname` varchar(254) NOT NULL,
+  `isactive` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subjects`
+--
+
+INSERT INTO `subjects` (`subjectID`, `subjectname`, `isactive`) VALUES
+(1, 'Gen Math', 'Yes'),
+(2, 'Earth and Life Science', 'Yes');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tuitionfees`
 --
 
@@ -162,7 +332,7 @@ CREATE TABLE `tuitionfees` (
   `tuitionID` int(254) NOT NULL,
   `strandID` int(254) NOT NULL,
   `amount` int(254) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tuitionfees`
@@ -187,7 +357,7 @@ CREATE TABLE `users` (
   `fullname` varchar(200) NOT NULL,
   `lastname` varchar(200) NOT NULL,
   `firstname` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -195,17 +365,24 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userID`, `username`, `password`, `isActive`, `userRole`, `fullname`, `lastname`, `firstname`) VALUES
 (1, 'admin', 'admin', 1, 1, 'admin, admin', 'admin', 'admin'),
-(2, 'Brian', 'Moscoso@2024', 1, 1, 'Moscoso, Brian', 'Moscoso', 'Brian'),
-(3, 'ErrL18', 'Rebuya@2024', 1, 1, 'Rebuya, Rouise Earl', 'Rebuya', 'Rouise Earl'),
-(4, 'Jemrel', 'Mangaliman@2024', 1, 1, 'Mangaliman, Jemrel Ricky', 'Mangaliman', 'Jemrel Ricky'),
-(5, 'Khinz', 'Demonteverde@2024', 1, 1, 'Demonteverde, Christian', 'Demonteverde', 'Christian'),
-(6, '2202516', 'Reburt@2024', 1, 1, 'Reburtsssss, Rael', 'Reburtsssss', 'Rael'),
-(7, '053961', 'test@2024', 1, 0, 'test, test', 'test', 'test'),
-(8, 'tet', 'tet@2024', 1, 0, 'tet, tetris', 'tet', 'tetris');
+(7, '053961', 'test@2024', 1, 2, 'test, test', 'test', 'test'),
+(8, 'tet', 'tet@2024', 1, 2, 'tet, tetris', 'tet', 'tetris');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `classschedule`
+--
+ALTER TABLE `classschedule`
+  ADD PRIMARY KEY (`classID`);
+
+--
+-- Indexes for table `days`
+--
+ALTER TABLE `days`
+  ADD PRIMARY KEY (`dayID`);
 
 --
 -- Indexes for table `enrollmentrecords`
@@ -218,6 +395,12 @@ ALTER TABLE `enrollmentrecords`
 --
 ALTER TABLE `enrollmentstatus`
   ADD PRIMARY KEY (`statusID`);
+
+--
+-- Indexes for table `fileattachments`
+--
+ALTER TABLE `fileattachments`
+  ADD PRIMARY KEY (`fileID`);
 
 --
 -- Indexes for table `interests`
@@ -244,10 +427,34 @@ ALTER TABLE `paymentrecord`
   ADD PRIMARY KEY (`transactionID`);
 
 --
+-- Indexes for table `sections`
+--
+ALTER TABLE `sections`
+  ADD PRIMARY KEY (`sectionID`);
+
+--
+-- Indexes for table `semester`
+--
+ALTER TABLE `semester`
+  ADD PRIMARY KEY (`semesterID`);
+
+--
 -- Indexes for table `strands`
 --
 ALTER TABLE `strands`
   ADD PRIMARY KEY (`strandID`);
+
+--
+-- Indexes for table `students`
+--
+ALTER TABLE `students`
+  ADD PRIMARY KEY (`tempID`);
+
+--
+-- Indexes for table `subjects`
+--
+ALTER TABLE `subjects`
+  ADD PRIMARY KEY (`subjectID`);
 
 --
 -- Indexes for table `tuitionfees`
@@ -266,22 +473,40 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `classschedule`
+--
+ALTER TABLE `classschedule`
+  MODIFY `classID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `days`
+--
+ALTER TABLE `days`
+  MODIFY `dayID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `enrollmentrecords`
 --
 ALTER TABLE `enrollmentrecords`
-  MODIFY `enrollmentID` int(254) NOT NULL AUTO_INCREMENT;
+  MODIFY `enrollmentID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `enrollmentstatus`
 --
 ALTER TABLE `enrollmentstatus`
-  MODIFY `statusID` int(254) NOT NULL AUTO_INCREMENT;
+  MODIFY `statusID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `fileattachments`
+--
+ALTER TABLE `fileattachments`
+  MODIFY `fileID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `interests`
 --
 ALTER TABLE `interests`
-  MODIFY `interestID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `interestID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `miscellaneousfees`
@@ -302,10 +527,34 @@ ALTER TABLE `paymentrecord`
   MODIFY `transactionID` int(254) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `sections`
+--
+ALTER TABLE `sections`
+  MODIFY `sectionID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `semester`
+--
+ALTER TABLE `semester`
+  MODIFY `semesterID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `strands`
 --
 ALTER TABLE `strands`
   MODIFY `strandID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `students`
+--
+ALTER TABLE `students`
+  MODIFY `tempID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `subjects`
+--
+ALTER TABLE `subjects`
+  MODIFY `subjectID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tuitionfees`

@@ -53,6 +53,20 @@ else {
     $miscfeetext = '<p><span class="fw-bold">₱0.00 </span></p>';
 }
 
+
+$fetchEnrollment = "SELECT * FROM enrollmentrecords WHERE studentID = '$tempid'";
+$fetchedData2 = mysqli_query($conn, $fetchEnrollment);
+$enrollmentcount = mysqli_num_rows($fetchedData2);
+$enrollmentstatusdisplay = '';
+
+if ($enrollmentcount != 0) {
+    $enrollmentstatusdisplay = '';
+}
+else {
+    $enrollmentstatusdisplay = '<p class="text-danger">You have no active enrollment record yet!</p>';
+}
+
+
 //get current uploaded enrollment attachments
 $attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc','form137'];
 $attachmentlabellist = 
@@ -88,6 +102,7 @@ $attachmentlabellist =
                         <div class="card-body">
                                 <div class="row w-100 mx-1">
                                     <div class="col-8">
+                                        <?php echo $enrollmentstatusdisplay;?>
                                         <h5>Personal Information</h5>
                                         <div class="container border shadow mb-3">
                                             <div class="row w-100 mx-1 my-2">
@@ -194,43 +209,44 @@ $attachmentlabellist =
                                             <div class="container border shadow">
                                                 <?php 
                                                 $ctr = 0;
-                                                
-                                                foreach ($attachmentlist as $attachmentitem) {
-                                                    $isfound = 0;
-                                                    $attachmentname = '';
-                                                    $attachmentlabel = $attachmentlabellist[$ctr];
-                                                    $attachmentsData = mysqli_query($conn, "SELECT * FROM fileattachments WHERE enrollmentID='$enrollmentID'");
-                                                    
-                                                    while ($fetchedAttachments = mysqli_fetch_assoc($attachmentsData)) {
-                                                            $attachmentname = $fetchedAttachments['attachmentname'];
-                                                            $filename = $fetchedAttachments['filename'];
-                                                            $attachmentlink = $fetchedAttachments['attachmenturl'];
-                                                            if ($attachmentitem == $attachmentname) {
-                                                                echo '<div class="row mx-1 mt-2">
-                                                                        <div class="col">
-                                                                            <small>'.$attachmentlabel.'</small>
-                                                                            <div class="input-group mb-3">
-                                                                                <i class="bi bi-check-circle-fill text-success mr-2"></i><a href="'.$attachmentlink.'" download="'.$filename.'">'.$filename.'</a>
+                                                if ($enrollmentcount != 0) {
+                                                    foreach ($attachmentlist as $attachmentitem) {
+                                                        $isfound = 0;
+                                                        $attachmentname = '';
+                                                        $attachmentlabel = $attachmentlabellist[$ctr];
+                                                        $attachmentsData = mysqli_query($conn, "SELECT * FROM fileattachments WHERE enrollmentID='$enrollmentID'");
+                                                        
+                                                        while ($fetchedAttachments = mysqli_fetch_assoc($attachmentsData)) {
+                                                                $attachmentname = $fetchedAttachments['attachmentname'];
+                                                                $filename = $fetchedAttachments['filename'];
+                                                                $attachmentlink = $fetchedAttachments['attachmenturl'];
+                                                                if ($attachmentitem == $attachmentname) {
+                                                                    echo '<div class="row mx-1 mt-2">
+                                                                            <div class="col">
+                                                                                <small>'.$attachmentlabel.'</small>
+                                                                                <div class="input-group mb-3">
+                                                                                    <i class="bi bi-check-circle-fill text-success mr-2"></i><a href="'.$attachmentlink.'" download="'.$filename.'">'.$filename.'</a>
+                                                                                </div>
                                                                             </div>
+                                                                        </div>';
+                                                                    $isfound = 1;
+                                                                    break;
+                                                                }  
+                                                        } 
+                                                        
+                                                        //if an attachment is not found, display a file input field instead
+                                                        if ($isfound == 0) {
+                                                            echo '<div class="row mx-1 mt-2">
+                                                                    <div class="col">
+                                                                        <small>'.$attachmentlabel.'</small>
+                                                                        <div class="input-group mb-3">
+                                                                            <input type="file" class="form-control" name="'.$attachmentitem.'">
                                                                         </div>
-                                                                    </div>';
-                                                                $isfound = 1;
-                                                                break;
-                                                            }  
-                                                    } 
-                                                    
-                                                    //if an attachment is not found, display a file input field instead
-                                                    if ($isfound == 0) {
-                                                        echo '<div class="row mx-1 mt-2">
-                                                                <div class="col">
-                                                                    <small>'.$attachmentlabel.'</small>
-                                                                    <div class="input-group mb-3">
-                                                                        <input type="file" class="form-control" name="'.$attachmentitem.'">
                                                                     </div>
-                                                                </div>
-                                                            </div>   ';
+                                                                </div>   ';
+                                                        }
+                                                        $ctr++;
                                                     }
-                                                    $ctr++;
                                                 }
                                                 ?>
                                                 <div class="row mt-3 ml-2 mr-2 mb-3">
