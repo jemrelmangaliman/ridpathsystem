@@ -1,5 +1,5 @@
 <?php
-    require '../shared/header_registrar.php';
+    require '../shared/header.php';
 ?>
 
 

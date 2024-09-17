@@ -270,7 +270,7 @@ $attachmentlabellist =
                             <div class="row mb-1">
                                 <div class="col">
                                     <div class="container d-flex justify-content-center">
-                                        <img class="img-thumbnail border shadow" id="qr-preview" style="display: none;">
+                                        <img class="img-thumbnail border shadow" id="qr-preview" style="display: none; width: 300px; height: 300px;">
                                     </div>
                                 </div>
                             </div>
