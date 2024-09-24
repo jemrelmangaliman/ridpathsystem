@@ -30,12 +30,12 @@
 <!-- Nav Item - Utilities Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link" href="schedule.php">
-        <i class="fas fa-fw fa-wrench"></i>
+        <i class="fas fa-regular fa-calendar"></i>
         <span>Class Schedules</span></a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="profile.php">
-        <i class="fas fa-fw fa-wrench"></i>
+        <i class="fas fa-regular fa-user"></i>
         <span>My Profile</span></a>
 </li>
 
@@ -45,17 +45,23 @@
 <!-- Divider -->
 <hr class="sidebar-divider">
 
+<!-- Heading -->
+<div class="sidebar-heading">
+    Enrollment Records
+</div>
+
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
         aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-cog"></i>
-        <span>Enrollment Records</span>
+        <i class="bi bi-card-list"></i>
+        <span>Enrollment Category</span>
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="pendingapproval.php">Pending Approval</a>
-            <a class="collapse-item" href="foradmission.php">Pending Admission</a>
+            <a class="collapse-item" href="forassessment.php">For Assessment</a>
+            <a class="collapse-item" href="forbalancesettlement.php">Balance Settlement</a>
+            <a class="collapse-item" href="foradmission.php">Admission Confirmation</a>
             <a class="collapse-item" href="enrolled.php">Enrolled</a>
             <a class="collapse-item" href="forresubmission.php">For Resubmission</a>
 

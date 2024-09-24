@@ -34,6 +34,7 @@
                                             <th scope="col" class="text-center" id="th"><small>Payment Mode Name</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Payment Type</small></th>
                                             <th scope="col" class="text-center" id="th"><small>QR Image</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Account Number</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Actions</small></th>
                                         </tr>
@@ -50,6 +51,7 @@
                                             $paymenttype = $DataArray['paymenttype'];
                                             $status = $DataArray['isactive'];
                                             $qrimgurl = $DataArray['qrimgurl'];
+                                            $accountnumber = $DataArray['accountnumber'];
                                             
                                             ?>
                                             <tr>
@@ -60,6 +62,16 @@
                                                     <?php 
                                                     if ($qrimgurl != null && $qrimgurl != "") {
                                                         echo '<img src="'.$qrimgurl.'" class="img-thumbnail" id="table-qr-preview">';
+                                                    }
+                                                    else {
+                                                        echo "N/A";
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td class="text-center" id="td">
+                                                    <?php 
+                                                    if ($accountnumber != null && $accountnumber != "") {
+                                                        echo $accountnumber;
                                                     }
                                                     else {
                                                         echo "N/A";
@@ -136,6 +148,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row mb-1" id="accountnumber-input-container">
+                                                    <small>Account Number</small>
+                                                    <div class="col">
+                                                            <input class="form-control" type="number" name="accountnumber" id="accountnumber" required>
+                                                    </div>
+                                                </div>
                                                 <div class="row mb-1" id="qr-input-container">
                                                     <small>QR Code Image</small>
                                                     <div class="input-group mb-3">
@@ -191,6 +209,8 @@
         var paymentTypeRadios = document.querySelectorAll('input[name="paymenttype"]');
         var qrInputContainer = document.getElementById('qr-input-container');
         var qrImage = document.getElementById('qrimage');
+        var accountnumber = document.getElementById('accountnumber'); 
+        var accountnumbercontainer = document.getElementById('accountnumber-input-container'); 
 
 
         // Add event listeners to each radio button
@@ -198,11 +218,17 @@
             radio.addEventListener("change", function() {
                 // Check if the selected radio button's value is 'online'
                 if (document.getElementById('online').checked) {
-                    qrInputContainer.style.display = 'block';  // Show the div
+                    qrInputContainer.style.display = 'block';  // Show the qr div
                     qrImage.setAttribute('required','required');
+
+                    accountnumbercontainer.style.display = 'block';  // Show the accountnumber div
+                    accountnumber.setAttribute('required','required');
                 } else {
-                    qrInputContainer.style.display = 'none';   // Hide the div
+                    qrInputContainer.style.display = 'none';   // Hide the qr div
                     qrImage.removeAttribute('required');
+
+                    accountnumbercontainer.style.display = 'none';  // Show the accountnumber div
+                    accountnumber.removeAttribute('required');
                 }
             });
         });
@@ -227,27 +253,35 @@
                         editcontainer.innerHTML = this.responseText;  
                         
 
-                        // Get all radio buttons with the name 'paymenttype' -- ADDING PAYMENT MODES
-                        var paymentTypeRadios = document.querySelectorAll('input[name="v-paymenttype"]');
-                        var qrInputContainer = document.getElementById('v-qr-input-container');
-                        var qrImage = document.getElementById('v-qrimage');
+                        // Get all radio buttons with the name 'paymenttype' -- EDITING PAYMENT MODES
+                        var paymentTypeRadios1 = document.querySelectorAll('input[name="v-paymenttype"]');
+                        var qrInputContainer1 = document.getElementById('v-qr-input-container');
+                        var qrImage1 = document.getElementById('v-qrimage');
+                        var accountnumber1 = document.getElementById('v-accountnumber'); 
+                        var accountnumbercontainer1 = document.getElementById('v-accountnumber-input-container'); 
 
 
                                 // Add event listeners to each radio button
-                                paymentTypeRadios.forEach(function(radio) {
-                                    radio.addEventListener("change", function() {
+                                paymentTypeRadios1.forEach(function(radio1) {
+                                    radio1.addEventListener("change", function() {
                                         // Check if the selected radio button's value is 'online'
                                         if (document.getElementById('v-online').checked) {
-                                            qrInputContainer.style.display = 'block';  // Show the div
-                                            qrImage.setAttribute('required','required');
+                                            qrInputContainer1.style.display = 'block';  // Show the qr div
+                                            qrImage1.setAttribute('required','required');
+
+                                            accountnumbercontainer1.style.display = 'block';  // Show the accountnumber div
+                                            accountnumber1.setAttribute('required','required');
                                         } else {
-                                            qrImage.removeAttribute('required');
-                                            qrInputContainer.style.display = 'none';   // Hide the div
+                                            qrInputContainer1.style.display = 'none';   // Hide the qr div
+                                            qrImage1.removeAttribute('required');
+
+                                            accountnumbercontainer1.style.display = 'none';  // Hide the accountnumber div
+                                            accountnumber1.removeAttribute('required');
                                         }
                                     });
                                 });
 
-                        qrImage.addEventListener("change", function (event) {
+                        qrImage1.addEventListener("change", function (event) {
                         var src = URL.createObjectURL(this.files[0])
                         document.getElementById('v-qr-preview').src = src;
                         });

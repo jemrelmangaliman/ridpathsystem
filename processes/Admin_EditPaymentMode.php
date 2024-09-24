@@ -6,17 +6,21 @@ $conn = require '../config/config.php';
     $paymentmodename = mysqli_real_escape_string($conn, $_POST['v-paymentmodename']);
     $paymenttype = $_POST['v-paymenttype'];
     $status = $_POST['v-isactive'];
+    $accountnumber = "";
 
     //directory for saving image file
-    $ImageSavePath = "../payment-qr/";
-    $ImageFile = $ImageSavePath . basename($_FILES["v-qrimage"]["name"]);
-    $ImageFileType = strtolower(pathinfo($ImageFile, PATHINFO_EXTENSION));
+    $SavePath = "../payment-qr/";
+    $File = $SavePath . basename($_FILES["v-qrimage"]["name"]);
+    $FileType = strtolower(pathinfo($File, PATHINFO_EXTENSION));
 
     $currentPaymentDetails = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM paymentmodes WHERE paymentModeID = '$ID'"));
     $currentpaymenttype = $currentPaymentDetails['paymenttype'];
     $currentqrimgurl = $currentPaymentDetails['qrimgurl'];
 
     if($paymenttype == "Online") {
+        //set the account number variable value
+        $accountnumber = $_POST['accountnumber'];
+        
         if ($_FILES["v-qrimage"]["size"] > 1000000) {
             $_SESSION['action-error'] = "Image file should be less than 1MB.";
             header('location: ../admin/paymentmodes.php');
@@ -24,7 +28,7 @@ $conn = require '../config/config.php';
         }
 
         // Check the image file extensions
-        if($ImageFileType != "jpg" && $ImageFileType != "png" && $ImageFileType != "jpeg") {
+        if($FileType != "jpg" && $FileType != "png" && $FileType != "jpeg") {
             $_SESSION['action-error'] = "The allowed image types are JPG/JPEG and PNG only.";
             header('location: ../admin/paymentmodes.php');
             exit();
@@ -37,13 +41,13 @@ $conn = require '../config/config.php';
             }
         }
 
-        if(move_uploaded_file($_FILES["v-qrimage"]["tmp_name"], $ImageFile)){ //uploading the image
+        if(move_uploaded_file($_FILES["v-qrimage"]["tmp_name"], $File)){ //uploading the image
 
             //changing the name of the image
-            $NewImageName = $ImageSavePath.$paymentmodename.".".$ImageFileType;
-            rename($ImageFile, $NewImageName);
+            $NewFileName = $SavePath.$paymentmodename.".".$FileType;
+            rename($File, $NewFileName);
 
-            $Query = "UPDATE paymentmodes SET description='$paymentmodename', paymenttype='$paymenttype', qrimgurl='$NewImageName', isactive='$status' WHERE paymentModeID = '$ID'";
+            $Query = "UPDATE paymentmodes SET description='$paymentmodename', paymenttype='$paymenttype', qrimgurl='$NewFileName', accountnumber='$accountnumber', isactive='$status' WHERE paymentModeID = '$ID'";
         }
         else {
             $_SESSION['action-error'] = "An error occurred in uploading the QR code.";
@@ -59,7 +63,7 @@ $conn = require '../config/config.php';
             }
         }
 
-        $Query = "UPDATE paymentmodes SET description='$paymentmodename', paymenttype='$paymenttype', qrimgurl='', isactive='$status' WHERE paymentModeID = '$ID'";
+        $Query = "UPDATE paymentmodes SET description='$paymentmodename', paymenttype='$paymenttype', qrimgurl='', accountnumber = '', isactive='$status' WHERE paymentModeID = '$ID'";
     }
 
    

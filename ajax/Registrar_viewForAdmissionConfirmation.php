@@ -22,6 +22,7 @@ $enrollmentstatusID = $DataArray['statusID'];
 $strandID = $DataArray['strandID'];
 $interest = $DataArray['interest'];
 $enrollmentID = $DataArray['enrollmentID'];
+$student_tempID = $DataArray['tempID'];
 
 
 //get misc fee total using fetched strand ID in the first query
@@ -166,22 +167,26 @@ echo '
                                             </div>
                                             <form action="../processes/Registrar_ChangeEnrollmentStatus.php" method="POST">
                                                 <input type="hidden" value="'.$enrollmentID.'" name="enrollmentID">
-                                                <input type="hidden" value="forassessment" name="returnpage">
+                                                <input type="hidden" value="forbalancesettlement" name="returnpage">
                                                 <div class="row w-100 mt-3 mb-3">
                                                     <small>Enrollment Remarks</small>
                                                     <div class="col-12">
                                                             <textarea name="enrollmentremarks" class="form-control" placeholder="Please include an enrollment remark" required></textarea>        
                                                     </div>  
                                                 </div>
+                                                <div class="row w-100 mt-3 mb-3">
+                                                    <small>Assign Student Number</small>
+                                                    <div class="col-12">
+                                                            <input type="number" class="form-control" name="studentnumber" placeholder="Student Number" required>     
+                                                    </div>  
+                                                </div>
                                                 <div class="row w-100 mt-3 ml-1 mb-3">
                                                     <div class="col">
-                                                            <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="ApproveEnrollment">Approve Enrollment</button>
-                                                    </div>
-                                                    <div class="col">
-                                                            <button class="btn btn-danger w-100 ml-auto mr-auto" id="page-btn" type="submit" name="ReturnEnrollment">Return for Resubmission</button>
+                                                        <input type="hidden" class="form-control" name="studenttempid" value="'.$student_tempID.'">    
+                                                            <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="ConfirmAdmission">Confirm Student Admision</button>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </form> 
                                         </div> 
                                     </div>
 

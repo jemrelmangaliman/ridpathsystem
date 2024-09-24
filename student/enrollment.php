@@ -74,10 +74,11 @@ $contactnumber = $DataArray['contactnumber'];
                                         <h5>Attachments</h5>
                                         <div class="container border shadow mb-3">
                                             <div class="row mx-1 mt-2">
+                                            <p><span class="text-danger fw-bold">(Note: Fields with asterisk are required)</span></p>
                                                 <div class="col">
-                                                    <small>Original Copy of PSA</small>
+                                                    <small>Original Copy of PSA <span class="text-danger fw-bold">*</span></small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="psa">
+                                                        <input type="file" class="form-control" name="psa" required>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -103,9 +104,9 @@ $contactnumber = $DataArray['contactnumber'];
                                             </div>  
                                             <div class="row mx-1 mt-2">
                                                 <div class="col">
-                                                    <small>Duly Accomplished Enrolment Form</small>
+                                                    <small>Duly Accomplished Enrolment Form <span class="text-danger fw-bold">*</span></small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="enrollmentform">
+                                                        <input type="file" class="form-control" name="enrollmentform" required>
                                                     </div>
                                                 </div>
                                                 <div class="col">

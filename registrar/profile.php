@@ -36,7 +36,7 @@
 
                                 switch ($userrole) {
                                     case 2:
-                                        $userChecked = 'checked';
+                                        $registrarChecked = 'checked';
                                         break;
                                     case 1:
                                         $adminChecked = 'checked';
@@ -44,7 +44,7 @@
                                 }
 
                                 ?>
-                                            <form action="../processes/Admin_EditProfile.php" method="POST">
+                                            <form action="../processes/Registrar_EditProfile.php" method="POST">
                                                 <div class="row mb-1">
                                                     <div class="col">
                                                         <small>Username</small>

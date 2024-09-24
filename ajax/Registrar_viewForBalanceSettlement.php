@@ -166,7 +166,7 @@ echo '
                                             </div>
                                             <form action="../processes/Registrar_ChangeEnrollmentStatus.php" method="POST">
                                                 <input type="hidden" value="'.$enrollmentID.'" name="enrollmentID">
-                                                <input type="hidden" value="forassessment" name="returnpage">
+                                                <input type="hidden" value="forbalancesettlement" name="returnpage">
                                                 <div class="row w-100 mt-3 mb-3">
                                                     <small>Enrollment Remarks</small>
                                                     <div class="col-12">
@@ -175,13 +175,13 @@ echo '
                                                 </div>
                                                 <div class="row w-100 mt-3 ml-1 mb-3">
                                                     <div class="col">
-                                                            <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="ApproveEnrollment">Approve Enrollment</button>
+                                                            <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="ConfirmBalanceSettlement">Confirm Balance Settlement</button>
                                                     </div>
                                                     <div class="col">
-                                                            <button class="btn btn-danger w-100 ml-auto mr-auto" id="page-btn" type="submit" name="ReturnEnrollment">Return for Resubmission</button>
+                                                            <button class="btn btn-danger w-100 ml-auto mr-auto" id="page-btn" type="submit" name="HoldEnrollment">Put On Hold</button>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </form> 
                                         </div> 
                                     </div>
 

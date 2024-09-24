@@ -8,11 +8,13 @@ $paymentmodename = $DataArray['description'];
 $paymenttype = $DataArray['paymenttype'];
 $status = $DataArray['isactive'];
 $qrimageurl = $DataArray['qrimgurl'];
+$accountnumber = ($DataArray['accountnumber'] != null ? $DataArray['accountnumber']: 0 );
 
 
 $isActivetext = '';
 $paymenttypetext = '';
 $qrimage_display = '';
+$accountnumber_display = '';
 $srctext ='';
 
 if ($status == "Yes") {
@@ -59,6 +61,7 @@ if ($paymenttype == "Online") {
                                                         </div>';
         
     $qrimage_display .= 'display: block;';
+    $accountnumber_display = 'display: block;';
     $srctext .= 'src="'.$qrimageurl.'"';
 }
 else {
@@ -76,6 +79,7 @@ else {
                                                         </div>';
     
     $qrimage_display .= 'display: none;';
+    $accountnumber_display = 'display: none;';
     $srctext .= '';
 }
 
@@ -92,6 +96,12 @@ echo '<form action="../processes/Admin_EditPaymentMode.php" method="POST" enctyp
                                                     <small>Payment Type</small>
                                                     <div class="col">
                                                         '.$paymenttypetext.'
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1" id="v-accountnumber-input-container" style="'.$accountnumber_display.'">
+                                                    <small>Account Number</small>
+                                                    <div class="col">
+                                                            <input class="form-control" type="number" name="accountnumber" id="v-accountnumber" value="'.$accountnumber.'" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1" id="v-qr-input-container" style="'.$qrimage_display.'">
