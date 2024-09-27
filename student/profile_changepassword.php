@@ -1,5 +1,5 @@
 <?php
-    require '../shared/header.php';
+    require '../shared/header_student.php';
 ?>
 
 
@@ -15,7 +15,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">My Profile > Edit Information</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">My Profile > Change Password</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,59 +39,36 @@
                                 $DataArray = mysqli_fetch_assoc($fetchedData);
 
                                 $username = $DataArray['username'];
-                                $firstname = $DataArray['firstname'];
-                                $lastname = $DataArray['lastname'];
-                                $isactive = $DataArray['isActive'];
-                                $userrole = $DataArray['userRole'];
-                                $registrarChecked = '';
-                                $adminChecked = '';
-
-                                switch ($userrole) {
-                                    case 2:
-                                        $userChecked = 'checked';
-                                        break;
-                                    case 1:
-                                        $adminChecked = 'checked';
-                                        break;
-                                }
+                                $currentPassword = $DataArray['password'];
 
                                 ?>
-                                            <form action="../processes/Admin_EditProfile.php" method="POST">
+                                            <form action="../processes/Student_EditProfile_Changepassword.php" method="POST">
                                                 <div class="row mb-1">
                                                     <div class="col">
                                                         <small>Username</small>
+
                                                         <input type="text" class="form-control" name="userID" hidden value="<?php echo $userID; ?>">
-                                                        <input type="text" class="form-control" name="username" value="<?php echo $username; ?>"  required>
+                                                        <input type="text" class="form-control" name="currentPassword" hidden value="<?php echo $currentPassword; ?>">
+
+                                                        <input type="text" class="form-control" name="username" value="<?php echo $username; ?>"  readonly>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">
                                                     <div class="col">
-                                                        <small>Last Name</small>
-                                                        <input type="text" class="form-control" name="lastname" value="<?php echo $lastname; ?>" required>
+                                                        <small>Current Password</small>
+                                                        <input type="Password" class="form-control" name="currPassword" value="" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">
                                                     <div class="col">
-                                                        <small>First Name</small>
-                                                        <input type="text" class="form-control" name="firstname" value="<?php echo $firstname; ?>" required>
+                                                        <small>New Password</small>
+                                                        <input type="Password" class="form-control" name="newPassword" value="" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">
-                                                    <small>User Role</small>
                                                     <div class="col">
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="userRole" id="registrar" value="2" required <?php echo $registrarChecked; ?>>
-                                                        <label class="form-check-label" for="user">
-                                                            Registrar
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="userRole" id="admin" value="1" required <?php echo $adminChecked; ?>>
-                                                        <label class="form-check-label" for="admin">
-                                                            Administrator
-                                                        </label>
-                                                    </div>
-                                                 
+                                                        <small>Confirm New Password</small>
+                                                        <input type="Password" class="form-control" name="confirmnewPassword" value="" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mt-3 d-flex justify-content-center">
@@ -100,10 +77,11 @@
 
                                                 <div class="row mb-1">
                                                     <div class="col">
-                                                        <small style="color:green;"><?php echo $_SESSION['action-success']; ?></small>
-                                                        <small style="color:red;"><?php echo $_SESSION['action-error']; ?></small>
+                                                        <small style="color:green;"><?php echo $_SESSION['action-success-changepassword']; ?></small>
+                                                        <small style="color:red;"><?php echo $_SESSION['action-error-changepassword']; ?></small>
                                                     </div>
                                                 </div>
+
                                             </form>
                                     
                                 </div>
@@ -114,12 +92,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        $('#table').DataTable();
-    });
-</script>
 
 <?php
     require '../shared/footer.php';

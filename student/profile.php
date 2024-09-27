@@ -16,6 +16,18 @@
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">My Profile</h6>
+                                    <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Actions: </div>
+                                            <a class="dropdown-item" href="profile.php">Edit Information</a>
+                                            <a class="dropdown-item" href="profile_changepassword.php">Change Password</a>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -59,6 +71,12 @@
                                                 
                                                 <div class="row mt-3 d-flex justify-content-center">
                                                        <button class="btn btn-success" id="page-btn" type="submit" name="EditStudent" style="width:50%;">Save Changes</button>
+                                                </div>
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <small style="color:green;"><?php echo $_SESSION['action-success']; ?></small>
+                                                        <small style="color:red;"><?php echo $_SESSION['action-error']; ?></small>
+                                                    </div>
                                                 </div>
                                             </form>
                                     
