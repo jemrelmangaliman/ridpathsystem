@@ -31,7 +31,7 @@ require '../shared/header.php';
                                 <thead>
                                     <tr>
                                         <th scope="col" class="text-center" id="th"><small>Section ID</small></th>
-                                        <th scope="col" class="text-center" id="th"><small>Section Name</small></th>
+                                        <th scope="col" class="text-center" id="th"><small>Section</small></th>
 
                                         <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
                                         <th scope="col" class="text-center" id="th"><small>Actions</small></th>
@@ -40,19 +40,21 @@ require '../shared/header.php';
                                 <tbody>
 
                                     <?php
-                                    $fetchQuery = "SELECT * FROM sections";
+                                    $fetchQuery = "SELECT * FROM sections ss
+                                    LEFT JOIN strands st ON ss.strandID = st.strandID";
                                     $fetchedData = mysqli_query($conn, $fetchQuery);
 
                                     while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
                                         $ID = $DataArray['sectionID'];
                                         $SectionName = $DataArray['sectionname'];
-
+                                        $abbreviation = $DataArray['abbreviation'];
+                                        $gradelevel = $DataArray['gradelevel'];
                                         $status = $DataArray['isactive'];
 
                                     ?>
                                         <tr>
                                             <td class="text-center" id="td"><?php echo $ID; ?></td>
-                                            <td class="text-center" id="td"><?php echo $SectionName; ?></td>
+                                            <td class="text-center" id="td"><?php echo $abbreviation." ".$gradelevel."-".$SectionName; ?></td>
 
                                             <td class="text-center" id="td"><?php echo $status; ?></td>
                                             <td class="text-center" id="td">
@@ -100,6 +102,34 @@ require '../shared/header.php';
                     <h5><b>Section Information</b></h5>
                     <div class="container mb-2">
                         <form action="../processes/Admin_AddSection.php" method="POST">
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <small for="subject">Strand</small>
+                                        <select class="form-select w-100" name="strand" id="stranddropdown" required>
+                                            <option value="0" disabled selected>--Select a strand--</option>
+                                            <?php
+                                            $fetchQuery3 = "SELECT * FROM strands WHERE isactive = 'Yes' ORDER BY strandname ASC";
+                                            $fetchedData3 = mysqli_query($conn, $fetchQuery3);
+                                            while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
+                                                echo '<option value="' . $DataArray3['strandID'] . '">' . $DataArray3['strandname'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <small for="subject">Grade Level</small>
+                                        <select class="form-select w-100" name="gradelevel" required>
+                                            <option value="11" selected>Grade 11</option>
+                                            <option value="12">Grade 12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col">
                                     <small>Section Name</small>

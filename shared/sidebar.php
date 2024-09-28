@@ -18,6 +18,11 @@
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
+<li class="nav-item active">
+    <a class="nav-link" href="classSchedule.php">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Class Schedules</span></a>
+</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider">
@@ -28,16 +33,6 @@
 </div>
 
 <!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link" href="classSchedule.php">
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>Class Schedule</span></a>
-</li>
-<li class="nav-item">
-    <a class="nav-link" href="">
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>My Records</span></a>
-</li>
 <li class="nav-item">
     <a class="nav-link" href="profile.php">
         <i class="fas fa-fw fa-wrench"></i>
@@ -67,6 +62,10 @@
             <h6 class="collapse-header">Components:</h6>
             <a class="collapse-item" href="strands.php">Strands</a>
             <a class="collapse-item" href="interests.php">Interests</a>
+            <a class="collapse-item" href="section.php">Sections</a>
+            <a class="collapse-item" href="subject.php">Subjects</a>
+            <a class="collapse-item" href="strandsubjects.php">Strand Subjects</a>
+            <a class="collapse-item" href="semester.php">Semesters</a>
             <a class="collapse-item" href="tuitionfees.php">Tuition Fees</a>
             <a class="collapse-item" href="miscellaneousfees.php">Miscnellaneous Fees</a>
             <a class="collapse-item" href="paymentmodes.php">Payment Modes</a>
@@ -92,28 +91,6 @@
         </div>
     </div>
 </li>
-
-<!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link" href="section.php">
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>Section</span></a>
-</li>
-
-<!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link" href="subject.php">
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>Subject</span></a>
-</li>
-
-<!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link" href="semester.php">
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>Semester</span></a>
-</li>
-
 
 <!-- Nav Item - Utilities Collapse Menu -->
 <li class="nav-item">

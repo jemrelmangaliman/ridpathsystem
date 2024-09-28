@@ -15,13 +15,13 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Manage Subjects</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Manage Strand Subjects</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="row" id="page-btn-container">
                                         <div class="col-4">
-                                        <button class="btn btn-primary" id="page-btn" data-bs-toggle="modal" data-bs-target="#modal-Add"><i class="bi bi-plus-lg"></i> Add New Subject</button>
+                                        <button class="btn btn-primary" id="page-btn" data-bs-toggle="modal" data-bs-target="#modal-Add"><i class="bi bi-plus-lg"></i> Add New Strand Subject</button>
                                         </div>
                                     </div>
 
@@ -30,9 +30,9 @@
                                     <table class="table table-hover table-bordered table-sm w-100" id="table">
                                         <thead>
                                         <tr>
-                                            <th scope="col" class="text-center" id="th"><small>Subject ID</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>Subject Name</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>Pre Requisite Subject</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>ID</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Strand Name</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Subject</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Actions</small></th>
                                         </tr>
@@ -40,38 +40,29 @@
                                         <tbody>
 
                                         <?php
-                                        $fetchQuery = "SELECT sj1.subjectID, sj1.pr_subjectID, sj1.subjectname as subjectname, sj2.subjectname as prerequisite, sj1.isactive
-                                        FROM subjects sj1
-                                        LEFT JOIN subjects sj2 ON sj1.pr_subjectID = sj2.subjectID";
+                                        $fetchQuery = "SELECT * FROM strandsubjects ss
+                                        LEFT JOIN strands st ON ss.strandID = st.strandID
+                                        LEFT JOIN subjects sj ON ss.subjectID = sj.subjectID
+                                        ";
                                         $fetchedData = mysqli_query($conn, $fetchQuery);
                                         
                                         while($DataArray = mysqli_fetch_assoc($fetchedData)){
-                                            $ID = $DataArray['subjectID'];
+                                            $ID = $DataArray['strandSubjectID'];
+                                            $strandname = $DataArray['strandname'];
                                             $subjectname = $DataArray['subjectname'];
-                                            $pr_subjectID = $DataArray['pr_subjectID'];
-                                            $prerequisite = $DataArray['prerequisite'];
                                             $status = $DataArray['isactive'];
                                             
                                             ?>
                                             <tr>
                                                 <td class="text-center" id="td"><?php echo $ID; ?></td>
+                                                <td class="text-center" id="td"><?php echo $strandname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $subjectname; ?></td>
-                                                <td class="text-center" id="td">
-                                                    <?php 
-                                                    if ($pr_subjectID != 0) {
-                                                        echo $prerequisite; 
-                                                    }
-                                                    else {
-                                                        echo "None"; 
-                                                    }         
-                                                    ?>
-                                                </td>
                                                 <td class="text-center" id="td"><?php echo $status; ?></td>
                                                 <td class="text-center" id="td">
                                                     <button class="btn btn-success border-0" title="Edit" id="table-button"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#modal-Edit"
-                                                            data-bs-subjectID="<?php echo $ID;?>"
+                                                            data-bs-ID="<?php echo $ID;?>"
                                                             >
                                                             <i class="bi bi-pencil-fill" id="table-btn-icon"></i> <span id="tablebutton-text">Edit</span>
                                                     </button>        
@@ -98,7 +89,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body p-4" style="font-family: Arial;">
-                                            <h5>Edit Subject Information</h5>
+                                            <h5>Edit Strand Information</h5>
                                             <div class="container mb-2" id="edit-container">
                                                 
                                             </div>      
@@ -110,21 +101,32 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-body p-4" style="font-family: Arial;">
-                                        <h5><b>Subject Information</b></h5>
+                                        <h5><b>New Item</b></h5>
                                         <div class="container mb-2">
-                                            <form action="../processes/Admin_AddSubjects.php" method="POST">
-                                                <div class="row mb-1">
-                                                    <div class="col">
-                                                        <small>Subject Name</small>
-                                                        <input type="text" class="form-control" name="subjectname" required>
-                                                    </div>
-                                                </div>        
+                                            <form action="../processes/Admin_AddStrandSubject.php" method="POST">
                                                 <div class="row mb-1">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <small for="subject">Pre Requisite Subject</small>
-                                                            <select class="form-select w-100" name="prerequisite" required>
-                                                                <option value="0" disabled selected>None</option>
+                                                            <small for="subject">Strand</small>
+                                                            <select class="form-select w-100" name="strand" id="stranddropdown" required>
+                                                                <option value="0" disabled selected>--Select a strand--</option>
+                                                                <?php
+                                                                $fetchQuery3 = "SELECT * FROM strands WHERE isactive = 'Yes' ORDER BY strandname ASC";
+                                                                $fetchedData3 = mysqli_query($conn, $fetchQuery3);
+                                                                while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
+                                                                    echo '<option value="' . $DataArray3['strandID'] . '">' . $DataArray3['strandname'] . '</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <small for="subject">Subject</small>
+                                                            <select class="form-select w-100" name="subject" id="subjectdropdown" required>
+                                                                <option value="0" disabled selected>--Select a subject--</option>
                                                                 <?php
                                                                 $fetchQuery3 = "SELECT * FROM subjects WHERE isactive = 'Yes' ORDER BY subjectname ASC";
                                                                 $fetchedData3 = mysqli_query($conn, $fetchQuery3);
@@ -135,7 +137,8 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                </div>                                   
+                                                </div>
+                                            
                                                 <div class="row mb-1">
                                                     <small>Is Active</small>
                                                     <div class="col">
@@ -157,7 +160,7 @@
                                                     <center>
                                                         <div class="row">
                                                                 <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                                                                <button class="btn btn-success" id="page-btn" name="AddSubject" style="width:50%;">Submit</button>
+                                                                <button class="btn btn-success" id="page-btn" name="AddStrandSubject" style="width:50%;">Submit</button>
                                                         </div>
                                                     </center>
                                                 </div>
@@ -183,7 +186,7 @@
     exampleModal.addEventListener('show.bs.modal', function (event) {
         // Button that triggered the modal
         var button = event.relatedTarget
-        var subjectID = button.getAttribute('data-bs-subjectID');
+        var ID = button.getAttribute('data-bs-ID');
         
         //ajax call 
         var ajax = new XMLHttpRequest();
@@ -196,7 +199,7 @@
                         console.log(this.status);
                     }
                 };
-            ajax.open("GET", "../ajax/Admin_viewSubjects.php?ID="+subjectID, true);
+            ajax.open("GET", "../ajax/Admin_viewStrandSubject.php?ID="+ID, true);
             ajax.send(); 
     });
 

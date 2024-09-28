@@ -105,28 +105,28 @@ $attachmentlabellist =
                                         <?php echo $enrollmentstatusdisplay;?>
                                         <h5>Personal Information</h5>
                                         <div class="container border shadow mb-3">
-                                            <div class="row w-100 mx-1 my-2">
+                                            <div class="row w-100 mx-1 mt-2">
                                                 <div class="col">
-                                                    <small>First Name</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $firstname; ?></p>
+                                                    <small id="small">First Name</small>
+                                                    <p class="fw-bold"><?php echo $firstname; ?></p>
                                                 </div>
                                                 <div class="col">
-                                                    <small>Middle Name</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $middlename; ?></p>
+                                                    <small id="small">Middle Name</small>
+                                                    <p class="fw-bold"><?php echo $middlename; ?></p>
                                                 </div>
                                                 <div class="col">
-                                                    <small>Last Name</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $lastname; ?></p>
+                                                    <small id="small">Last Name</small>
+                                                    <p class="fw-bold"><?php echo $lastname; ?></p>
                                                 </div>
                                             </div> 
-                                            <div class="row w-100 mx-1 my-2">
+                                            <div class="row w-100 mx-1 mb-2">
                                                 <div class="col-4">
-                                                    <small>Contact Number</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $contactnumber; ?></p>
+                                                    <small id="small">Contact Number</small>
+                                                    <p class="fw-bold"><?php echo $contactnumber; ?></p>
                                                 </div>
                                                 <div class="col-4">
-                                                    <small>Email Address</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $email; ?></p>
+                                                    <small id="small">Email Address</small>
+                                                    <p class="fw-bold"><?php echo $email; ?></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -136,17 +136,17 @@ $attachmentlabellist =
                                             <div class="row w-100 mx-1 my-2">
                                                 <div class="col-4">
                                                     <small>Interest</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $interest; ?></p>
+                                                    <p class="fw-bold"><?php echo $interest; ?></p>
                                                 </div>
                                                 <div class="col-8">
                                                     <small>Selected Strand</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $strandname; ?></p>
+                                                    <p class="fw-bold"><?php echo $strandname; ?></p>
                                                 </div>
                                             </div> 
                                             <div class="row w-100 mx-1 my-2">
                                                 <div class="col">
                                                     <small>Enrollment Status</small>
-                                                    <h5 class="border-bottom border-dark fw-bold text-primary"><?php echo $enrollmentstatus; ?></h5>
+                                                    <h5 class="fw-bold text-primary"><?php echo $enrollmentstatus; ?></h5>
                                                 </div>
                                             </div> 
                                         </div>

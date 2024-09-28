@@ -1,19 +1,32 @@
 <?php 
 $conn = require '../config/config.php';
 
-$sectionID = $_REQUEST['ID'];
-$fetchData = mysqli_query($conn, "SELECT * FROM sections WHERE sectionID='$sectionID'");
+$strandSubjectID = $_REQUEST['ID'];
+$fetchData = mysqli_query($conn, "SELECT * FROM strandsubjects ss
+                                        LEFT JOIN strands st ON ss.strandID = st.strandID
+                                        LEFT JOIN subjects sj ON ss.subjectID = sj.subjectID
+                                        WHERE strandSubjectID = '$strandSubjectID'");
 $DataArray = mysqli_fetch_assoc($fetchData);
-$sectionname = $DataArray['sectionname'];
 $strandID = $DataArray['strandID'];
-$gradelevel = $DataArray['gradelevel'];
-
+$subjectID = $DataArray['subjectID'];
 $status = $DataArray['isactive'];
 
 
 $isActivetext = '';
-$gradeLeveltext = '';
+$subjectdropdowntext = '';
 $stranddropdowntext = '';
+
+$fetchQuery1 = "SELECT * FROM subjects WHERE isactive = 'Yes' ORDER BY subjectname ASC";
+$fetchedData1 = mysqli_query($conn, $fetchQuery1);
+while ($DataArray1 = mysqli_fetch_assoc($fetchedData1)) {
+    if ($DataArray1['subjectID'] == $subjectID) {
+        $subjectdropdowntext .= '<option value="' . $DataArray1['subjectID'] . '" selected>' . $DataArray1['subjectname'] . '</option>';
+    }
+    else {
+        $subjectdropdowntext .= '<option value="' . $DataArray1['subjectID'] . '">' . $DataArray1['subjectname'] . '</option>';
+    }
+
+}
 
 $fetchQuery2 = "SELECT * FROM strands WHERE isactive = 'Yes' ORDER BY strandname ASC";
 $fetchedData2 = mysqli_query($conn, $fetchQuery2);
@@ -24,15 +37,6 @@ while ($DataArray2 = mysqli_fetch_assoc($fetchedData2)) {
     else {
         $stranddropdowntext .=  '<option value="' . $DataArray2['strandID'] . '">' . $DataArray2['strandname'] . '</option>';
     }
-}
-
-if ($gradelevel == '11') {
-    $gradeLeveltext .= '<option value="11" selected>Grade 11</option>';
-    $gradeLeveltext .=  '<option value="12">Grade 12</option>';
-}
-else if ($gradelevel == '12') {
-    $gradeLeveltext .= '<option value="11">Grade 11</option>';
-    $gradeLeveltext .=  '<option value="12" selected>Grade 12</option>';
 }
 
 if ($status == "Yes") {
@@ -65,14 +69,14 @@ else {
 }
 
 
-echo '<form action="../processes/Admin_EditSection.php" method="POST">
-
+echo '<form action="../processes/Admin_EditStrandSubject.php" method="POST">
                                                 <div class="row mb-1">
                                                     <div class="col">
                                                         <div class="form-group">
                                                             <small for="subject">Strand</small>
                                                             <select class="form-select w-100" name="strand" id="stranddropdown" required>
-                                                               '.$stranddropdowntext.'
+                                                                <option value="0" disabled selected>--Select a strand--</option>
+                                                                '.$stranddropdowntext.'
                                                             </select>
                                                         </div>
                                                     </div>
@@ -80,21 +84,14 @@ echo '<form action="../processes/Admin_EditSection.php" method="POST">
                                                 <div class="row mb-1">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <small for="subject">Grade Level</small>
-                                                            <select class="form-select w-100" name="gradelevel" required>
-                                                               '.$gradeLeveltext.'
+                                                            <small for="subject">Subject</small>
+                                                            <select class="form-select w-100" name="subject" id="subjectdropdown" required>
+                                                                <option value="0" disabled selected>--Select a subject--</option>
+                                                                '.$subjectdropdowntext.'
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
-                                                    <input type="text" class="form-control" name="sectionID" hidden value="'.$sectionID.'">
-                                                    <div class="col">
-                                                        <small>Strand Name</small>
-                                                        <input type="text" class="form-control" name="sectionname" value="'.$sectionname.'" required>
-                                                    </div>
-                                                </div>
-                                                
                                             
                                                 <div class="row mb-1">
                                                     <small>Is Active</small>
@@ -105,8 +102,9 @@ echo '<form action="../processes/Admin_EditSection.php" method="POST">
                                                 <div class="row mt-3">
                                                     <center>
                                                         <div class="row">
+                                                         <input type="text" class="form-control" name="strandSubjectID" hidden value="'.$strandSubjectID.'">
                                                                 <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                                                                <button class="btn btn-success" id="page-btn" name="EditStrand" style="width:50%;">Submit</button>
+                                                                <button class="btn btn-success" id="page-btn" name="EditStrandSubject" style="width:50%;">Submit</button>
                                                         </div>
                                                     </center>
                                                 </div>

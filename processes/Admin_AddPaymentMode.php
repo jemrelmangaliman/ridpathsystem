@@ -15,6 +15,12 @@ $conn = require '../config/config.php';
         //set the account number variable value
         $accountnumber = $_POST['accountnumber'];
 
+        if ($accountnumber == 0) {
+            $_SESSION['action-error'] = "Invalid account number value.";
+            header('location: ../admin/paymentmodes.php');
+            exit();
+        }
+
         if ($_FILES["qrimage"]["size"] > 1000000) {
             $_SESSION['action-error'] = "Image file should be less than 1MB.";
             header('location: ../admin/paymentmodes.php');

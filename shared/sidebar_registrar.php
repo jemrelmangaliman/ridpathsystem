@@ -47,7 +47,7 @@
 
 <!-- Heading -->
 <div class="sidebar-heading">
-    Enrollment Records
+    Manage Enrollment
 </div>
 
 <!-- Nav Item - Pages Collapse Menu -->
@@ -55,7 +55,7 @@
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
         aria-expanded="true" aria-controls="collapseTwo">
         <i class="bi bi-card-list"></i>
-        <span>Enrollment Category</span>
+        <span>Enrollment Records</span>
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">

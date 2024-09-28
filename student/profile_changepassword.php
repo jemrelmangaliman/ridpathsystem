@@ -34,18 +34,18 @@
                                     
                                 <?php 
                                 $userID = $_SESSION['user_id'];
-                                $fetchQuery = "SELECT * FROM users WHERE userID = '$userID'";
+                                $fetchQuery = "SELECT * FROM students WHERE tempID = '$userID'";
                                 $fetchedData = mysqli_query($conn, $fetchQuery);
                                 $DataArray = mysqli_fetch_assoc($fetchedData);
 
-                                $username = $DataArray['username'];
+                                $username = $DataArray['firstname'].' '.$DataArray['lastname'];
                                 $currentPassword = $DataArray['password'];
 
                                 ?>
                                             <form action="../processes/Student_EditProfile_Changepassword.php" method="POST">
                                                 <div class="row mb-1">
                                                     <div class="col">
-                                                        <small>Username</small>
+                                                        <small>Full Name</small>
 
                                                         <input type="text" class="form-control" name="userID" hidden value="<?php echo $userID; ?>">
                                                         <input type="text" class="form-control" name="currentPassword" hidden value="<?php echo $currentPassword; ?>">

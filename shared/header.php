@@ -3,7 +3,7 @@
 require '../config/config.php';
 session_start(); 
 
-if (isset($_SESSION['user_id']) && $_SESSION['userrole'] != 1) {
+if (!isset($_SESSION['user_id']) || $_SESSION['userrole'] != 1) {
         session_unset();
         header('Location: ../index.php');
         exit(); 
