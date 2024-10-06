@@ -7,6 +7,8 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                <?php require '../shared/action-message.php'; ?>
+                
                     <!-- Content Row -->
 
                     <div class="row">
@@ -167,7 +169,7 @@
         $('#table').DataTable();
     });
 
-    var exampleModal = document.getElementById('modal-Edit')
+    var exampleModal = document.getElementById('modal-Edit');
     exampleModal.addEventListener('show.bs.modal', function (event) {
         // Button that triggered the modal
         var button = event.relatedTarget
@@ -186,6 +188,11 @@
                 };
             ajax.open("GET", "../ajax/Admin_viewInterest.php?ID="+interestID, true);
             ajax.send(); 
+    });
+
+    var aModal = document.getElementById('modal-Add');
+    aModal.addEventListener('show.bs.modal', function (event) {
+       console.log("test");
     });
 
 </script>

@@ -60,3 +60,38 @@ function computeEnrollmentCostTotal(strandID) {
     ajax.open("GET", "../ajax/Student_getEnrollmentTotalCost.php?ID="+strandID, true);
     ajax.send(); 
 }
+
+function checkEnrollmentInputs () {
+    event.preventDefault();
+    event.stopPropagation();
+    var noError = true;
+    var interestdropdown = document.getElementById('interest-dropdown');
+    var stranddropdown = document.getElementById('strand-dropdown');
+    const enrollmentform = document.getElementById('enrollmentform');
+
+    if(interestdropdown.value == '0') {
+        noError = false;
+        interestdropdown.classList.add("is-invalid");
+        interestdropdown.classList.remove("is-valid");
+    }
+    else {
+        noError = true;
+        interestdropdown.classList.add("is-valid")
+        interestdropdown.classList.remove("is-invalid")
+    }
+
+    if(stranddropdown.value == '0') {
+        noError = false;
+        stranddropdown.classList.add("is-invalid");
+        stranddropdown.classList.remove("is-valid");
+    }
+    else {
+        noError = true;
+        stranddropdown.classList.add("is-valid")
+        stranddropdown.classList.remove("is-invalid")
+    }
+
+    if (noError == true) {
+        enrollmentform.submit();
+    }
+}

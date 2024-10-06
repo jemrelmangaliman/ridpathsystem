@@ -23,10 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['userrole'] = $user['userRole'];
         $_SESSION['logged_username'] = $user['fullname'];
 
-        $_SESSION['action-success'] = "";
-        $_SESSION['action-error'] = "";
-        $_SESSION['action-success-changepassword'] = "";
-        $_SESSION['action-error-changepassword'] = "";
+
 
         if ($user['userRole'] == 1) {
             header("Location: admin/dashboard.php");
@@ -52,10 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['userrole'] = $student['userRole'];
             $_SESSION['logged_username'] = $student['firstname'].' '.$student['lastname'];
 
-            $_SESSION['action-success'] = "";
-            $_SESSION['action-error'] = "";
-            $_SESSION['action-success-changepassword'] = "";
-            $_SESSION['action-error-changepassword'] = "";
 
             header("Location: student/dashboard.php");
             exit();

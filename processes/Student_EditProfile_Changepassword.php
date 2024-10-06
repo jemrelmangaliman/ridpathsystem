@@ -18,29 +18,25 @@ $conn = require '../config/config.php';
             $Query = "UPDATE users SET password='$newPassword' WHERE userID='$userID'";
 
             if (mysqli_query($conn, $Query)) {
-                $_SESSION['action-success-changepassword'] = "Notification: Password Updated on ".$currentDateTime;
-                $_SESSION['action-error-changepassword'] = "";
+                $_SESSION['action-success'] = "Notification: Password Updated on ".$currentDateTime;
                 header("Location: ../student/profile_changepassword.php");
                 exit();
             }
             else {
-                $_SESSION['action-error-changepassword'] = "Warning: An error occurred on ".$currentDateTime;
-                $_SESSION['action-success-changepassword'] = "";
+                $_SESSION['action-error'] = "Warning: An error occurred on ".$currentDateTime;
                 header("Location: ../student/profile_changepassword.php");
                 exit();
             }
         }
         else
         {
-            $_SESSION['action-error-changepassword'] = "Warning: New Password and Confirm New Password does not Match! on ".$currentDateTime;
-            $_SESSION['action-success-changepassword'] = "";
+            $_SESSION['action-error'] = "Warning: New Password and Confirm New Password does not Match! on ".$currentDateTime;
             header("Location: ../student/profile_changepassword.php");
         }
     }
     else
     {
-        $_SESSION['action-error-changepassword'] = "Warning: Current Password Incorrect! on ".$currentDateTime;
-        $_SESSION['action-success-changepassword'] = "";
+        $_SESSION['action-error'] = "Warning: Current Password Incorrect! on ".$currentDateTime;
         header("Location: ../student/profile_changepassword.php");
     }
 ?>

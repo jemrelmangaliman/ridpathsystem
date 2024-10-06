@@ -40,6 +40,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['userrole'] != 1) {
     <link href="../css/style.css" rel="stylesheet">
 
     <script src="../js/jquery-3.3.1.slim.min.js" ></script>
+    <script src="../js/jquery-3.6.0.min.js" ></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/popper.min.js" ></script>
     <script src="../js/scripts.js"></script>

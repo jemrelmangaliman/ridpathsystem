@@ -11,6 +11,7 @@ $middlename = $DataArray['middlename'];
 $lastname = $DataArray['lastname'];
 $email = $DataArray['email'];
 $contactnumber = $DataArray['contactnumber'];
+$studentnumber = $DataArray['studentnumber'];
 ?>
 
 <style>
@@ -21,6 +22,8 @@ $contactnumber = $DataArray['contactnumber'];
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+
+<?php require '../shared/action-message.php'; ?>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -40,41 +43,53 @@ $contactnumber = $DataArray['contactnumber'];
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
-                            <form action="../processes/Student_SubmitEnrollment.php" method="POST" enctype="multipart/form-data">
+                            <form action="../processes/Student_SubmitEnrollment.php" method="POST" enctype="multipart/form-data" id="enrollmentform">
                                 <div class="row w-100 mx-1">
                                     <div class="col-8">
                                         <h5>Personal Information</h5>
-                                        <div class="container border shadow mb-3">
-                                            <div class="row w-100 mx-1 my-2">
-                                                <div class="col">
-                                                    <small>First Name</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $firstname; ?></p>
+                                        <div class="container-fluid mb-3 py-3 px-4 border shadow">
+                                            <!-- Full Name Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Full Name</small>
                                                 </div>
-                                                <div class="col">
-                                                    <small>Middle Name</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $middlename; ?></p>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
                                                 </div>
-                                                <div class="col">
-                                                    <small>Last Name</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $lastname; ?></p>
+                                                <div class="col-8">
+                                                    <small><?php echo $lastname.', '.$firstname.' '.$middlename; ?></small>
                                                 </div>
                                             </div> 
-                                            <div class="row w-100 mx-1 my-2">
-                                                <div class="col-4">
-                                                    <small>Contact Number</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $contactnumber; ?></p>
+                                            <!-- Contact Number Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Contact Number</small>
                                                 </div>
-                                                <div class="col-4">
-                                                    <small>Email Address</small>
-                                                    <p class="border-bottom border-dark fw-bold"><?php echo $email; ?></p>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
                                                 </div>
-                                            </div>
+                                                <div class="col-8">
+                                                <small><?php echo $contactnumber; ?></small>
+                                                </div>
+                                            </div> 
+                                            <!-- Email Address Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Email Address</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small><?php echo $email; ?></small>
+                                                </div>
+                                            </div> 
                                         </div>
                                         
                                         <h5>Attachments</h5>
                                         <div class="container border shadow mb-3">
                                             <div class="row mx-1 mt-2">
-                                            <p><span class="text-danger fw-bold">(Note: Fields with asterisk are required)</span></p>
+                                            <small><span class="text-danger fw-bold">(Note: Fields with asterisk are required)</span></small>
                                                 <div class="col">
                                                     <small>Original Copy of PSA <span class="text-danger fw-bold">*</span></small>
                                                     <div class="input-group mb-3">
@@ -126,36 +141,40 @@ $contactnumber = $DataArray['contactnumber'];
                                             </div>  
                                         </div>     
 
-                                        <h5>Enrollment Costs</h5>
+                                        <h5>Estimated Enrollment Costs</h5>
                                         <div class="row">
                                             <div class="col-4">
-                                                <div class="container border shadow">
+                                                <div class="container border shadow pb-2">
                                                     <div class="row mx-1 mt-2">
                                                         <div class="col">
-                                                            <small>Miscellaneous Fees</small>
+                                                            <small class="fw-bold">Miscellaneous Fees</small>
                                                             <div class="container-fluid m-0 p-0" id="miscfeecontainer">
-                                                                <p class="fw-bold">₱0.00</p>
+                                                                <small>₱0.00</small>
                                                             </div>
                                                         </div>
                                                     </div> 
                                                 </div> 
                                             </div>
                                             <div class="col-4">
-                                                <div class="container border shadow">
+                                                <div class="container border shadow pb-2">
                                                     <div class="row mx-1 mt-2">
                                                         <div class="col">
-                                                            <small>Tuition Fee</small>
-                                                            <p><span class="fw-bold">₱<span id="tuitionfeetext">0.00</span></p>
+                                                            <small class="fw-bold">Tuition Fee</small>
+                                                            <div class="container-fluid m-0 p-0">
+                                                                <small>₱<span id="tuitionfeetext">0.00</span></small>
+                                                            </div>
                                                         </div>
                                                     </div> 
                                                 </div>  
                                             </div>
                                             <div class="col-4">
-                                            <div class="container border shadow">
+                                            <div class="container border shadow pb-2">
                                                     <div class="row mx-1 mt-2">
                                                         <div class="col">
-                                                            <small>Total Enrollment Cost</small>
-                                                            <p><span class="fw-bold">₱<span id="totalamounttext">0.00</span></p>
+                                                            <small clas="fw-bold">Total Enrollment Cost</small>
+                                                            <div class="container-fluid m-0 p-0">
+                                                                <small><span class="fw-bold">₱<span id="totalamounttext">0.00</span></small>
+                                                            </div>
                                                         </div>
                                                     </div> 
                                                 </div> 
@@ -164,7 +183,32 @@ $contactnumber = $DataArray['contactnumber'];
                                     </div>
 
                                     <div class="col-4">
-                                        <h5>Strand Selection</h5>
+                                    <h5>Student Enrollment Type</h5>
+                                        <div class="container border shadow">
+                                            <div class="row mx-1 my-3">
+                                                <div class="col">
+                                                    <small>Choose Option</small>
+                                                    <?php 
+                                                    //if student number is existing, it means the student is an old student
+                                                    if($studentnumber == null && $studentnumber == ""){
+                                                        echo '<select class="form-select w-100" name="studenttype" required>
+                                                        <option value="1">New Student</option>
+                                                        <option value="3">Transferee</option>
+                                                        </select>';
+                                                    }
+                                                    else {
+                                                        echo '<select class="form-select w-100" name="studenttype" required disabled>
+                                                        <option value="2">Old Student</option>
+                                                        </select>
+                                                        <input type="hidden" value="2" name="studenttype">';
+                                                    }
+                                                    ?>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <h5 class="mt-2">Strand Selection</h5>
                                         <div class="container border shadow">
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
@@ -179,6 +223,7 @@ $contactnumber = $DataArray['contactnumber'];
                                                         }
                                                         ?>
                                                     </select>
+                                                    <div class="invalid-feedback">Please choose an interest</div>
                                                 </div>
                                             </div>
                                             <div class="row mx-1 mt-3">
@@ -202,13 +247,14 @@ $contactnumber = $DataArray['contactnumber'];
                                                         }
                                                         ?>
                                                     </select>
+                                                    <div class="invalid-feedback">Please choose a strand</div>
                                                 </div>
                                             </div> 
                                         </div> 
                                         
                                         <div class="row mt-3 ml-2 mr-2">
                                             
-                                                <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="EnrollStudent">Submit Enrollment</button>
+                                                <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="EnrollStudent" onclick="checkEnrollmentInputs(this)">Submit Enrollment</button>
                                             
                                         </div>
                                     </div>
@@ -223,18 +269,7 @@ $contactnumber = $DataArray['contactnumber'];
     </div>
     <!-- End of Main Content -->
     <script>
-        document.getElementById('show-more-btn').addEventListener('click', function() {
-            var moreCourses = document.getElementById('more-courses');
-            var btn = document.getElementById('show-more-btn');
-
-            if (moreCourses.style.display === 'none' || moreCourses.style.display === '') {
-                moreCourses.style.display = 'block';
-                btn.textContent = 'Show Less Courses';
-            } else {
-                moreCourses.style.display = 'none';
-                btn.textContent = 'Show All Courses';
-            }
-        });
+        
     </script>
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

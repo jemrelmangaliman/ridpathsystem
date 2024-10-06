@@ -4,13 +4,7 @@ require '../shared/header.php';
 
 // Example array of recent students (typically this would come from a database)
 $recentStudents = [
-    "Kins Mangaliman",
-    "Jemrel Quinagutan",
-    "Brian Pogi",
-    "Earl Ramilo",
-    "Jose Mari Chan",
-    "Jerome Demonteverde",
-    "CHRIS BROWN NIG"
+
 ];
 
 ?>
@@ -360,10 +354,7 @@ $recentStudents = [
             }
         });
     </script>
-    <!-- Bootstrap JavaScript and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <?php
     require '../shared/footer.php';
     ?>

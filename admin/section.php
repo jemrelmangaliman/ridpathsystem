@@ -7,6 +7,8 @@ require '../shared/header.php';
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
+<?php require '../shared/action-message.php'; ?>
+
     <!-- Content Row -->
 
     <div class="row">

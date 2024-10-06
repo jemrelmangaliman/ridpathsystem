@@ -12,3 +12,53 @@
 #small {
     font-size: 12px;
 }
+#error-AlertDialog {
+    position: fixed;
+    left: 58%;
+    transform: translate(-50%, -50%);
+    top: 140px;
+    z-index: 10;
+    opacity: 0;
+    animation: fadeinout 3s ease-in-out 1;
+    height: auto;
+    padding-bottom: 5px;
+    min-width: 400px;
+    width: auto;
+    border-color: 2px solid #6f3737;
+    background-color: #af5757;
+    color: white;
+}
+#success-AlertDialog {
+    position: fixed;
+    left: 58%;
+    transform: translate(-50%, -50%);
+    top: 140px;
+    z-index: 10;
+    opacity: 0;
+    animation: fadeinout 3s ease-in-out 1;
+    height: auto;
+    padding-bottom: 5px;
+    min-width: 400px;
+    width: auto;
+    border-color: 2px solid #274205cf;
+    background-color: #5c990ccf;
+    color: white;
+}
+@keyframes fadeinout {
+    /* 40% would be 3secs, 60% 4.5 secs */
+    5% {
+        z-index: 9999;
+        opacity: 1;
+    }
+    50%{
+        z-index: 9999;
+        opacity: 1;
+    }
+    75%{
+        z-index: 9999;
+        opacity: 1;
+    }
+    99% {
+        opacity: 0;
+    }
+}

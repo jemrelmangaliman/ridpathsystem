@@ -7,10 +7,12 @@ $conn = require '../config/config.php';
     $startdate = $_POST['startdate'];
     $enddate = $_POST['enddate'];
     $status = $_POST['isactive'];
+    $formattedstartdate = $startdate."T00:00:00";
+    $formattedenddate = $enddate."T23:59:59";
 
 
 
-    $Query = "UPDATE semester SET semestername='$semestername', startdate='$startdate', enddate='$enddate', isactive='$status' WHERE semesterID = '$ID'";
+    $Query = "UPDATE semester SET semestername='$semestername', startdate='$startdate', enddate='$enddate', formattedstartdate = '$formattedstartdate', formattedenddate='$formattedenddate', isactive='$status' WHERE semesterID = '$ID'";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "semester updated.";

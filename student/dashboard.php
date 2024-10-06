@@ -24,6 +24,8 @@ else {
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+    
+<?php require '../shared/action-message.php'; ?>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">

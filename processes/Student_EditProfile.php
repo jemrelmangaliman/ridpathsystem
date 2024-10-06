@@ -15,14 +15,12 @@ $conn = require '../config/config.php';
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Notification: Profile Updated on ".$currentDateTime;
-            $_SESSION['action-error'] = "";
             $_SESSION['logged_username'] = $lastname.', '.$firstname;
             header("Location: ../student/profile.php");
             exit();
         }
         else {
             $_SESSION['action-error'] = "Warning: An error occurred on ".$currentDateTime;
-            $_SESSION['action-success'] = "";
             header("Location: ../student/profile.php");
             exit();
         }

@@ -28,6 +28,7 @@ $studentid = $_SESSION['user_id'];
 $strandID = $_POST['strand'];
 $enrollmentstatusID = 2;
 $interest = $_POST['interest'];
+$studentTypeID = $_POST['studenttype'];
 
 if ($strandID == 0 || $interest == '') {
     $_SESSION['action-error'] = "Invalid interests/strand.";
@@ -36,8 +37,8 @@ if ($strandID == 0 || $interest == '') {
 }
 
 $Query = "INSERT INTO enrollmentrecords 
-(studentID, strandID, enrollmentStatusID, interest) 
-VALUES ('$studentid','$strandID','$enrollmentstatusID','$interest')";
+(studentID, strandID, enrollmentStatusID, interest, studentTypeID) 
+VALUES ('$studentid','$strandID','$enrollmentstatusID','$interest', '$studentTypeID')";
 
 $conn->query($Query);
 

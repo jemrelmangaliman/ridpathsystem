@@ -9,11 +9,11 @@ if (mysqli_num_rows($fetchData) != 0) {
    while ($Data = mysqli_fetch_assoc($fetchData)) {
     $amount = $Data['amount'];
     $description = $Data['description'];
-    $miscfeetext .= '<p><span class="fw-bold">• ₱'.$amount.' </span>('.$description.')</p>';   
+    $miscfeetext .= '<small> ₱'.$amount.' - '.$description.'</small><br>';   
    }
 }
 else {
-    $miscfeetext = '<p><span class="fw-bold">₱0.00 </span></p>';
+    $miscfeetext = '<small>₱0.00</small>';
 }
 
 echo $miscfeetext;

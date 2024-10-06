@@ -2,6 +2,7 @@
 session_start();
 $conn = require '../config/config.php';
 
+$classID = $_POST['classID'];
 $sectionID = $_POST['section'];
 $semesterID = $_POST['semester'];
 $strandSubjectID = $_POST['strandsubject'];
@@ -36,10 +37,10 @@ if (!isset($dayID)) {
     exit(); 
 }
 
-$Query = "INSERT INTO classschedule (sectionID, semesterID, strandSubjectID, dayID, starttime, endtime, formattedstartdate, formattedenddate) values ('$sectionID','$semesterID','$strandSubjectID','$dayID','$starttime','$endtime','$formattedstartdate','$formattedenddate')";
+$Query = "UPDATE classschedule SET sectionID='$sectionID', semesterID='$semesterID', strandSubjectID='$strandSubjectID', dayID='$dayID', starttime='$starttime', endtime='$endtime', formattedstartdate='$formattedstartdate', formattedenddate='$formattedenddate' WHERE classID = '$classID'";
 
 if (mysqli_query($conn, $Query)) {
-    $_SESSION['action-success'] = "Class Schedule added.";
+    $_SESSION['action-success'] = "Class Schedule updated.";
     header("Location: ../admin/class-schedules.php");
     exit();
 } else {

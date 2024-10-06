@@ -39,8 +39,8 @@ session_unset();
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                               
+                            <div class="col-lg-6 d-flex justify-content-center">
+                               <img src="img/ridpath.jpg" class="w-100 ml-4">
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">

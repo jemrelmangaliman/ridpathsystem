@@ -7,6 +7,8 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                <?php require '../shared/action-message.php'; ?>
+
                     <!-- Content Row -->
 
                     <div class="row">
@@ -97,13 +99,8 @@
                                                 <div class="row mt-3 d-flex justify-content-center">
                                                        <button class="btn btn-success" id="page-btn" type="submit" name="EditUser" style="width:50%;">Save</button>
                                                 </div>
-
-                                                <div class="row mb-1">
-                                                    <div class="col">
-                                                        <small style="color:green;"><?php echo $_SESSION['action-success']; ?></small>
-                                                        <small style="color:red;"><?php echo $_SESSION['action-error']; ?></small>
-                                                    </div>
-                                                </div>
+                                
+                                                
                                             </form>
                                     
                                 </div>

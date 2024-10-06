@@ -7,6 +7,7 @@ LEFT JOIN enrollmentrecords ER ON ST.tempID = ER.studentID
 LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID
 LEFT JOIN strands SD ON SD.strandID = ER.strandID
 LEFT JOIN tuitionfees TF ON TF.strandID = SD.strandID
+LEFT JOIN studenttype SP ON ER.studentTypeID = SP.studentTypeID
 WHERE ST.tempID = '$tempid'";
 $fetchedData = mysqli_query($conn, $fetchQuery);
 $DataArray = mysqli_fetch_assoc($fetchedData);
@@ -18,7 +19,8 @@ $email = $DataArray['email'];
 $contactnumber = $DataArray['contactnumber'];
 $strandname = $DataArray['strandname'];
 $tuitionfee = $DataArray['amount'];
-$enrollmentstatus = $DataArray['statusname'];
+$enrollmentstatus = ($DataArray['statusname'] != null) ? $DataArray['statusname'] : "Not Enrolled";
+$studenttype = $DataArray['studenttypedescription'];
 $enrollmentstatusID = $DataArray['statusID'];
 $strandID = $DataArray['strandID'];
 $interest = $DataArray['interest'];
@@ -46,11 +48,11 @@ if (mysqli_num_rows($MiscFeeData) != 0) {
     $amount = $Data['amount'];
     $totalamount += $amount; //add the misc fee to the total
     $description = $Data['description'];
-    $miscfeetext .= '<p><span class="fw-bold">₱'.$amount.' </span>('.$description.')</p>';   
+    $miscfeetext .= '<br><small>₱'.$amount.' - '.$description.'</small>';   
    }
 }
 else {
-    $miscfeetext = '<p><span class="fw-bold">₱0.00 </span></p>';
+    $miscfeetext = '<small>₱0.00</small>';
 }
 
 
@@ -58,12 +60,15 @@ $fetchEnrollment = "SELECT * FROM enrollmentrecords WHERE studentID = '$tempid'"
 $fetchedData2 = mysqli_query($conn, $fetchEnrollment);
 $enrollmentcount = mysqli_num_rows($fetchedData2);
 $enrollmentstatusdisplay = '';
+$hide = '';
 
+//check if there is an active enrollment record
 if ($enrollmentcount != 0) {
     $enrollmentstatusdisplay = '';
 }
 else {
-    $enrollmentstatusdisplay = '<p class="text-danger">You have no active enrollment record yet!</p>';
+    $enrollmentstatusdisplay = '<p class="text-danger ml-3">You have no active enrollment record yet!</p>';
+    $hide = 'style="display: none;"'; //used to hide the page
 }
 
 
@@ -81,6 +86,8 @@ $attachmentlabellist =
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+
+<?php require '../shared/action-message.php'; ?>
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -100,86 +107,125 @@ $attachmentlabellist =
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
-                                <div class="row w-100 mx-1">
+                            <?php echo $enrollmentstatusdisplay;?>
+                                <div class="row w-100 mx-1 bg-white"  <?php echo $hide; ?>> <!-- hides the page when no enrollment record is active-->
                                     <div class="col-8">
-                                        <?php echo $enrollmentstatusdisplay;?>
-                                        <h5>Personal Information</h5>
-                                        <div class="container border shadow mb-3">
-                                            <div class="row w-100 mx-1 mt-2">
-                                                <div class="col">
-                                                    <small id="small">First Name</small>
-                                                    <p class="fw-bold"><?php echo $firstname; ?></p>
+                                        <p class="border-bottom fw-bold">Personal Information</p>
+                                        <div class="container-fluid mb-1">
+                                            <!-- Full Name Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Full Name</small>
                                                 </div>
-                                                <div class="col">
-                                                    <small id="small">Middle Name</small>
-                                                    <p class="fw-bold"><?php echo $middlename; ?></p>
-                                                </div>
-                                                <div class="col">
-                                                    <small id="small">Last Name</small>
-                                                    <p class="fw-bold"><?php echo $lastname; ?></p>
-                                                </div>
-                                            </div> 
-                                            <div class="row w-100 mx-1 mb-2">
-                                                <div class="col-4">
-                                                    <small id="small">Contact Number</small>
-                                                    <p class="fw-bold"><?php echo $contactnumber; ?></p>
-                                                </div>
-                                                <div class="col-4">
-                                                    <small id="small">Email Address</small>
-                                                    <p class="fw-bold"><?php echo $email; ?></p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <h5>Enrollment Information</h5>
-                                        <div class="container border shadow mb-3">
-                                            <div class="row w-100 mx-1 my-2">
-                                                <div class="col-4">
-                                                    <small>Interest</small>
-                                                    <p class="fw-bold"><?php echo $interest; ?></p>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
                                                 </div>
                                                 <div class="col-8">
-                                                    <small>Selected Strand</small>
-                                                    <p class="fw-bold"><?php echo $strandname; ?></p>
+                                                    <small><?php echo $lastname.', '.$firstname.' '.$middlename; ?></small>
                                                 </div>
                                             </div> 
-                                            <div class="row w-100 mx-1 my-2">
-                                                <div class="col">
-                                                    <small>Enrollment Status</small>
-                                                    <h5 class="fw-bold text-primary"><?php echo $enrollmentstatus; ?></h5>
+                                            <!-- Contact Number Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Contact Number</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small><?php echo $contactnumber; ?></small>
+                                                </div>
+                                            </div> 
+                                            <!-- Email Address Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Email Address</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small><?php echo $email; ?></small>
                                                 </div>
                                             </div> 
                                         </div>
 
-                                        <h5>Enrollment Costs</h5>
+                                        <p class="border-bottom fw-bold mt-3">Enrollment Information</p>
+                                        <div class="container mb-1">
+                                            <!-- Enrollment Status Display -->
+                                            <div class="row w-100">
+                                                <div class="col">
+                                                    <span class="badge badge-primary py-0" style="border-radius: 15px;"><p class="fw-bold text-white text-center my-2"><?php echo $enrollmentstatus; ?></p></span>
+                                                </div>
+                                            </div> 
+                                            <!-- Student Type Display -->
+                                            <div class="row w-100 mt-1">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Student Type</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small><?php echo $studenttype; ?></small>
+                                                </div>
+                                            </div>    
+                                            <!-- Interest Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Interest</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small><?php echo $interest; ?></small>
+                                                </div>
+                                            </div> 
+                                            <!-- Strand Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Chosen Strand</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small><?php echo $strandname; ?></small>
+                                                </div>
+                                            </div>                         
+                                        </div>
+
+                                        <p class="border-bottom fw-bold mt-3">Enrollment Costs</p>
                                         <div class="row">
                                             <div class="col-4">
-                                                <div class="container border shadow">
-                                                    <div class="row mx-1 mt-2">
+                                                <div class="container">
+                                                    <div class="row mx-1 ">
                                                         <div class="col">
-                                                            <small>Miscellaneous Fees</small>
+                                                            <small class="fw-bold">Miscellaneous Fees</small>
+                                                            <!-- The contents are configured in the PHP code in the upper parts of this file -->
                                                             <?php echo $miscfeetext; ?>
                                                         </div>
                                                     </div> 
                                                 </div> 
                                             </div>
                                             <div class="col-4">
-                                                <div class="container border shadow">
-                                                    <div class="row mx-1 mt-2">
+                                                <div class="container">
+                                                    <div class="row mx-1">
                                                         <div class="col">
-                                                            <small>Tuition Fee</small>
-                                                            <p><span class="fw-bold">₱<span id="tuitionfeetext"><?php echo $tuitionfee; ?>.00</span></p>
+                                                            <small class="fw-bold">Tuition Fee</small>
+                                                            <p>₱<span id="tuitionfeetext"><?php echo $tuitionfee; ?>.00</span></p>
                                                         </div>
                                                     </div> 
                                                 </div>  
                                             </div>
 
                                             <div class="col-4">
-                                            <div class="container border shadow">
-                                                    <div class="row mx-1 mt-2">
+                                            <div class="container">
+                                                    <div class="row mx-1">
                                                         <div class="col">
-                                                            <small>Total Enrollment Cost</small>
-                                                            <p><span class="fw-bold">₱<span id="totalamounttext"><?php echo $totalamount; ?>.00</span></p>
+                                                            <small class="fw-bold">Total Enrollment Cost</small>
+                                                            <p class="fw-bold">₱<span id="totalamounttext"><?php echo $totalamount; ?>.00</span></p>
                                                         </div>
                                                     </div> 
                                                 </div> 
@@ -249,7 +295,7 @@ $attachmentlabellist =
                                                     }
                                                 }
                                                 ?>
-                                                <div class="row mt-3 ml-2 mr-2 mb-3">
+                                                <div class="row mt-3 ml-2 mr-2 mb-3" >
                                                     <input type="hidden" class="form-control" name="enrollmentID" value="<?php echo $enrollmentID; ?>">
                                                     <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="UpdateChecklist">Update Checklist</button>
                                                 </div>
