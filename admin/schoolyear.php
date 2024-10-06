@@ -14,13 +14,13 @@ require '../shared/header.php';
                 <!-- Card Header - Dropdown -->
                 <div
                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Manage Semester</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Manage School Year</h6>
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="row" id="page-btn-container">
                         <div class="col-4">
-                            <button class="btn btn-primary" id="page-btn" data-bs-toggle="modal" data-bs-target="#modal-Add"><i class="bi bi-plus-lg"></i> Add New Semester</button>
+                            <button class="btn btn-primary" id="page-btn" data-bs-toggle="modal" data-bs-target="#modal-Add"><i class="bi bi-plus-lg"></i> Add New School Year</button>
                         </div>
                     </div>
 
@@ -29,23 +29,23 @@ require '../shared/header.php';
                             <table class="table table-hover table-bordered table-sm w-100" id="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col" class="text-center" id="th"><small>Semester ID</small></th>
-                                        <th scope="col" class="text-center" id="th"><small>Semester Name</small></th>
+                                        <th scope="col" class="text-center" id="th"><small>School Year ID</small></th>
+                                        <th scope="col" class="text-center" id="th"><small>S.Y. Name</small></th>
                                         <th scope="col" class="text-center" id="th"><small>Start Date</small></th>
                                         <th scope="col" class="text-center" id="th"><small>End Date</small></th>
                                         <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
-                                        <th scope="col" class="text-center" id="th"><small>Actions</small></th>
+                                        <th scope="col" class="text-senter" id="th"><small>Actions</small></th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <?php
-                                    $fetchQuery = "SELECT * FROM semester";
+                                    $fetchQuery = "SELECT * FROM schoolyear";
                                     $fetchedData = mysqli_query($conn, $fetchQuery);
 
                                     while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
-                                        $ID = $DataArray['semesterID'];
-                                        $semestername = $DataArray['semestername'];
+                                        $ID = $DataArray['schoolYearID'];
+                                        $syname = $DataArray['schoolyearname'];
                                         $startdate = $DataArray['startdate'];
                                         $enddate = $DataArray['enddate'];
                                         $status = $DataArray['isactive'];
@@ -53,7 +53,7 @@ require '../shared/header.php';
                                     ?>
                                         <tr>
                                             <td class="text-center" id="td"><?php echo $ID; ?></td>
-                                            <td class="text-center" id="td"><?php echo $semestername; ?></td>
+                                            <td class="text-center" id="td"><?php echo $syname; ?></td>
                                             <td class="text-center" id="td"><?php echo $startdate; ?></td>
                                             <td class="text-center" id="td"><?php echo $enddate; ?></td>
                                             <td class="text-center" id="td"><?php echo $status; ?></td>
@@ -61,7 +61,7 @@ require '../shared/header.php';
                                                 <button class="btn btn-success border-0" title="Edit" id="table-button"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#modal-Edit"
-                                                    data-bs-semesterID="<?php echo $ID; ?>">
+                                                    data-bs-syID="<?php echo $ID; ?>">
                                                     <i class="bi bi-pencil-fill" id="table-btn-icon"></i> <span id="tablebutton-text">Edit</span>
                                                 </button>
                                             </td>
@@ -87,7 +87,7 @@ require '../shared/header.php';
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-4" style="font-family: Arial;">
-                    <h5>Edit semester Information</h5>
+                    <h5>Edit School Year Information</h5>
                     <div class="container mb-2" id="edit-container">
 
                     </div>
@@ -99,13 +99,13 @@ require '../shared/header.php';
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-4" style="font-family: Arial;">
-                    <h5><b>semester Information</b></h5>
+                    <h5><b>School Year Information</b></h5>
                     <div class="container mb-2">
-                        <form action="../processes/Admin_AddSemester.php" method="POST">
+                        <form action="../processes/Admin_AddSchoolYear.php" method="POST">
                             <div class="row mb-1">
                                 <div class="col">
-                                    <small>Semester Name</small>
-                                    <input type="text" class="form-control" name="semestername" required>
+                                    <small>School Year Name</small>
+                                    <input type="text" class="form-control" name="syname" required>
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -142,7 +142,7 @@ require '../shared/header.php';
                                 <center>
                                     <div class="row">
                                         <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                                        <button class="btn btn-success" id="page-btn" name="AddInterest" style="width:50%;">Submit</button>
+                                        <button class="btn btn-success" id="page-btn" name="AddSchoolYear" style="width:50%;">Submit</button>
                                     </div>
                                 </center>
                             </div>
@@ -168,7 +168,7 @@ require '../shared/header.php';
     exampleModal.addEventListener('show.bs.modal', function(event) {
         // Button that triggered the modal
         var button = event.relatedTarget
-        var semesterID = button.getAttribute('data-bs-semesterID');
+        var syID = button.getAttribute('data-bs-syID');
 
         //ajax call 
         var ajax = new XMLHttpRequest();
@@ -180,7 +180,7 @@ require '../shared/header.php';
                 console.log(this.status);
             }
         };
-        ajax.open("GET", "../ajax/Admin_viewSemester.php?ID=" + semesterID, true);
+        ajax.open("GET", "../ajax/Admin_viewSchoolYear.php?ID=" + syID, true);
         ajax.send();
     });
 </script>

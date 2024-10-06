@@ -67,7 +67,7 @@
             <a class="collapse-item" href="section.php">Sections</a>
             <a class="collapse-item" href="subject.php">Subjects</a>
             <a class="collapse-item" href="strandsubjects.php">Strand Subjects</a>
-            <a class="collapse-item" href="semester.php">Semesters</a>
+            <a class="collapse-item" href="schoolyear.php">School Year</a>
             <a class="collapse-item" href="tuitionfees.php">Tuition Fees</a>
             <a class="collapse-item" href="miscellaneousfees.php">Miscnellaneous Fees</a>
             <a class="collapse-item" href="paymentmodes.php">Payment Modes</a>

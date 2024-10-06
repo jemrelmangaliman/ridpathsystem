@@ -33,7 +33,9 @@
                                         <thead>
                                         <tr>
                                             <th scope="col" class="text-center" id="th"><small>ID</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>Strand Name</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Strand</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>Grade Level</small></th>
+                                            <th scope="col" class="text-center" id="th"><small>School Year</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Subject</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Actions</small></th>
@@ -45,6 +47,7 @@
                                         $fetchQuery = "SELECT * FROM strandsubjects ss
                                         LEFT JOIN strands st ON ss.strandID = st.strandID
                                         LEFT JOIN subjects sj ON ss.subjectID = sj.subjectID
+                                        LEFT JOIN schoolyear sy ON ss.schoolYearID = sy.schoolYearID
                                         ";
                                         $fetchedData = mysqli_query($conn, $fetchQuery);
                                         
@@ -52,12 +55,28 @@
                                             $ID = $DataArray['strandSubjectID'];
                                             $strandname = $DataArray['strandname'];
                                             $subjectname = $DataArray['subjectname'];
+                                            $syname = $DataArray['schoolyearname'];
+                                            $gradelevel = $DataArray['gradelevel'];
                                             $status = $DataArray['isactive'];
                                             
                                             ?>
                                             <tr>
                                                 <td class="text-center" id="td"><?php echo $ID; ?></td>
                                                 <td class="text-center" id="td"><?php echo $strandname; ?></td>
+                                                <td class="text-center" id="td">
+                                                    <?php
+                                                    if ($gradelevel == '11') {
+                                                        echo 'Grade 11'; 
+                                                    }
+                                                    else if ($gradelevel == '12'){
+                                                        echo 'Grade 12'; 
+                                                    }
+                                                    else {
+                                                        echo 'Undefined'; 
+                                                    }
+                                                    ?>
+                                                 </td>
+                                                <td class="text-center" id="td"><?php echo $syname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $subjectname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $status; ?></td>
                                                 <td class="text-center" id="td">
@@ -91,7 +110,7 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body p-4" style="font-family: Arial;">
-                                            <h5>Edit Strand Information</h5>
+                                            <h5>Edit Strand Subject</h5>
                                             <div class="container mb-2" id="edit-container">
                                                 
                                             </div>      
@@ -103,7 +122,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-body p-4" style="font-family: Arial;">
-                                        <h5><b>New Item</b></h5>
+                                        <h5><b>New Strand Subject</b></h5>
                                         <div class="container mb-2">
                                             <form action="../processes/Admin_AddStrandSubject.php" method="POST">
                                                 <div class="row mb-1">
@@ -117,6 +136,33 @@
                                                                 $fetchedData3 = mysqli_query($conn, $fetchQuery3);
                                                                 while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
                                                                     echo '<option value="' . $DataArray3['strandID'] . '">' . $DataArray3['strandname'] . '</option>';
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <small for="subject">Grade Level</small>
+                                                            <select class="form-select w-100" name="gradelevel" id="gradeleveldropdown" required>
+                                                                <option value="11" selected>Grade 11</option>
+                                                                <option value="12">Grade 12</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <small for="subject">School Year</small>
+                                                            <select class="form-select w-100" name="sy" id="sydropdown" required>
+                                                                <?php
+                                                                $fetchQuery3 = "SELECT * FROM schoolyear WHERE isactive = 'Yes' ORDER BY schoolyearname ASC";
+                                                                $fetchedData3 = mysqli_query($conn, $fetchQuery3);
+                                                                while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
+                                                                    echo '<option value="' . $DataArray3['schoolYearID'] . '">' . $DataArray3['schoolyearname'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
                                                                 }
                                                                 ?>
                                                             </select>
@@ -140,7 +186,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
                                                 <div class="row mb-1">
                                                     <small>Is Active</small>
                                                     <div class="col">

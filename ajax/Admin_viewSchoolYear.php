@@ -1,11 +1,11 @@
 <?php 
 $conn = require '../config/config.php';
 
-$semesterID = $_REQUEST['ID'];
-$fetchData = mysqli_query($conn, "SELECT * FROM semester");
+$syID = $_REQUEST['ID'];
+$fetchData = mysqli_query($conn, "SELECT * FROM schoolyear WHERE schoolYearID = '$syID'");
 $DataArray = mysqli_fetch_assoc($fetchData);
-$semestername = $DataArray['semestername'];
-$semesterID = $DataArray['semesterID'];
+$syname = $DataArray['schoolyearname'];
+$syID = $DataArray['schoolYearID'];
 $startdate = $DataArray['startdate'];
 $enddate = $DataArray['enddate'];
 $status = $DataArray['isactive'];
@@ -43,25 +43,23 @@ else {
 }
 
 
-echo '<form action="../processes/Admin_EditSemester.php" method="POST">
+echo '<form action="../processes/Admin_EditSchoolYear.php" method="POST">
                                                 <div class="row mb-1">
-                                                <input type="text" class="form-control" name="semesterID" hidden value="'.$semesterID.'">
+                                                <input type="text" class="form-control" name="syID" hidden value="'.$syID.'">
                                                     <div class="col">
-                                                        <small>semester Name</small>
-                                                        <input type="text" class="form-control" name="semestername" value="'.$semestername.'" required>
+                                                        <small>School Year Name</small>
+                                                        <input type="text" class="form-control" name="syname" value="'.$syname.'" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">
-                                                <input type="text" class="form-control" name="semesterID" hidden value="'.$semesterID.'">
                                                     <div class="col">
-                                                        <small>semester Name</small>
+                                                        <small>Start Date</small>
                                                         <input type="date" class="form-control" name="startdate" value="'.$startdate.'" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-1">
-                                                <input type="text" class="form-control" name="semesterID" hidden value="'.$semesterID.'">
                                                     <div class="col">
-                                                        <small>semester Name</small>
+                                                        <small>End Date</small>
                                                         <input type="date" class="form-control" name="enddate" value="'.$enddate.'" required>
                                                     </div>
                                                 </div>
@@ -76,7 +74,7 @@ echo '<form action="../processes/Admin_EditSemester.php" method="POST">
                                                     <center>
                                                         <div class="row">
                                                                 <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                                                                <button class="btn btn-success" id="page-btn" name="Editsemester" style="width:50%;">Submit</button>
+                                                                <button class="btn btn-success" id="page-btn" name="EditSchoolYear" style="width:50%;">Submit</button>
                                                         </div>
                                                     </center>
                                                 </div>
