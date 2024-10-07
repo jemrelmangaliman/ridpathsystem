@@ -45,6 +45,9 @@
                                 $lastname = $DataArray['lastname'];
                                 $email = $DataArray['email'];
                                 $contactnumber = $DataArray['contactnumber'];
+                                $gender = $DataArray['gender'];
+                                $birthday = $DataArray['birthday'];
+                                $address = $DataArray['address'];
                                 ?>
                                             <form action="../processes/Student_EditProfile.php" method="POST">
                                                 <div class="form-group row">
@@ -62,13 +65,31 @@
                                                         <input type="text" class="form-control" name="lastname" value="<?php echo $lastname; ?>" placeholder="Last Name" required>
                                                     </div>
                                                 </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                                        <small>Birthday</small>
+                                                        <input type="date" name="birthday" class="form-control" value="<?php echo $birthday; ?>">
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <small>Gender</small>
+                                                        <select class="form-select" name="gender" placeholder="Gender">
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                            <option value="Other">Other</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                    <small>Contact Number</small>
+                                                    <input type="text" class="form-control" name="contactnumber" value="<?php echo $contactnumber; ?>" placeholder="Contact Number" required>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group">
                                                     <small>Email</small>
                                                     <input type="email" class="form-control" name="email" value="<?php echo $email; ?>" placeholder="Email Address" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <small>Contact Number</small>
-                                                    <input type="text" class="form-control" name="contactnumber" value="<?php echo $contactnumber; ?>" placeholder="Contact Number" required>
+                                                    <small>Home Address</small>
+                                                    <textarea type="text" class="form-control" name="address" placeholder="Home Address" required><?php echo $address; ?></textarea>
                                                 </div>
                                                 
                                                 <div class="row mt-3 d-flex justify-content-center">

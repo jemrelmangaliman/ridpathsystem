@@ -15,6 +15,8 @@ session_unset();
 
     <title>Ridpath Academy of Mabuhay - Login</title>
 
+    <link rel="icon" type="image/x-icon" href="img/ridpath.jpg">
+
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link

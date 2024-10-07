@@ -30,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
     $contactnumber = $_POST['contactnumber'];
+    $gender = $_POST['gender'];
+    $birthday = $_POST['birthday'];
     $userrole = 4;
     $password = $_POST['password'];
     $repeatpassword = $_POST['repeatpassword'];
@@ -41,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO students ( firstname, middlename, lastname, email, contactnumber, userRole, password) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssis", $firstname, $middlename, $lastname, $email, $contactnumber, $userrole, $password);
+    $stmt = $conn->prepare("INSERT INTO students ( firstname, middlename, lastname, email, contactnumber, userRole, password, gender, birthday) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssisss", $firstname, $middlename, $lastname, $email, $contactnumber, $userrole, $password, $gender, $birthday);
 
     // Execute the statement
     if ($stmt->execute()) {

@@ -34,7 +34,7 @@
                                                     <tr>
                                                         <th scope="col" class="text-center" id="th"><small>Schedule ID</small></th>
                                                         <th scope="col" class="text-center" id="th"><small>Section</small></th>
-                                                        <th scope="col" class="text-center" id="th"><small>Semester</small></th>
+                                                        <th scope="col" class="text-center" id="th"><small>School Year</small></th>
                                                         <th scope="col" class="text-center" id="th"><small>Subject</small></th>
                                                         <th scope="col" class="text-center" id="th"><small>Day</small></th>
                                                         <th scope="col" class="text-center" id="th"><small>Start Time</small></th>
@@ -47,7 +47,7 @@
                                                     <?php
                                                     $fetchQuery = "SELECT * FROM classschedule cs 
                                                     left join sections s on s.sectionID = cs.sectionID
-                                                    left join semester st on st.semesterID = cs.semesterID
+                                                    left join schoolyear st on st.schoolYearID = cs.schoolYearID
                                                     left join strandsubjects ss on ss.strandSubjectID = cs.strandSubjectID
                                                     left join subjects sb ON sb.subjectID = ss.subjectID
                                                     left join days d on d.dayID = cs.dayID
@@ -59,15 +59,15 @@
                                                         
                                                         $ID = $DataArray['classID'];
                                                         $sectionname = $DataArray['gradelevel'].' - '.$DataArray['sectionname'];
-                                                        $semestername = $DataArray['semestername'];
+                                                        $syname = $DataArray['schoolyearname'];
                                                         $subjectname = $DataArray['subjectname'];
                                                         $dayname = $DataArray['dayname'];
                                                         $starttime = $DataArray['starttime'];
                                                         $endtime = $DataArray['endtime'];
                                                         $starttime_hour = (int)substr($starttime,0,2); //get the hour of starttime
                                                         $endtime_hour = (int)substr($endtime,0,2); //get the hour of endtime
-                                                        $starttime_minute = (int)substr($starttime,3,2); //get the minute of starttime
-                                                        $endtime_minute = (int)substr($endtime,3,2); //get the minute of endtime
+                                                        $starttime_minute = substr($starttime,3,2); //get the minute of starttime
+                                                        $endtime_minute = substr($endtime,3,2); //get the minute of endtime
                                                         $starttimetext = '';
                                                         $endtimetext = '';
                                                         
@@ -89,7 +89,7 @@
                                                         <tr>
                                                             <td class="text-center" id="td"><?php echo $ID; ?></td>
                                                             <td class="text-center" id="td"><?php echo $sectionname; ?></td>
-                                                            <td class="text-center" id="td"><?php echo $semestername; ?></td>
+                                                            <td class="text-center" id="td"><?php echo $syname; ?></td>
                                                             <td class="text-center" id="td"><?php echo $subjectname; ?></td>
                                                             <td class="text-center" id="td"><?php echo $dayname; ?></td>
                                                             <td class="text-center" id="td"><?php echo $starttimetext; ?></td>
@@ -153,14 +153,14 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="semester">Semester</label>
-                                                    <select class="form-select w-100" name="semester" id="semesterdropdown" required>
-                                                        <option value="0" disabled selected>--Select a semester--</option>
+                                                    <label for="semester">School Year</label>
+                                                    <select class="form-select w-100" name="sy" id="sydropdown" required>
+                                                        <option value="0" disabled selected>--Select a School Year--</option>
                                                         <?php
-                                                        $fetchQuery3 = "SELECT * FROM semester WHERE isactive = 'Yes' ORDER BY semestername ASC";
+                                                        $fetchQuery3 = "SELECT * FROM schoolyear WHERE isactive = 'Yes' ORDER BY schoolyearname ASC";
                                                         $fetchedData3 = mysqli_query($conn, $fetchQuery3);
                                                         while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
-                                                            echo '<option value="' . $DataArray3['semesterID'] . '">' . $DataArray3['semestername'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
+                                                            echo '<option value="' . $DataArray3['schoolYearID'] . '">' . $DataArray3['schoolyearname'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
                                                         }
                                                         ?>
                                                     </select>

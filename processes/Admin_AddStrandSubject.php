@@ -5,7 +5,6 @@ $conn = require '../config/config.php';
     $strandID = $_POST['strand'];
     $subjectID = $_POST['subject'];
     $gradelevel = $_POST['gradelevel'];
-    $syID = $_POST['sy'];
     $status = $_POST['isactive'];
 
     if($subjectID == 0 || $strandID == 0) {
@@ -15,7 +14,7 @@ $conn = require '../config/config.php';
     }
 
 
-    $Query = "INSERT INTO strandsubjects (strandID, subjectID, schoolYearID, gradelevel, isactive) values ('$strandID','$subjectID','$syID','$gradelevel','$status')";
+    $Query = "INSERT INTO strandsubjects (strandID, subjectID, gradelevel, isactive) values ('$strandID','$subjectID','$gradelevel','$status')";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Subject has been added to the strand.";

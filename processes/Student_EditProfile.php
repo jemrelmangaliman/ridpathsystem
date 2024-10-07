@@ -10,8 +10,11 @@ $conn = require '../config/config.php';
     $contactnumber = $_POST['contactnumber'];
     date_default_timezone_set('Asia/Manila');
     $currentDateTime = date('Y-m-d H:i:s');
+    $gender = $_POST['gender'];
+    $birthday = $_POST['birthday'];
+    $address= $_POST['address'];
 
-    $Query = "UPDATE students SET lastname='$lastname', firstname='$firstname', middlename='$middlename', email='$email', contactnumber='$contactnumber' WHERE tempID='$userID'";
+    $Query = "UPDATE students SET lastname='$lastname', firstname='$firstname', middlename='$middlename', email='$email', contactnumber='$contactnumber', gender='$gender', birthday='$birthday', address='$address' WHERE tempID='$userID'";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Notification: Profile Updated on ".$currentDateTime;

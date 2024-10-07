@@ -68,3 +68,9 @@ td {
 #table-button {
     font-size: 12px;
 }
+#accordionButton {
+    height: 40px;
+}
+#admission-subjects-text {
+    font-size: 11px;
+}

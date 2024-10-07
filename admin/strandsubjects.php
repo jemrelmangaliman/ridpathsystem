@@ -35,7 +35,6 @@
                                             <th scope="col" class="text-center" id="th"><small>ID</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Strand</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Grade Level</small></th>
-                                            <th scope="col" class="text-center" id="th"><small>School Year</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Subject</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
                                             <th scope="col" class="text-center" id="th"><small>Actions</small></th>
@@ -47,7 +46,6 @@
                                         $fetchQuery = "SELECT * FROM strandsubjects ss
                                         LEFT JOIN strands st ON ss.strandID = st.strandID
                                         LEFT JOIN subjects sj ON ss.subjectID = sj.subjectID
-                                        LEFT JOIN schoolyear sy ON ss.schoolYearID = sy.schoolYearID
                                         ";
                                         $fetchedData = mysqli_query($conn, $fetchQuery);
                                         
@@ -55,7 +53,6 @@
                                             $ID = $DataArray['strandSubjectID'];
                                             $strandname = $DataArray['strandname'];
                                             $subjectname = $DataArray['subjectname'];
-                                            $syname = $DataArray['schoolyearname'];
                                             $gradelevel = $DataArray['gradelevel'];
                                             $status = $DataArray['isactive'];
                                             
@@ -76,7 +73,6 @@
                                                     }
                                                     ?>
                                                  </td>
-                                                <td class="text-center" id="td"><?php echo $syname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $subjectname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $status; ?></td>
                                                 <td class="text-center" id="td">
@@ -149,22 +145,6 @@
                                                             <select class="form-select w-100" name="gradelevel" id="gradeleveldropdown" required>
                                                                 <option value="11" selected>Grade 11</option>
                                                                 <option value="12">Grade 12</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-1">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <small for="subject">School Year</small>
-                                                            <select class="form-select w-100" name="sy" id="sydropdown" required>
-                                                                <?php
-                                                                $fetchQuery3 = "SELECT * FROM schoolyear WHERE isactive = 'Yes' ORDER BY schoolyearname ASC";
-                                                                $fetchedData3 = mysqli_query($conn, $fetchQuery3);
-                                                                while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
-                                                                    echo '<option value="' . $DataArray3['schoolYearID'] . '">' . $DataArray3['schoolyearname'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
-                                                                }
-                                                                ?>
                                                             </select>
                                                         </div>
                                                     </div>

@@ -25,6 +25,11 @@ $enrollmentstatusID = $DataArray['statusID'];
 $strandID = $DataArray['strandID'];
 $interest = $DataArray['interest'];
 $enrollmentID = $DataArray['enrollmentID'];
+$gradelevel = $DataArray['gradelevel'];
+$gender = $DataArray['gender'];
+$birthday = date('M d, Y', strtotime($DataArray['birthday']));
+$address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
+
 
 $proceedtopayment = '';
 $resubmit = 'disabled';
@@ -124,6 +129,30 @@ $attachmentlabellist =
                                                     <small><?php echo $lastname.', '.$firstname.' '.$middlename; ?></small>
                                                 </div>
                                             </div> 
+                                            <!-- Birthday Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Birthday</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small><?php echo $birthday; ?></small>
+                                                </div>
+                                            </div>
+                                            <!-- Gender Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Gender</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small><?php echo $gender; ?></small>
+                                                </div>
+                                            </div>
                                             <!-- Contact Number Display -->
                                             <div class="row w-100" style="margin-top: -5px;">
                                                 <div class="col-3">
@@ -148,6 +177,18 @@ $attachmentlabellist =
                                                     <small><?php echo $email; ?></small>
                                                 </div>
                                             </div> 
+                                            <!-- Home Address Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Home Address</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small><?php echo $address; ?></small>
+                                                </div>
+                                            </div> 
                                         </div>
 
                                         <p class="border-bottom fw-bold mt-3">Enrollment Information</p>
@@ -169,7 +210,19 @@ $attachmentlabellist =
                                                 <div class="col-8">
                                                     <small><?php echo $studenttype; ?></small>
                                                 </div>
-                                            </div>    
+                                            </div>  
+                                            <!-- Grade Level Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Grade Level</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small><?php echo 'Grade '.$gradelevel; ?></small>
+                                                </div>
+                                            </div>     
                                             <!-- Interest Display -->
                                             <div class="row w-100" style="margin-top: -5px;">
                                                 <div class="col-3">
@@ -196,6 +249,61 @@ $attachmentlabellist =
                                             </div>                         
                                         </div>
 
+                                        <div class="row my-3">
+                                            <div class="col">
+                                                <div class="accordion accordion-flush" id="accordionPanel">
+                                                    <div class="accordion-item">
+                                                            <button class="accordion-button bg-white text-dark border-bottom pl-0" type="button" id="accordionButton" data-bs-toggle="collapse" data-bs-target="#accordionCollapsePanel" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                                <p class="fw-bold mt-3">Subjects Preview</p>
+                                                            </button>
+                                                        <div id="accordionCollapsePanel" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                                            <div class="accordion-body">
+                                                                <span class="badge badge-secondary"><small class="fw-bold">S.Y. 2024 - 2025</small></span>
+                                                                <div class="row mt-1">
+                                                                    <div class="col">
+                                                                        <table class="table table-hover table-bordered table-sm w-100" id="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th scope="col" class="text-center"><small class="fw-bold">Grade Level</small></th> 
+                                                                                    <th scope="col" class="text-center"><small class="fw-bold">Subject Name</small></th>
+                                                                                    <th scope="col" class="text-center"><small class="fw-bold">Pre Requisite</small></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody >
+                                                                                
+                                                                                <?php
+                                                                                $fetchSubjectsQuery = "SELECT sj1.subjectname as subjectname, sj2.subjectname as prsubjectname, ss.gradelevel 
+                                                                                FROM strandsubjects ss 
+                                                                                LEFT JOIN subjects sj1 ON ss.subjectID = sj1.subjectID
+                                                                                LEFT JOIN subjects sj2 ON sj1.pr_subjectID = sj2.subjectID
+                                                                                WHERE ss.strandID = '$strandID' AND ss.gradelevel = '$gradelevel' ORDER BY sj1.subjectname";
+                                                                                $fetchedSubjectData = mysqli_query($conn, $fetchSubjectsQuery);
+                                                                                
+                                                                                while($DataArray = mysqli_fetch_assoc($fetchedSubjectData)){
+                                                                                    $subjectname = $DataArray['subjectname'];
+                                                                                    $prsubjectname = ($DataArray['prsubjectname'] != null) ? $DataArray['prsubjectname']: "None";
+                                                                                    $gradelevel1 = "Grade ".$DataArray['gradelevel'];
+                                                                                    
+                                                                                    ?>
+                                                                                    <tr>
+                                                                                        <td class="text-center" id="admission-subjects-text"><?php echo $gradelevel1; ?></td>
+                                                                                        <td class="text-center" id="admission-subjects-text"><?php echo $subjectname; ?></td>
+                                                                                        <td class="text-center" id="admission-subjects-text"><?php echo $prsubjectname; ?></td>
+                                                                                    </tr>
+                                                                                    <?php
+                                                                                }
+                                                                                ?>
+                                                                            </tbody>
+                                                                        </table> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        
                                         <p class="border-bottom fw-bold mt-3">Enrollment Costs</p>
                                         <div class="row">
                                             <div class="col-4">

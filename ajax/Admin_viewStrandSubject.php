@@ -10,7 +10,6 @@ $DataArray = mysqli_fetch_assoc($fetchData);
 $strandID = $DataArray['strandID'];
 $subjectID = $DataArray['subjectID'];
 $gradelevel = $DataArray['gradelevel'];
-$syID = $DataArray['schoolYearID'];
 $status = $DataArray['isactive'];
 
 
@@ -45,17 +44,6 @@ while ($DataArray2 = mysqli_fetch_assoc($fetchedData2)) {
     }
 }
 
-//configure semester options and selected value based on retrieved semesterID on database
-$fetchQuery3 = "SELECT * FROM schoolyear WHERE isactive = 'Yes' ORDER BY schoolyearname ASC";
-$fetchedData3 = mysqli_query($conn, $fetchQuery3);
-while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
-    if ($DataArray3['schoolYearID'] == $syID) {
-        $sydropdowntext .= '<option value="' . $DataArray3['schoolYearID'] . '" selected>' . $DataArray3['schoolyearname'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
-    }
-    else {
-        $sydropdowntext .=  '<option value="' . $DataArray3['schoolYearID'] . '">' . $DataArray3['schoolyearname'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
-    }
-}
 
 //configuring grade level dropdown options
 if ($gradelevel == '11') {
@@ -119,16 +107,6 @@ echo '<form action="../processes/Admin_EditStrandSubject.php" method="POST">
                         <small for="subject">Grade Level</small>
                         <select class="form-select w-100" name="gradelevel" id="gradeleveldropdown" required>
                            '.$gradeleveldropdowntext.'
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-1">
-                <div class="col">
-                    <div class="form-group">
-                        <small for="subject">School Year</small>
-                        <select class="form-select w-100" name="sy" id="sydropdown" required>
-                            '.$sydropdowntext.'
                         </select>
                     </div>
                 </div>

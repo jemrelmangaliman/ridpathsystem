@@ -4,25 +4,25 @@ $conn = require '../config/config.php';
 
 $classID = $_POST['classID'];
 $sectionID = $_POST['section'];
-$semesterID = $_POST['semester'];
+$syID = $_POST['sy'];
 $strandSubjectID = $_POST['strandsubject'];
 $dayID = $_POST['day'];
 $starttime = $_POST['starttime'];
 $endtime = $_POST['endtime'];
 
 
-//get semester start date and end date
-$SemesterData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM semester WHERE semesterID = '$semesterID'"));
-$formattedstartdate = $SemesterData['formattedstartdate'];
-$formattedenddate = $SemesterData['formattedenddate'];
+//get sy start date and end date
+$SchoolYearData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE schoolYearID = '$syID'"));
+$formattedstartdate = $SchoolYearData['formattedstartdate'];
+$formattedenddate = $SchoolYearData['formattedenddate'];
 
 if (!isset($sectionID)) {
     $_SESSION['action-error'] = "Section is required";
     header("Location: ../admin/class-schedules.php");
     exit(); 
 }
-if (!isset($semesterID)) {
-    $_SESSION['action-error'] = "Semester is required";
+if (!isset($syID)) {
+    $_SESSION['action-error'] = "School Year is required";
     header("Location: ../admin/class-schedules.php");
     exit(); 
 }
@@ -37,7 +37,7 @@ if (!isset($dayID)) {
     exit(); 
 }
 
-$Query = "UPDATE classschedule SET sectionID='$sectionID', semesterID='$semesterID', strandSubjectID='$strandSubjectID', dayID='$dayID', starttime='$starttime', endtime='$endtime', formattedstartdate='$formattedstartdate', formattedenddate='$formattedenddate' WHERE classID = '$classID'";
+$Query = "UPDATE classschedule SET sectionID='$sectionID', schoolYearID='$syID', strandSubjectID='$strandSubjectID', dayID='$dayID', starttime='$starttime', endtime='$endtime', formattedstartdate='$formattedstartdate', formattedenddate='$formattedenddate' WHERE classID = '$classID'";
 
 if (mysqli_query($conn, $Query)) {
     $_SESSION['action-success'] = "Class Schedule updated.";

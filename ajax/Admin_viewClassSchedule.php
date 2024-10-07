@@ -9,7 +9,7 @@ $DataArray = mysqli_fetch_assoc($fetchData);
 $classID = $DataArray['classID'];
 $strandID = $DataArray['strandID'];
 $sectionID = $DataArray['sectionID'];
-$semesterID = $DataArray['semesterID'];
+$syID = $DataArray['schoolYearID'];
 $strandSubjectID = $DataArray['strandSubjectID'];
 $dayID = $DataArray['dayID'];
 $starttime = $DataArray['starttime'];
@@ -17,7 +17,7 @@ $endtime = $DataArray['endtime'];
 
 $sectiondropdowntext = '';
 $subjectdropdowntext = '';
-$semesterdropdowntext = '';
+$sydropdowntext = '';
 $daydropdowntext = '';
 
 $fetchQuery3 = "SELECT * FROM sections ss LEFT JOIN strands st ON ss.strandID = st.strandID WHERE ss.isactive = 'Yes' ORDER BY ss.gradelevel ASC, st.abbreviation ASC, ss.sectionname ASC";
@@ -31,14 +31,14 @@ while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
     }
 }
 
-$fetchQuery3 = "SELECT * FROM semester WHERE isactive = 'Yes' ORDER BY semestername ASC";
+$fetchQuery3 = "SELECT * FROM schoolyear WHERE isactive = 'Yes' ORDER BY schoolyearname ASC";
 $fetchedData3 = mysqli_query($conn, $fetchQuery3);
 while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
-    if ($DataArray3['semesterID'] == $semesterID) {
-        $semesterdropdowntext .= '<option value="' . $DataArray3['semesterID'] . '" selected>' . $DataArray3['semestername'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
+    if ($DataArray3['schoolYearID'] == $syID) {
+        $sydropdowntext .= '<option value="' . $DataArray3['schoolYearID'] . '" selected>' . $DataArray3['schoolyearname'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
     }
     else {
-        $semesterdropdowntext .= '<option value="' . $DataArray3['semesterID'] . '">' . $DataArray3['semestername'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
+        $sydropdowntext .= '<option value="' . $DataArray3['schoolYearID'] . '">' . $DataArray3['schoolyearname'].' ('.date('M d, Y',strtotime($DataArray3['startdate'])).' to '.date('M d, Y',strtotime($DataArray3['enddate'])). ')</option>';
     }
 }
 
@@ -75,8 +75,8 @@ echo '<form action="../processes/Admin_EditClassSchedule.php" method="POST">
 
         <div class="form-group">
             <label for="semester">Semester</label>
-            <select class="form-select w-100" name="semester" id="e-semesterdropdown" required>
-                '.$semesterdropdowntext.'
+            <select class="form-select w-100" name="sy" id="e-sydropdown" required>
+                '.$sydropdowntext.'
             </select>
         </div>
 

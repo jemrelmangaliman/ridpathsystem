@@ -12,6 +12,9 @@ $lastname = $DataArray['lastname'];
 $email = $DataArray['email'];
 $contactnumber = $DataArray['contactnumber'];
 $studentnumber = $DataArray['studentnumber'];
+$gender = $DataArray['gender'];
+$birthday = date('M d, Y', strtotime($DataArray['birthday']));
+$address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
 ?>
 
 <style>
@@ -60,6 +63,30 @@ $studentnumber = $DataArray['studentnumber'];
                                                     <small><?php echo $lastname.', '.$firstname.' '.$middlename; ?></small>
                                                 </div>
                                             </div> 
+                                            <!-- Birthday Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Birthday</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small><?php echo $birthday; ?></small>
+                                                </div>
+                                            </div>
+                                            <!-- Gender Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Gender</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small><?php echo $gender; ?></small>
+                                                </div>
+                                            </div>
                                             <!-- Contact Number Display -->
                                             <div class="row w-100" style="margin-top: -5px;">
                                                 <div class="col-3">
@@ -84,6 +111,18 @@ $studentnumber = $DataArray['studentnumber'];
                                                     <small><?php echo $email; ?></small>
                                                 </div>
                                             </div> 
+                                            <!-- Home Address Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Home Address</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small><?php echo $address; ?></small>
+                                                </div>
+                                            </div>
                                         </div>
                                         
                                         <h5>Attachments</h5>
@@ -183,11 +222,11 @@ $studentnumber = $DataArray['studentnumber'];
                                     </div>
 
                                     <div class="col-4">
-                                    <h5>Student Enrollment Type</h5>
+                                    <h5>Other Enrollment Details</h5>
                                         <div class="container border shadow">
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
-                                                    <small>Choose Option</small>
+                                                    <small>Student Type</small>
                                                     <?php 
                                                     //if student number is existing, it means the student is an old student
                                                     if($studentnumber == null && $studentnumber == ""){
@@ -204,6 +243,15 @@ $studentnumber = $DataArray['studentnumber'];
                                                     }
                                                     ?>
                                                     
+                                                </div>
+                                            </div>
+                                            <div class="row mx-1 my-3">
+                                                <div class="col">
+                                                    <small>Grade Level</small>
+                                                    <select class="form-select w-100" name="gradelevel" required>
+                                                        <option value="11">Grade 11</option>
+                                                        <option value="12">Grade 12</option>
+                                                        </select>
                                                 </div>
                                             </div>
                                         </div> 
