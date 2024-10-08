@@ -80,26 +80,16 @@
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
         aria-expanded="true" aria-controls="collapseThree">
         <i class="fas fa-fw fa-cog"></i>
-        <span>Manage Enrollment</span>
+        <span>Account Management</span>
     </a>
     <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Components:</h6>
-            <a class="collapse-item" href="studentEnrollment.php">Student Enrollment</a>
-            <a class="collapse-item" href="courseEnrollment.php">Course Enrollment</a>
-            <a class="collapse-item" href="classSchedule.php">Class Schedule</a>
-            <a class="collapse-item" href="studentRecords.php">Student Records</a>
-            
+            <a class="collapse-item" href="manageUserAccounts.php">User Accounts</a>
+            <a class="collapse-item" href="studentrecords.php">Student Records</a> 
         </div>
     </div>
 </li>
 
-<!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link" href="manageUserAccounts.php">
-        <i class="fas fa-fw fa-wrench"></i>
-        <span>Manage User Accounts</span></a>
-</li>
 <li class="nav-item">
     <a class="nav-link" href="class-schedules.php">
         <i class="fas fa-fw fa-wrench"></i>
@@ -112,10 +102,6 @@
 <div class="sidebar-heading">
     Reports
 </div>
-
-<!-- Nav Item - Pages Collapse Menu -->
-
-
 <!-- Nav Item - Charts -->
 <li class="nav-item">
     <a class="nav-link" href="reports.php">

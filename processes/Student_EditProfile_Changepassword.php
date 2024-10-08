@@ -15,7 +15,7 @@ $conn = require '../config/config.php';
     {
         if($newPassword == $confirmnewPassword)
         {
-            $Query = "UPDATE users SET password='$newPassword' WHERE userID='$userID'";
+            $Query = "UPDATE students SET password='$newPassword' WHERE tempID='$userID'";
 
             if (mysqli_query($conn, $Query)) {
                 $_SESSION['action-success'] = "Notification: Password Updated on ".$currentDateTime;
