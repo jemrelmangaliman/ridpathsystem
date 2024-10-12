@@ -2,7 +2,7 @@
     require '../shared/header_registrar.php';
 ?>
 
-
+<?php require '../shared/action-message.php'; ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">

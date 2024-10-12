@@ -2,6 +2,7 @@
 $conn = require '../config/config.php';
 
 $classID = $_GET['ID'];
+$operator = $_GET['operator'];
 $fetchData = mysqli_query($conn, "SELECT * FROM classschedule cs
 LEFT JOIN sections ss ON cs.sectionID = ss.sectionID
 LEFT JOIN strands st ON ss.strandID = st.strandID WHERE classID = '$classID'");
@@ -65,7 +66,7 @@ while ($DataArray3 = mysqli_fetch_assoc($fetchedData3)) {
 }
 
 
-echo '<form action="../processes/Admin_EditClassSchedule.php" method="POST">
+echo '<form action="../processes/EditClassSchedule.php" method="POST">
         <div class="form-group">
             <label for="section">Section</label>
             <select class="form-select w-100" name="section" id="e-sectiondropdown" required>
@@ -109,7 +110,7 @@ echo '<form action="../processes/Admin_EditClassSchedule.php" method="POST">
                 <div class="row">
                         <input type="hidden" value="'.$classID.'" name="classID">
                         <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                        <button class="btn btn-success" id="page-btn" name="AddClassSchedule" style="width:50%;">Submit</button>
+                        <button class="btn btn-success" id="page-btn" name="'.$operator.'EditClassSchedule" style="width:50%;">Submit</button>
                 </div>
             </center>
         </div>

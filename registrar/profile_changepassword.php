@@ -1,7 +1,7 @@
 <?php
     require '../shared/header_registrar.php';
 ?>
-
+<?php require '../shared/action-message.php'; ?>
 
 
                 <!-- Begin Page Content -->
@@ -73,15 +73,7 @@
                                                 </div>
                                                 <div class="row mt-3 d-flex justify-content-center">
                                                        <button class="btn btn-success" id="page-btn" type="submit" name="EditUser" style="width:50%;">Save</button>
-                                                </div>
-
-                                                <div class="row mb-1">
-                                                    <div class="col">
-                                                        <small style="color:green;"><?php echo $_SESSION['action-success-changepassword']; ?></small>
-                                                        <small style="color:red;"><?php echo $_SESSION['action-error-changepassword']; ?></small>
-                                                    </div>
-                                                </div>
-
+                                                </div> 
                                             </form>
                                     
                                 </div>

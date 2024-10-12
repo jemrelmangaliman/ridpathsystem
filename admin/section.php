@@ -34,7 +34,8 @@ require '../shared/header.php';
                                     <tr>
                                         <th scope="col" class="text-center" id="th"><small>Section ID</small></th>
                                         <th scope="col" class="text-center" id="th"><small>Section</small></th>
-
+                                        <th scope="col" class="text-center" id="th"><small>Default Slots</small></th>
+                                        <th scope="col" class="text-center" id="th"><small>Available Slots</small></th>
                                         <th scope="col" class="text-center" id="th"><small>Is Active</small></th>
                                         <th scope="col" class="text-center" id="th"><small>Actions</small></th>
                                     </tr>
@@ -52,12 +53,15 @@ require '../shared/header.php';
                                         $abbreviation = $DataArray['abbreviation'];
                                         $gradelevel = $DataArray['gradelevel'];
                                         $status = $DataArray['isactive'];
+                                        $defaultslots = $DataArray['defaultslots'];
+                                        $availableslots = $DataArray['currentavailableslot'];
 
                                     ?>
                                         <tr>
                                             <td class="text-center" id="td"><?php echo $ID; ?></td>
                                             <td class="text-center" id="td"><?php echo $abbreviation." ".$gradelevel."-".$SectionName; ?></td>
-
+                                            <td class="text-center" id="td"><?php echo $defaultslots; ?></td>
+                                            <td class="text-center" id="td"><?php echo $availableslots; ?></td>
                                             <td class="text-center" id="td"><?php echo $status; ?></td>
                                             <td class="text-center" id="td">
                                                 <button class="btn btn-success border-0" title="Edit" id="table-button"
@@ -136,6 +140,12 @@ require '../shared/header.php';
                                 <div class="col">
                                     <small>Section Name</small>
                                     <input type="text" class="form-control" name="sectionname" required>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <small>Default Slot Count</small>
+                                    <input type="number" class="form-control" name="defaultslots" required>
                                 </div>
                             </div>
                             <div class="row mb-1">

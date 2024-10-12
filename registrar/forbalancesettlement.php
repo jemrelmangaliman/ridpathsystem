@@ -2,7 +2,7 @@
     require '../shared/header_registrar.php';
 ?>
 
-
+<?php require '../shared/action-message.php'; ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -59,13 +59,11 @@
                                                 <td class="text-center" id="td"><?php echo $strandname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $enrollmentstatus; ?></td>
                                                 <td class="text-center" id="td">
-                                                    <button class="btn btn-success border-0" title="View" id="table-button"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#modal-View"
-                                                            data-bs-enrollmentID="<?php echo $ID;?>"
-                                                            >
+                                                    <a href="studentenrollmentdetails.php?tempID=<?php echo $ID;?>&pagetitle=For Balance Settlement&returnpage=forbalancesettlement">
+                                                        <button class="btn btn-success border-0" title="View" id="table-button">
                                                             <i class="bi bi-eye-fill" id="table-btn-icon"></i> <span id="tablebutton-text">View</span>
-                                                    </button>        
+                                                        </button>  
+                                                    </a>          
                                                 </td>
                                             </tr>
                                             <?php

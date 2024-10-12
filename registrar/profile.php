@@ -2,7 +2,7 @@
     require '../shared/header_registrar.php';
 ?>
 
-
+<?php require '../shared/action-message.php'; ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -98,12 +98,7 @@
                                                        <button class="btn btn-success" id="page-btn" type="submit" name="EditUser" style="width:50%;">Save</button>
                                                 </div>
 
-                                                <div class="row mb-1">
-                                                    <div class="col">
-                                                        <small style="color:green;"><?php echo $_SESSION['action-success']; ?></small>
-                                                        <small style="color:red;"><?php echo $_SESSION['action-error']; ?></small>
-                                                    </div>
-                                                </div>
+                                                
                                             </form>
                                 </div>
                             </div>

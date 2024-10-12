@@ -7,9 +7,11 @@ $conn = require '../config/config.php';
     $strandID = $_POST['strand'];
     $gradelevel = $_POST['gradelevel'];
     $status = $_POST['isactive'];
+    $defaultslots = $_POST['defaultslots'];
+    $availableslots = $_POST['availableslots'];
 
 
-    $Query = "UPDATE sections SET sectionname='$sectionname', strandID='$strandID', gradelevel='$gradelevel', isactive='$status' WHERE sectionID = '$ID'";
+    $Query = "UPDATE sections SET sectionname='$sectionname', strandID='$strandID', gradelevel='$gradelevel', defaultslots='$defaultslots', currentavailableslot = '$availableslots', isactive='$status' WHERE sectionID = '$ID'";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Section updated.";

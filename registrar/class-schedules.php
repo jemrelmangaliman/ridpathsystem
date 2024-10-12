@@ -1,8 +1,9 @@
 <?php
-    require '../shared/header.php';
+    require '../shared/header_registrar.php';
 ?>
 
 
+<?php require '../shared/action-message.php'; ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -201,7 +202,7 @@
                                                     <center>
                                                         <div class="row">
                                                                 <button type="button" id="page-btn" class="btn btn-danger" data-bs-dismiss="modal" style="width:50%;">Close</button>
-                                                                <button class="btn btn-success" id="page-btn" name="AdminAddClassSchedule" style="width:50%;">Submit</button>
+                                                                <button class="btn btn-success" id="page-btn" name="RegistrarAddClassSchedule" style="width:50%;">Submit</button>
                                                         </div>
                                                     </center>
                                                 </div>
@@ -273,7 +274,7 @@
                     console.log(this.status);
                 }
             };
-        ajax.open("GET", "../ajax/ViewClassSchedule.php?ID="+classID+"&operator=Admin", true);
+        ajax.open("GET", "../ajax/ViewClassSchedule.php?ID="+classID+"&operator=Registrar", true);
         ajax.send();  
             
     });

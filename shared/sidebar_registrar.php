@@ -34,11 +34,7 @@
 </div>
 
 <!-- Nav Item - Utilities Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link" href="schedule.php">
-        <i class="fas fa-regular fa-calendar"></i>
-        <span>Class Schedules</span></a>
-</li>
+
 <li class="nav-item">
     <a class="nav-link" href="profile.php">
         <i class="fas fa-regular fa-user"></i>
@@ -75,6 +71,21 @@
     </div>
 </li>
 
+<!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#classCollapse"
+        aria-expanded="true" aria-controls="collapseTwo">
+        <i class="bi bi-card-list"></i>
+        <span>Section Management</span>
+    </a>
+    <div id="classCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="class-schedules.php">Class Schedules</a>
+            <a class="collapse-item" href="class-students.php">Section Student List</a>
+        </div>
+    </div>
+</li>
+
 <!-- Divider -->
 <hr class="sidebar-divider">
 
@@ -93,12 +104,6 @@
         <span>Generate Reports</span></a>
 </li>
 
-<!-- Nav Item - Tables -->
-<li class="nav-item">
-    <a class="nav-link" href="assessments.php">
-        <i class="fas fa-fw fa-table"></i>
-        <span>Assessments</span></a>
-</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">

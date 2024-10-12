@@ -95,3 +95,24 @@ function checkEnrollmentInputs () {
         enrollmentform.submit();
     }
 }
+
+function AddStudentToSection (element) {
+    var SectionID = element.getAttribute("data-bs-sectionID");
+    $("#ViewStudentContainer").show();
+    //ajax call 
+    var ajax = new XMLHttpRequest();
+    ajax.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var viewstudentcontainer = document.querySelector('#ViewStudentContainer');
+            viewstudentcontainer.innerHTML = this.responseText;   
+            }
+            else {
+                console.log(this.status);
+            }
+        };
+    ajax.open("GET", "../ajax/getSectionStudentList.php?ID="+SectionID, true);
+    ajax.send(); 
+}
+function hideStudentList() {
+    $("#ViewStudentContainer").hide();
+}

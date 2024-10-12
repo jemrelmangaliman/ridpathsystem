@@ -9,6 +9,8 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
 
 ?>
 
+<?php require '../shared/action-message.php'; ?>
+
 <style>
     .course-hidden {
         display: none;

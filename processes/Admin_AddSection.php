@@ -5,12 +5,13 @@ $conn = require '../config/config.php';
     $sectionname = $_POST['sectionname'];
     $strandID = $_POST['strand'];
     $gradelevel = $_POST['gradelevel'];
+    $defaultslots = $_POST['defaultslots'];
     
     $status = $_POST['isactive'];
 
 
-    $Query = "INSERT INTO sections (sectionname, strandID, gradelevel,isActive) 
-    values ('$sectionname','$strandID','$gradelevel','$status')";
+    $Query = "INSERT INTO sections (sectionname, strandID, gradelevel, defaultslots, currentavailableslot, isActive) 
+    values ('$sectionname','$strandID','$gradelevel', '$defaultslots', '$defaultslots', '$status')";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Section added.";

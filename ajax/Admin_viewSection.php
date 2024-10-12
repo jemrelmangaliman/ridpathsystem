@@ -7,7 +7,8 @@ $DataArray = mysqli_fetch_assoc($fetchData);
 $sectionname = $DataArray['sectionname'];
 $strandID = $DataArray['strandID'];
 $gradelevel = $DataArray['gradelevel'];
-
+$defaultslots = $DataArray['defaultslots'];
+$availableslots = $DataArray['currentavailableslot'];
 $status = $DataArray['isactive'];
 
 
@@ -95,7 +96,18 @@ echo '<form action="../processes/Admin_EditSection.php" method="POST">
                                                     </div>
                                                 </div>
                                                 
-                                            
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <small>Default Slot Count</small>
+                                                        <input type="number" class="form-control" name="defaultslots" value="'.$defaultslots.'" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1">
+                                                    <div class="col">
+                                                        <small>Current Available Slots</small>
+                                                        <input type="number" class="form-control" name="availableslots" value="'.$availableslots.'" required>
+                                                    </div>
+                                                </div>
                                                 <div class="row mb-1">
                                                     <small>Is Active</small>
                                                     <div class="col">

@@ -16,7 +16,7 @@
     position: fixed;
     left: 58%;
     transform: translate(-50%, -50%);
-    top: 140px;
+    top: 120px;
     z-index: 10;
     opacity: 0;
     animation: fadeinout 3s ease-in-out 1;
@@ -32,7 +32,7 @@
     position: fixed;
     left: 58%;
     transform: translate(-50%, -50%);
-    top: 140px;
+    top: 120px;
     z-index: 10;
     opacity: 0;
     animation: fadeinout 3s ease-in-out 1;

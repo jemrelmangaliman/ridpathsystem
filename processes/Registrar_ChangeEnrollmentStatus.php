@@ -57,7 +57,7 @@ $conn = require '../config/config.php';
     
     function ExecuteQuery ($conn, $Query, $validationmessage, $returnpage) {
         if (mysqli_query($conn, $Query)) {
-            $_SESSION['action-error'] = $validationmessage;
+            $_SESSION['action-success'] = $validationmessage;
             header("Location: ../registrar/".$returnpage.".php");
             exit();
         }
