@@ -380,7 +380,7 @@ else {
                                                         <small id="small" class="fw-bold">:</small>
                                                     </div>
                                                     <div class="col-8">
-                                                        <small><?php echo $amount; ?></small>
+                                                        <small>₱<?php echo $amount; ?></small>
                                                     </div>
                                                 </div>    
                                                 <!-- Payment Remarks Display -->

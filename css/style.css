@@ -74,3 +74,7 @@ td {
 #admission-subjects-text {
     font-size: 11px;
 }
+#instructions-text {
+    font-size: 12px;
+    margin-top: -54px;
+}

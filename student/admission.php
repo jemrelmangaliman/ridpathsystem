@@ -30,11 +30,13 @@ $gender = $DataArray['gender'];
 $birthday = date('M d, Y', strtotime($DataArray['birthday']));
 $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
 
+//get payment record of the enrollment record
+$getPaymentRecord = mysqli_query($conn, "SELECT * FROM paymentrecord WHERE enrollmentID='$enrollmentID'");
 
 $proceedtopayment = '';
 $resubmit = 'disabled';
 
-if ($enrollmentstatusID != 4) {
+if ($enrollmentstatusID != 4 || ($enrollmentstatusID == 4 && mysqli_num_rows($getPaymentRecord) == 1)) {
     $proceedtopayment = 'disabled';
 }
 
@@ -76,6 +78,30 @@ else {
     $hide = 'style="display: none;"'; //used to hide the page
 }
 
+$transactionID = '';
+$paymentmode = '';
+$amount = '';
+$paymentremarks = '';
+$nopaymentnotif = 'style="display: none;"';
+$paymentrecordcontainer = 'style="display: none;"';
+//get payment transaction record for the enrollment record
+$GetPaymentRecord = mysqli_query($conn, "SELECT * FROM paymentrecord pr
+LEFT JOIN paymentmodes pm ON pr.paymentModeID = pm.paymentModeID
+WHERE pr.enrollmentID='$enrollmentID'");
+if(mysqli_num_rows($GetPaymentRecord) == 1) {
+    $PaymentDetails = mysqli_fetch_assoc($GetPaymentRecord);
+    $transactionID = $PaymentDetails['transactionID'];
+    $paymentmode = $PaymentDetails['description'].' ('.$PaymentDetails['paymenttype'].')';
+    $amount = $PaymentDetails['amount'];
+    $paymentremarks = $PaymentDetails['paymentremarks'];
+    
+    //display the payment details container
+    $paymentrecordcontainer = 'style="display: block;"';
+}
+else {
+    //displays the no payment notification
+    $nopaymentnotif = 'style="display: block;"';
+}
 
 //get current uploaded enrollment attachments
 $attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc','form137'];
@@ -338,14 +364,71 @@ $attachmentlabellist =
                                                     </div> 
                                                 </div> 
                                             </div>
+
+                                            <!-- Payment Information container -->
+                                            <p class="border-bottom fw-bold mt-3">Payment Information</p>
+                                            <div class="container mb-1">
+
+                                                <!-- will be hide/displayed based on detection of transaction ID-->
+                                                <small id="nopaymentnotif" <?php echo $nopaymentnotif;?>>There's no payment record yet.</small>
+
+                                                <!-- Payment Information container -- will be hide/displayed based on detection of transaction ID-->
+                                                <div class="container-fluid" id="paymentdetailscontainer" <?php echo $paymentrecordcontainer;?>>
+                                                    <!-- Transaction ID Display -->
+                                                    <div class="row w-100 mt-1">
+                                                        <div class="col-3">
+                                                            <small id="small" class="fw-bold">Transaction ID</small>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <small id="small" class="fw-bold">:</small>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <small><?php echo $transactionID; ?></small>
+                                                        </div>
+                                                    </div>  
+                                                    <!-- Payment Mode Display -->
+                                                    <div class="row w-100" style="margin-top: -5px;">
+                                                        <div class="col-3">
+                                                            <small id="small" class="fw-bold">Payment Mode</small>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <small id="small" class="fw-bold">:</small>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <small><?php echo $paymentmode; ?></small>
+                                                        </div>
+                                                    </div>     
+                                                    <!-- Amount Paid Display -->
+                                                    <div class="row w-100" style="margin-top: -5px;">
+                                                        <div class="col-3">
+                                                            <small id="small" class="fw-bold">Amount Paid</small>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <small id="small" class="fw-bold">:</small>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <small>₱<?php echo $amount; ?></small>
+                                                        </div>
+                                                    </div>    
+                                                    <!-- Payment Remarks Display -->
+                                                    <div class="row w-100" style="margin-top: -5px;">
+                                                        <div class="col-3">
+                                                            <small id="small" class="fw-bold">Payment Remarks</small>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <small id="small" class="fw-bold">:</small>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <small><?php echo $paymentremarks; ?></small>
+                                                        </div>
+                                                    </div>    
+                                                </div>
+                                                            
+                                            </div>
                                             <div class="row w-100 mt-3 ml-1 mb-3">
                                                 <div class="col">
-                                                    <button class="btn btn-success w-100 ml-auto mr-auto" 
-                                                    id="page-btn" name="UpdateChecklist"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modal-View"
-                                                    data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
-                                                    <?php echo $proceedtopayment; ?>>Proceed to Payment</button>
+                                                    <a href="balancesettlement.php?enrollmentID=<?php echo $enrollmentID; ?>"><button class="btn btn-success w-100 ml-auto mr-auto"  id="page-btn" name="UpdateChecklist" data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
+                                                    <?php echo $proceedtopayment; ?>>Proceed to Payment</button></a>
                                                 </div>
                                                 <div class="col">
                                                     <form action="../processes/Student_ResubmitEnrollment.php" method="POST">
