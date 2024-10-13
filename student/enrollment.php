@@ -132,7 +132,8 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                                 <div class="col">
                                                     <small>Original Copy of PSA <span class="text-danger fw-bold">*</span></small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="psa" required>
+                                                        <input type="file" class="form-control" name="psa" id="psa" required>
+                                                        <div class="invalid-feedback"><small>PSA is required</small></div>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -160,7 +161,8 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                                 <div class="col">
                                                     <small>Duly Accomplished Enrolment Form <span class="text-danger fw-bold">*</span></small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="enrollmentform" required>
+                                                        <input type="file" class="form-control" name="enrollmentform" id="enrollmentformfile" required>
+                                                        <div class="invalid-feedback">Enrollment form is required</div>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -247,7 +249,7 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                             </div>
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
-                                                    <small>Grade Level</small>
+                                                    <small>Grade Level <span class="text-danger">*</span></small>
                                                     <select class="form-select w-100" name="gradelevel" required>
                                                         <option value="11">Grade 11</option>
                                                         <option value="12">Grade 12</option>
@@ -260,7 +262,7 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                         <div class="container border shadow">
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
-                                                    <small>Interests</small>
+                                                    <small>Interests <span class="text-danger">*</span></small>
                                                     <select class="form-select w-100" name="interest" id="interest-dropdown" onchange="getSuggestedStrands()">
                                                         <option value="0" disabled selected>--Select an interest--</option>
                                                         <?php 
@@ -284,7 +286,7 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                             </div> 
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
-                                                    <small>Chosen Strand</small>
+                                                    <small>Chosen Strand <span class="text-danger">*</span></small>
                                                     <select class="form-select w-100" name="strand" id="strand-dropdown" onchange="getTuitionFee()" required>
                                                         <option value="0" disabled selected>--Select a strand--</option>
                                                         <?php 

@@ -27,8 +27,12 @@ $paymentremarks = (isset($_POST['paymentremarks'])) ? $_POST['paymentremarks'] :
                     $Query = "INSERT INTO paymentrecord (enrollmentID, paymentModeID, amount, proofimgurl, paymentremarks) 
                     values ('$enrollmentID','$paymentmode','$amount','$NewFileName','$paymentremarks')";
                     if($conn->query($Query)) {
+                        $transactionID = $conn->insert_id;
+                        //update enrollmentrecord
+                        mysqli_query($conn,"UPDATE enrollmentrecords SET transactionID = '$transactionID' WHERE enrollmentID = '$enrollmentID'");
+
                         $_SESSION['action-success'] = "Payment request has been sent.";
-                        header("Location: ../student/admission.php?");
+                        header("Location: ../student/admission.php");
                         exit();
                     }
                     else {
@@ -54,7 +58,7 @@ $paymentremarks = (isset($_POST['paymentremarks'])) ? $_POST['paymentremarks'] :
         values ('$enrollmentID','$paymentmode','$amount','$paymentremarks')";
         if($conn->query($Query)) {
             $_SESSION['action-success'] = "Payment request has been sent.";
-            header("Location: ../student/admission.php?");
+            header("Location: ../student/admission.php");
             exit();
         }
         else {

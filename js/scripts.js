@@ -67,7 +67,29 @@ function checkEnrollmentInputs () {
     var noError = true;
     var interestdropdown = document.getElementById('interest-dropdown');
     var stranddropdown = document.getElementById('strand-dropdown');
+    const enrollmentformfile = document.getElementById('enrollmentformfile');
+    const psafile  = document.getElementById('psa');
     const enrollmentform = document.getElementById('enrollmentform');
+
+    if(!psafile.files.length) {
+        noError = false;
+        psafile.classList.add("is-invalid");
+        psafile.classList.remove("is-valid");
+    }
+    else {
+        noError = true;
+        psafile.classList.remove("is-invalid")
+    }
+
+    if(!enrollmentformfile.files.length) {
+        noError = false;
+        enrollmentformfile.classList.add("is-invalid");
+        enrollmentformfile.classList.remove("is-valid");
+    }
+    else {
+        noError = true;
+        psafile.classList.remove("is-invalid")
+    }
 
     if(interestdropdown.value == '0') {
         noError = false;

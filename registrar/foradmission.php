@@ -59,13 +59,11 @@
                                                 <td class="text-center" id="td"><?php echo $strandname; ?></td>
                                                 <td class="text-center" id="td"><?php echo $enrollmentstatus; ?></td>
                                                 <td class="text-center" id="td">
-                                                    <button class="btn btn-success border-0" title="View" id="table-button"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#modal-View"
-                                                            data-bs-enrollmentID="<?php echo $ID;?>"
-                                                            >
+                                                <a href="studentenrollmentdetails.php?tempID=<?php echo $ID;?>&pagetitle=For Admission Confirmation&returnpage=foradmission">
+                                                        <button class="btn btn-success border-0" title="View" id="table-button">
                                                             <i class="bi bi-eye-fill" id="table-btn-icon"></i> <span id="tablebutton-text">View</span>
-                                                    </button>        
+                                                        </button>  
+                                                    </a>           
                                                 </td>
                                             </tr>
                                             <?php
@@ -83,19 +81,7 @@
                         </div>
                     </div>
 
-
-                    <!-- Modals -->
-                     <div class="modal fade" id="modal-View" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-xl modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body p-4" style="font-family: Arial;">
-                                            <div class="container mb-2" id="view-container">
-                                                
-                                            </div>      
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
+              
 
                 </div>
                 <!-- /.container-fluid -->
@@ -106,29 +92,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         $('#table').DataTable();
-    });
-
-    var exampleModal = document.getElementById('modal-View')
-    exampleModal.addEventListener('show.bs.modal', function (event) {
-        // Button that triggered the modal
-        var button = event.relatedTarget
-        var enrollmentID = button.getAttribute('data-bs-enrollmentID');
-        
-        //ajax call 
-        var ajax = new XMLHttpRequest();
-            ajax.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var viewcontainer = exampleModal.querySelector('#view-container');
-                    viewcontainer.innerHTML = this.responseText;   
-                    }
-                    else {
-                        console.log(this.status);
-                    }
-                };
-            ajax.open("GET", "../ajax/Registrar_viewForAdmissionConfirmation.php?ID="+enrollmentID, true);
-            ajax.send(); 
-    });
-
+    });    
 </script>
 
 <?php

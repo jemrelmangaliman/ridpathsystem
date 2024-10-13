@@ -29,6 +29,7 @@ $gradelevel = $DataArray['gradelevel'];
 $gender = $DataArray['gender'];
 $birthday = date('M d, Y', strtotime($DataArray['birthday']));
 $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
+$enrollmentremarks = $DataArray['enrollmentremarks'];
 
 //get payment record of the enrollment record
 $getPaymentRecord = mysqli_query($conn, "SELECT * FROM paymentrecord WHERE enrollmentID='$enrollmentID'");
@@ -82,6 +83,7 @@ $transactionID = '';
 $paymentmode = '';
 $amount = '';
 $paymentremarks = '';
+$showproofbutton = '';
 $nopaymentnotif = 'style="display: none;"';
 $paymentrecordcontainer = 'style="display: none;"';
 //get payment transaction record for the enrollment record
@@ -91,9 +93,23 @@ WHERE pr.enrollmentID='$enrollmentID'");
 if(mysqli_num_rows($GetPaymentRecord) == 1) {
     $PaymentDetails = mysqli_fetch_assoc($GetPaymentRecord);
     $transactionID = $PaymentDetails['transactionID'];
-    $paymentmode = $PaymentDetails['description'].' ('.$PaymentDetails['paymenttype'].')';
+    $accountnumber = $PaymentDetails['accountnumber'];
+    $paymenttype = $PaymentDetails['paymenttype'];
+    $proofimgurl = $PaymentDetails['proofimgurl'];
+    if ($accountnumber != "" && $accountnumber != null) {
+        $paymentmode = $PaymentDetails['description'].' - '.$accountnumber.' ('.$PaymentDetails['paymenttype'].')';
+    }
+    else {
+        $paymentmode = $PaymentDetails['description'].' ('.$PaymentDetails['paymenttype'].')';
+    }
     $amount = $PaymentDetails['amount'];
     $paymentremarks = $PaymentDetails['paymentremarks'];
+
+    if($paymenttype == "Online") {
+        $showproofbutton = '<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modal-View"
+                                    data-bs-proofimgurl="'.$proofimgurl.'" style="font-size: 11px;"><i class="bi bi-eye-fill" id="table-btn-icon"></i> View Payment Proof</button>';
+    }
     
     //display the payment details container
     $paymentrecordcontainer = 'style="display: block;"';
@@ -119,7 +135,7 @@ $attachmentlabellist =
 <div class="container-fluid">
 
 <?php require '../shared/action-message.php'; ?>
-
+<input type="hidden" id="transactionID" value="<?php echo $transactionID; ?>">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Admission</h1>
@@ -272,10 +288,22 @@ $attachmentlabellist =
                                                 <div class="col-8">
                                                     <small><?php echo $strandname; ?></small>
                                                 </div>
-                                            </div>                         
+                                            </div>   
+                                            <!-- Enrollment Remarks Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Enrollment Remarks</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small class="text-primary"><?php echo $enrollmentremarks; ?></small>
+                                                </div>
+                                            </div>                          
                                         </div>
 
-                                        <div class="row my-3">
+                                        <div class="row mt-3">
                                             <div class="col">
                                                 <div class="accordion accordion-flush" id="accordionPanel">
                                                     <div class="accordion-item">
@@ -283,16 +311,16 @@ $attachmentlabellist =
                                                                 <p class="fw-bold mt-3">Subjects Preview</p>
                                                             </button>
                                                         <div id="accordionCollapsePanel" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                                                            <div class="accordion-body">
+                                                            <div class="accordion-body p-1">
                                                                 <span class="badge badge-secondary"><small class="fw-bold">S.Y. 2024 - 2025</small></span>
                                                                 <div class="row mt-1">
                                                                     <div class="col">
                                                                         <table class="table table-hover table-bordered table-sm w-100" id="table">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th scope="col" class="text-center"><small class="fw-bold">Grade Level</small></th> 
-                                                                                    <th scope="col" class="text-center"><small class="fw-bold">Subject Name</small></th>
-                                                                                    <th scope="col" class="text-center"><small class="fw-bold">Pre Requisite</small></th>
+                                                                                    <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Grade Level</small></th> 
+                                                                                    <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Subject Name</small></th>
+                                                                                    <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Pre Requisite</small></th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody >
@@ -422,12 +450,17 @@ $attachmentlabellist =
                                                             <small><?php echo $paymentremarks; ?></small>
                                                         </div>
                                                     </div>    
+                                                    <div class="row w-100">
+                                                        <div class="col-5">
+                                                            <?php echo $showproofbutton; ?>
+                                                        </div>      
+                                                    </div>    
                                                 </div>
                                                             
                                             </div>
                                             <div class="row w-100 mt-3 ml-1 mb-3">
                                                 <div class="col">
-                                                    <a href="balancesettlement.php?enrollmentID=<?php echo $enrollmentID; ?>"><button class="btn btn-success w-100 ml-auto mr-auto"  id="page-btn" name="UpdateChecklist" data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
+                                                    <a href="balancesettlement.php?enrollmentID=<?php echo $enrollmentID; ?>" id="paymentlink"><button class="btn btn-success w-100 ml-auto mr-auto"  id="page-btn" name="UpdateChecklist" data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
                                                     <?php echo $proceedtopayment; ?>>Proceed to Payment</button></a>
                                                 </div>
                                                 <div class="col">
@@ -499,46 +532,24 @@ $attachmentlabellist =
             </div>
 <!-- Modals -->
 <div class="modal fade" id="modal-View" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-4" style="font-family: Arial;">
-                        <h5>Select Payment Mode</h5>
-                        <form action="../processes/Student_updatePaymentMode.php" method="POST">
-                            <div class="row mb-1">
-                                <div class="col">
-                                    <small>Payment Option</small>
-                                    <select class="form-select" name="paymentmode" id="paymentmode" required>
-                                        <option value="0">--Select Payment Mode--</option>
-                                    <?php
-                                        $fetchQuery = "SELECT * FROM paymentmodes WHERE isactive = 'Yes' ORDER BY description ASC";
-                                        $fetchedData = mysqli_query($conn, $fetchQuery);
-
-                                        while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
-                                                echo '<option value="'.$DataArray['paymentModeID'].'">'.$DataArray['description'].' ('.$DataArray['paymenttype'].')</option>';
-                                        }
-                                        ?>
-                                        
-                                    </select>
-                                </div>
-                            </div>
+                        <h5>View Payment Proof</h5>
+                        
                             <div class="row mb-1">
                                 <div class="col">
                                     <div class="container d-flex justify-content-center">
-                                        <img class="img-thumbnail border shadow" id="qr-preview" style="display: none; width: 150px; height: 150px;">
+                                        <img class="img-thumbnail border shadow" id="paymentproofimage">
                                     </div>
                                 </div>
                             </div>
-                            <small class="text-danger">*for offline payments, please pay at the school registrar.</small>
                             <div class="row mt-3 ml-2 mr-2 mb-3">
-                                <input type="hidden" class="form-control" id ="enrollmentID_hidden" name="enrollmentID">
-                                <div class="col">
-                                    <button class="btn btn-success ml-auto mr-auto w-100" id="page-btn" type="button" name="UpdateChecklist">Save</button>
-                                </div>
                                 <div class="col">
                                     <button type="button" id="page-btn" class="btn btn-danger w-100" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
-                        </form>   
+                         
                 </div>
             </div>
         </div>
@@ -547,43 +558,19 @@ $attachmentlabellist =
     </div>
     <!-- End of Main Content -->
     <script>
-        var exampleModal = document.getElementById('modal-View')
-        exampleModal.addEventListener('show.bs.modal', function (event) {
+       
+    var transactionID = document.getElementById("transactionID").value;
+    if (transactionID != '') {
+        document.getElementById('paymentlink').href = "";
+    }
+
+    var viewModal = document.getElementById('modal-View')
+    viewModal.addEventListener('show.bs.modal', function (event) {
         // Button that triggered the modal
         var button = event.relatedTarget
-        var enrollmentID = button.getAttribute('data-bs-enrollmentID');
+        var imgurl = button.getAttribute('data-bs-proofimgurl');
         
-        var enrollmentIDHidden = exampleModal.querySelector('#enrollmentID_hidden'); 
-
-        enrollmentIDHidden.value = enrollmentID;
-
-        var paymentOptionDropdown = exampleModal.querySelector('#paymentmode');
-        var qrPreview = exampleModal.querySelector('#qr-preview');
-
-        paymentOptionDropdown.addEventListener("change", function() {
-            var paymentOptionValue = paymentOptionDropdown.value;
-
-            var ajax = new XMLHttpRequest();
-            ajax.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var src = this.responseText;
-
-                        if (src != "") {
-                            qrPreview.style.display = "block";
-                            qrPreview.src = src;
-                        }
-                        else {
-                            qrPreview.style.display = "none";
-                        }
-                    }
-                };
-            ajax.open("GET", "../ajax/Student_getQRurl.php?ID="+paymentOptionValue, true);
-            ajax.send();
-
-            });
-        
-
-
+        viewModal.querySelector('#paymentproofimage').src = imgurl;
     });
     </script>
     <!-- Bootstrap JavaScript and dependencies -->

@@ -32,6 +32,9 @@ $gender = $DataArray['gender'];
 $birthday = date('M d, Y', strtotime($DataArray['birthday']));
 $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
 $studenttype = $DataArray['studenttypedescription'];
+$enrollmentremarks = $DataArray['enrollmentremarks'];
+$studentnumber = ($DataArray['studentnumber'] != null) ? $DataArray['studentnumber'] : 0;
+$studentID = $DataArray['tempID'];
 
 //get misc fee total using fetched strand ID in the first query
 $MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strandID='$strandID'");
@@ -97,9 +100,11 @@ $attachmentlabellist =
     }
 
 
-//button containers -- displays appropriate buttons based on enrollment status
+//button containers and other containers-- displays appropriate buttons based on enrollment status
 $assessmentbuttons = 'style="display: none;"';
 $balancesettlementbuttons = 'style="display: none;"';
+$admissionbutton = 'style="display: none;"';
+$admissiondetailscontainer = 'style="display: none;"';
 
 switch ($enrollmentstatusID) {
     case "2":
@@ -108,12 +113,16 @@ switch ($enrollmentstatusID) {
     case "4":
         $balancesettlementbuttons = 'style="display: flex;"';
         break;
+    case "5":
+        $admissionbutton = 'style="display: flex;"';
+        $admissiondetailscontainer = 'style="display: block;"';
 }
 
 $transactionID = '';
 $paymentmode = '';
 $amount = '';
 $paymentremarks = '';
+$showproofbutton = '';
 $nopaymentnotif = 'style="display: none;"';
 $paymentrecordcontainer = 'style="display: none;"';
 //get payment transaction record for the enrollment record
@@ -123,10 +132,24 @@ WHERE pr.enrollmentID='$enrollmentID'");
 if(mysqli_num_rows($GetPaymentRecord) == 1) {
     $PaymentDetails = mysqli_fetch_assoc($GetPaymentRecord);
     $transactionID = $PaymentDetails['transactionID'];
-    $paymentmode = $PaymentDetails['description'].' ('.$PaymentDetails['paymenttype'].')';
+    $accountnumber = $PaymentDetails['accountnumber'];
+    $paymenttype = $PaymentDetails['paymenttype'];
+    $proofimgurl = $PaymentDetails['proofimgurl'];
+    if ($accountnumber != "" && $accountnumber != null) {
+        $paymentmode = $PaymentDetails['description'].' - '.$accountnumber.' ('.$PaymentDetails['paymenttype'].')';
+    }
+    else {
+        $paymentmode = $PaymentDetails['description'].' ('.$PaymentDetails['paymenttype'].')';
+    }
     $amount = $PaymentDetails['amount'];
     $paymentremarks = $PaymentDetails['paymentremarks'];
     
+    if($paymenttype == "Online") {
+        $showproofbutton = '<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#modal-View"
+                                    data-bs-proofimgurl="'.$proofimgurl.'" style="font-size: 11px;"><i class="bi bi-eye-fill" id="table-btn-icon"></i> View Payment Proof</button>';
+    }
+
     //display the payment details container
     $paymentrecordcontainer = 'style="display: block;"';
 }
@@ -165,7 +188,7 @@ else {
                                 <div class="row w-100">
                                     <div class="col-8">
                                         <!-- Personal Information container -->
-                                        <p class="border-bottom fw-bold">Personal Information</p>
+                                        <p class="border-bottom fw-bold">Student Information</p>
                                         <div class="container-fluid mb-1">
                                             <!-- Full Name Display -->
                                             <div class="row w-100" style="margin-top: -5px;">
@@ -239,6 +262,18 @@ else {
                                                 <small><?php echo $address; ?></small>
                                                 </div>
                                             </div> 
+                                            <!-- Home Address Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Student Number</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                <small class="text-primary"><?php echo $studentnumber; ?></small>
+                                                </div>
+                                            </div> 
                                         </div>
 
                                         <!-- Enrollment Information container -->
@@ -297,7 +332,19 @@ else {
                                                 <div class="col-8">
                                                     <small><?php echo $strandname; ?></small>
                                                 </div>
-                                            </div>                         
+                                            </div>
+                                            <!-- Enrollment Remarks Display -->
+                                            <div class="row w-100" style="margin-top: -5px;">
+                                                <div class="col-3">
+                                                    <small id="small" class="fw-bold">Enrollment Remarks</small>
+                                                </div>
+                                                <div class="col-1">
+                                                    <small id="small" class="fw-bold">:</small>
+                                                </div>
+                                                <div class="col-8">
+                                                    <small class="text-primary"><?php echo $enrollmentremarks; ?></small>
+                                                </div>
+                                            </div>                          
                                         </div>
 
 
@@ -395,6 +442,11 @@ else {
                                                         <small><?php echo $paymentremarks; ?></small>
                                                     </div>
                                                 </div>    
+                                                <div class="row w-100">
+                                                        <div class="col-5">
+                                                            <?php echo $showproofbutton; ?>
+                                                        </div>      
+                                                    </div> 
                                             </div>
                                                            
                                         </div>
@@ -403,13 +455,51 @@ else {
                                         <div class="row w-100 mt-3 ml-1 mb-3"> 
                                             <form action="../processes/Registrar_ChangeEnrollmentStatus.php" method="POST">
                                                 <input type="hidden" value="<?php echo $enrollmentID; ?>" name="enrollmentID">
+                                                <input type="hidden" value="<?php echo $studentID; ?>" name="studentID">
                                                 <input type="hidden" value="<?php echo $returnpage; ?>" name="returnpage">
-                                                <div class="row w-100 mt-3 mb-3">
+                                                
+                                                <div class="row w-100 mt-3 mb-1">
                                                     <small>Enrollment Remarks</small>
                                                     <div class="col">
                                                             <textarea name="enrollmentremarks" class="form-control w-100" placeholder="Please include an enrollment remark" required></textarea>        
                                                     </div>  
                                                 </div>
+                                                <div class="container-fluid" <?php echo $admissiondetailscontainer;?>>
+                                                    <div class="row w-100 mb-1">
+                                                        <small>Student Number</small>
+                                                        <div class="col">
+                                                            <?php 
+                                                                if ($studentnumber == 0 && $enrollmentstatusID == 5) {
+                                                                    echo '<input type="number" class="form-control" name="studentnumber" required>';
+                                                                }
+                                                                else if ($studentnumber != 0 && $enrollmentstatusID == 5)  {
+                                                                    echo '<input type="number" class="form-control" name="studentnumber" value="'.$studentnumber.'" readonly required>';
+                                                                }
+                                                            ?>
+                                                                    
+                                                        </div>  
+                                                    </div>
+                                                    <div class="row w-100 mb-1">
+                                                        <small>Assign to Section</small>
+                                                        <div class="col">
+                                                                <select name="section" id="section" class="form-select" required>
+                                                                    <?php
+                                                                        //get sections aligned with the enrollee's chosen strand and grade level and have available slots
+                                                                        $getSections = mysqli_query($conn, "SELECT * FROM sections ss
+                                                                        LEFT JOIN strands st ON ss.strandID = st.strandID
+                                                                        WHERE ss.strandID = '$strandID' AND ss.gradelevel = '$gradelevel' AND ss.currentavailableslot > 0");
+
+                                                                        while ($sectionDetails = mysqli_fetch_assoc($getSections)) {
+                                                                            $sectionname = $sectionDetails['abbreviation'].' '.$sectionDetails['gradelevel'].' - '.$sectionDetails['sectionname'].' ('.$sectionDetails['currentavailableslot'].' slot/s available)';
+
+                                                                            echo '<option value="'.$sectionDetails['sectionID'].'">'.$sectionname.'</option>';
+                                                                        }
+                                                                    ?>
+                                                                </select>        
+                                                        </div>  
+                                                    </div>
+                                                </div>
+                                                
                                                 <div class="row w-100 mt-3 mb-3" <?php echo $assessmentbuttons; ?>>
                                                     <div class="col">
                                                             <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="ApproveEnrollment">Approve Enrollment</button>
@@ -425,6 +515,11 @@ else {
                                                     <div class="col">   
                                                             <button class="btn btn-danger w-100" id="page-btn" type="submit" name="HoldEnrollment">Put On Hold</button>
                                                     </div>
+                                                </div>
+                                                <div class="row w-100 mt-3 mb-3" <?php echo $admissionbutton; ?>>
+                                                    <div class="col">   
+                                                            <button class="btn btn-success w-100" id="page-btn" type="submit" name="ConfirmAdmission">Confirm Admission</button>
+                                                    </div> 
                                                 </div>
                                                 
                                             </form>
@@ -490,6 +585,31 @@ else {
                 </div>
                 <!-- /.container-fluid -->
 
+<!-- Modals -->
+<div class="modal fade" id="modal-View" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-4" style="font-family: Arial;">
+                        <h5>View Payment Proof</h5>
+                        
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <div class="container d-flex justify-content-center">
+                                        <img class="img-thumbnail border shadow" id="paymentproofimage">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3 ml-2 mr-2 mb-3">
+                                <div class="col">
+                                    <button type="button" id="page-btn" class="btn btn-danger w-100" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                         
+                </div>
+            </div>
+        </div>
+</div>
+
             </div>
             <!-- End of Main Content -->
 
@@ -497,7 +617,14 @@ else {
     document.addEventListener("DOMContentLoaded", function() {
         $('#table').DataTable();
     });
-
+    var viewModal = document.getElementById('modal-View')
+    viewModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        var imgurl = button.getAttribute('data-bs-proofimgurl');
+        
+        viewModal.querySelector('#paymentproofimage').src = imgurl;
+    });
 </script>
 
 <?php

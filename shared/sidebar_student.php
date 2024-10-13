@@ -42,7 +42,12 @@
 <li class="nav-item">
     <a class="nav-link" href="">
         <i class="fas fa-fw fa-wrench"></i>
-        <span>My Records</span></a>
+        <span>My Enrollment Records</span></a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="class-schedules.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>My Class Schedules</span></a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="profile.php">

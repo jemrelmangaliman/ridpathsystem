@@ -2,17 +2,23 @@
 require '../shared/header_student.php';
 $tempid = $_SESSION['user_id'];
 
-$fetchQuery = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID WHERE ER.studentID = '$tempid'";
-$fetchedData = mysqli_query($conn, $fetchQuery);
-$EnrollmentData = mysqli_fetch_assoc($fetchedData);
+$fetchEnrollment = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID WHERE ER.studentID = '$tempid'";
+$fetchedData2 = mysqli_query($conn, $fetchEnrollment);
+$EnrollmentData = null;
+$enrollmentcount = mysqli_num_rows($fetchedData2);
+$enrollmentstatusdisplay = '';
+$hide = '';
 
-if (mysqli_num_rows($fetchedData) != 0) {
+//check if there is an active enrollment record
+if ($enrollmentcount != 0) {
+    $EnrollmentData = mysqli_fetch_assoc($fetchedData2);
+    $enrollmentstatusdisplay = '';
     $enrollmentstatus = $EnrollmentData['statusname'];
-    $enrollmentbutton = '';
 }
 else {
     $enrollmentstatus = "Not Enrolled";
-    $enrollmentbutton = '<a href="enrollment.php" class="w-100"><button class="btn btn-primary w-100" id="page-btn">Enroll Now</button></a>';
+    $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Schedules cannot be displayed.</p>';
+    $hide = 'style="display: none;"'; //used to hide the page
 }
 ?>
 
@@ -59,41 +65,13 @@ else {
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Dashboard</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Class Schedules</h6>
                     </div>
 
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
-
-                        <div class="container border shadow w-50 py-3">
-                                <h5 class="text-center">Quick Links</h5>
-                                <div class="row w-75 py-2 ml-auto mr-auto border-bottom">
-                                    <div class="col-7 d-flex align-items-center">
-                                        <p>View Enrollment Record</p>
-                                    </div>
-                                    <div class="col-5">
-                                        <a href="admission.php"><button class="btn btn-primary w-100">Go to page <i class="bi bi-arrow-right"></i></button></a>
-                                    </div>
-                                </div>
-                                <div class="row w-75 py-2 ml-auto mr-auto mt-3">
-                                    <div class="col-7 d-flex align-items-center">
-                                        <p>View Class Schedules</p>
-                                    </div>
-                                    <div class="col-5">
-                                        <a href="admission.php"><button class="btn btn-primary w-100">Go to page  <i class="bi bi-arrow-right"></i></button></a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row w-100 mt-5 d-flex justify-content-end">
-                                <div class="col-4 d-flex justify-content-end">
-                                    
-                                    <?php echo $enrollmentbutton; ?>
-                                </div>
-                            </div>
-
-                            
+                        <?php echo $enrollmentstatusdisplay;?>
                             
                         </div>
                     </div>

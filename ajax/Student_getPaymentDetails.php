@@ -72,7 +72,7 @@ if ($paymenttype == "Online") {
     <div class="col">
         <small>Proof of Payment</small>
         <div class="input-group mb-3">
-            <input type="file" class="form-control" name="paymentproof" required>
+            <input type="file" class="form-control" name="paymentproof" accept=".jpg, .jpeg, .png" required>
         </div>
     </div>
 </div>  

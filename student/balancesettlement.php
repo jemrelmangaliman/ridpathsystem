@@ -1,6 +1,17 @@
 <?php
 require '../shared/header_student.php';
 $enrollmentID = $_GET['enrollmentID'];
+
+// //get payment transaction record for the enrollment record
+// $GetPaymentRecord = mysqli_query($conn, "SELECT * FROM paymentrecord pr
+// LEFT JOIN paymentmodes pm ON pr.paymentModeID = pm.paymentModeID
+// WHERE pr.enrollmentID='$enrollmentID'");
+// if(mysqli_num_rows($GetPaymentRecord) == 1) {
+//     $_SESSION['action-error'] = "A payment request is already submitted.";
+//     echo "<script>
+//     window.location.href = 'admission.php';
+//     </script>";
+// }
 ?>
 
 
@@ -27,7 +38,7 @@ $enrollmentID = $_GET['enrollmentID'];
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
-                        <form action="../processes/Student_sendPaymentRequest.php" method="POST" class="mx-4">
+                        <form action="../processes/Student_sendPaymentRequest.php" method="POST" enctype="multipart/form-data" class="mx-4">
                             <div class="row mb-1">
                                 <div class="col">
                                     <small>Payment Option</small>

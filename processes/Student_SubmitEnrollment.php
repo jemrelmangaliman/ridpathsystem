@@ -37,9 +37,13 @@ if ($strandID == 0 || $interest == '') {
     exit();
 }
 
+//get current active schoolyear
+$SchooYearDetails = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive= 'Yes'"));
+$schoolYearID = $SchooYearDetails['schoolYearID'];
+
 $Query = "INSERT INTO enrollmentrecords 
-(studentID, strandID, enrollmentStatusID, interest, studentTypeID, gradelevel) 
-VALUES ('$studentid','$strandID','$enrollmentstatusID','$interest', '$studentTypeID','$gradelevel')";
+(studentID, strandID, enrollmentStatusID, interest, studentTypeID, gradelevel, schoolYearID) 
+VALUES ('$studentid','$strandID','$enrollmentstatusID','$interest', '$studentTypeID','$gradelevel','$schoolYearID')";
 
 $conn->query($Query);
 

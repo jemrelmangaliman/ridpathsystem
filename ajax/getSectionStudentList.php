@@ -33,41 +33,67 @@ while ($StudentData = mysqli_fetch_assoc($fetchStudentData)) {
 $fetchSLData = mysqli_query($conn, "SELECT * FROM sectionstudentlist where sectionID ='$sectionID'");
 $counter = 1;
 $studentlist = '<div class="col-3">';
-$a = true;
+$gotosecondrow = true;
+$gotothirdrow = true;
+$gotofourthrow = true;
 
 if (mysqli_num_rows($fetchSLData) == 0) {
     $studentlist .= '<small>List is currently empty</small></div>';
 }
 
 while($StudentData = mysqli_fetch_assoc($fetchSLData)) {
-    if ($counter > 12){
+    if ($counter > 12 && $gotosecondrow == true){
             $studentlist .= '</div>
             <div class="col-3">
             ';
-            $a= false;
+            $gotosecondrow = false;
+    }
+    if ($counter > 24 && $gotothirdrow == true){
+        $studentlist .= '</div>
+        <div class="col-3">
+        ';
+        $gotothirdrow = false;
+    }
+    if ($counter > 36 && $gotofourthrow == true){
+        $studentlist .= '</div>
+        <div class="col-3">
+        ';
+        $gotofourthrow = false;
     }
 
-    $studentlist .= '<small style="font-size: 13px;">'.$counter.'.&nbsp&nbsp&nbsp John Smith</small><br>';
-        $studentlist .='<div class="row" style="font-size: 13px;">
+        //$studentlist .= '<small style="font-size: 13px;">'.$counter.'.&nbsp&nbsp&nbsp John Smith</small><br>';
+        $studentlist .='<div class="row" style="font-size: 14px;">
                             <div class="col-3">
                                 <small>'.$counter.'.</small>
                             </div>
                             <div class="col-9">
-                                <small>John Smith</small>
+                                <small>'.$Studentname.'</small>
                             </div>
                         </div>';
     $counter++;
 }
 
-// while($a == true) {
-//     if ($counter > 11){
-//             $studentlist .= '</div>
-//             <div class="col-3">
-//             ';
-//             $a= false;
-//     }
+// while($counter <= 48) {
+//     if ($counter > 12 && $gotosecondrow == true){
+//         $studentlist .= '</div>
+//         <div class="col-3">
+//         ';
+//         $gotosecondrow = false;
+// }
+// if ($counter > 24 && $gotothirdrow == true){
+//     $studentlist .= '</div>
+//     <div class="col-3">
+//     ';
+//     $gotothirdrow = false;
+// }
+// if ($counter > 36 && $gotofourthrow == true){
+//     $studentlist .= '</div>
+//     <div class="col-3">
+//     ';
+//     $gotofourthrow = false;
+// }
 
-//     $studentlist .='<div class="row" style="font-size: 13px;">
+//     $studentlist .='<div class="row" style="font-size: 14px;">
 //                         <div class="col-3">
 //                             <small>'.$counter.'.</small>
 //                         </div>
