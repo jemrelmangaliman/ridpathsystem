@@ -10,7 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Check in `users` table
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
     if ($stmt === false) {
-        die("Prepare failed: " . htmlspecialchars($conn->error));
+        $_SESSION['action-error'] = "An error occurred during login.";
+        header('location: index.php');
+        exit();
     }
     $stmt->bind_param("ss", $username, $password);
     $stmt->execute();
@@ -37,7 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Check in `studentaccount` table
         $stmt2 = $conn->prepare("SELECT * FROM students WHERE email = ? AND password = ?");
         if ($stmt2 === false) {
-            die("Prepare failed: " . htmlspecialchars($conn->error));
+            $_SESSION['action-error'] = "An error occurred during login.";
+            header('location: index.php');
+            exit();
         }
         $stmt2->bind_param("ss", $username, $password);
         $stmt2->execute();
@@ -53,7 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header("Location: student/dashboard.php");
             exit();
         } else {
-            $error = "Invalid username or password.";
+            $_SESSION['action-error'] = "Incorrect login credentials.";
+            header('location: index.php');
+            exit();
         }
 
         // Close the second statement
@@ -67,7 +73,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<!-- Display error if exists -->
-<?php if (isset($error)) : ?>
-    <p><?php echo htmlspecialchars($error); ?></p>
-<?php endif; ?>

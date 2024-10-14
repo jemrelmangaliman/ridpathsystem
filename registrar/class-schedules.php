@@ -65,26 +65,12 @@
                                                         $dayname = $DataArray['dayname'];
                                                         $starttime = $DataArray['starttime'];
                                                         $endtime = $DataArray['endtime'];
-                                                        $starttime_hour = (int)substr($starttime,0,2); //get the hour of starttime
-                                                        $endtime_hour = (int)substr($endtime,0,2); //get the hour of endtime
-                                                        $starttime_minute = substr($starttime,3,2); //get the minute of starttime
-                                                        $endtime_minute = substr($endtime,3,2); //get the minute of endtime
+                                                       
                                                         $starttimetext = '';
                                                         $endtimetext = '';
                                                         
-                                                        if($starttime_hour < 12) {
-                                                            $starttimetext = $starttime_hour.':'.$starttime_minute.' AM';
-                                                        }
-                                                        else if($starttime_hour >= 12) {
-                                                            $starttimetext = $starttime_hour.':'.$starttime_minute.' PM';
-                                                        }
-
-                                                        if($endtime_hour < 12) {
-                                                            $endtimetext = $endtime_hour.':'.$endtime_minute.' AM';
-                                                        }
-                                                        else if($endtime_hour >= 12) {
-                                                            $endtimetext = $endtime_hour.':'.$endtime_minute.' PM';
-                                                        }
+                                                        $starttimetext = date('h:i A',strtotime($starttime));
+                                                        $endtimetext = date('h:i A',strtotime($endtime));
 
                                                     ?>
                                                         <tr>

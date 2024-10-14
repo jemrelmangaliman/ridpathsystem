@@ -43,6 +43,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['userrole'] != 2) {
     <script src="../js/jquery-3.6.0.min.js" ></script>
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/popper.min.js" ></script>
+    <script src="../js/fullcalendar.js" ></script>
     <script src="../js/scripts.js"></script>
 
     <!-- Datatables CDN-->

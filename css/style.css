@@ -14,9 +14,9 @@
 }
 #error-AlertDialog {
     position: fixed;
-    left: 58%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    top: 120px;
+    top: 60px;
     z-index: 10;
     opacity: 0;
     animation: fadeinout 3s ease-in-out 1;
@@ -30,9 +30,9 @@
 }
 #success-AlertDialog {
     position: fixed;
-    left: 58%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    top: 120px;
+    top: 60px;
     z-index: 10;
     opacity: 0;
     animation: fadeinout 3s ease-in-out 1;
@@ -77,4 +77,19 @@ td {
 #instructions-text {
     font-size: 12px;
     margin-top: -54px;
+}
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+.fc-col-header-cell-cushion, .fc-daygrid-day-number {
+    text-decoration: none;
+    color: black;
+}
+#calendar {
+    height: 90vh;
+}
+#fc-dom-1 {
+    font-size: 17px;
 }

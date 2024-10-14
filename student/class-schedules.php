@@ -17,7 +17,7 @@ if ($enrollmentcount != 0) {
 }
 else {
     $enrollmentstatus = "Not Enrolled";
-    $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Schedules cannot be displayed.</p>';
+    $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Content cannot be displayed.</p>';
     $hide = 'style="display: none;"'; //used to hide the page
 }
 ?>
@@ -60,8 +60,30 @@ else {
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="row" >
             <!-- Area Chart -->
-            <div class="col-xl-12 col-lg-12">
+            <div class="col-lg-6">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Class Calendar</h6>
+                    </div>
+
+                    <div class="row">
+                        <!-- Card Body -->
+                        <div class="card-body">
+                        <?php echo $enrollmentstatusdisplay;?>
+                            <div id="calendar" class="border shadow m-2 p-4" <?php echo $hide; ?>>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-6">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -72,12 +94,63 @@ else {
                         <!-- Card Body -->
                         <div class="card-body">
                         <?php echo $enrollmentstatusdisplay;?>
-                            
+                            <div class="row mt-1" <?php echo $hide; ?>>
+                                <div class="col">
+                                    <table class="table table-hover table-bordered table-sm w-100" id="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="text-center"><small class="fw-bold">Day</small></th> 
+                                                <th scope="col" class="text-center"><small class="fw-bold">Subject Name</small></th>
+                                                <th scope="col" class="text-center"><small class="fw-bold">Start Time</small></th>
+                                                <th scope="col" class="text-center"><small class="fw-bold">End Time</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody >
+                                            
+                                            <?php
+                                            $studentID = $_SESSION['user_id'];
+
+                                            //get current user's section
+                                            $CurrentUserData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM sectionstudentlist WHERE studentID = '$studentID'"));
+                                            $sectionID = $CurrentUserData['sectionID'];
+
+                                            $fetchSchedulesQuery = "SELECT * FROM classschedule cs
+                                            LEFT JOIN strandsubjects ssb ON cs.strandSubjectID = ssb.strandSubjectID
+                                            LEFT JOIN subjects sj ON ssb.subjectID = sj.subjectID
+                                            LEFT JOIN days d ON d.dayID = cs.dayID
+                                            WHERE cs.sectionID = '$sectionID' ORDER BY d.dayID ASC, cs.starttime ASC";
+                                            $fetchedSchedulesData = mysqli_query($conn, $fetchSchedulesQuery);
+                                            
+                                            while($DataArray = mysqli_fetch_assoc($fetchedSchedulesData)){
+                                                $subjectname = $DataArray['subjectname'];
+                                                $dayname = $DataArray['dayname'];
+                                                $starttime = $DataArray['starttime'];
+                                                $endtime = $DataArray['endtime'];
+
+                                                $starttimetext = date('h:i A',strtotime($starttime));
+                                                $endtimetext = date('h:i A',strtotime($endtime));
+                                                
+                                                ?>
+                                                <tr>
+                                                <td scope="col" class="text-center"><small><?php echo $dayname; ?></small></td> 
+                                                <td scope="col" class="text-center"><small><?php echo $subjectname; ?></small></td>
+                                                <td scope="col" class="text-center"><small><?php echo $starttimetext; ?></small></td>
+                                                <td scope="col" class="text-center"><small><?php echo $endtimetext; ?></small></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table> 
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
+        </div>
+
         </div>
        
         <!-- /.container-fluid -->
@@ -85,18 +158,27 @@ else {
     </div>
     <!-- End of Main Content -->
     <script>
-        document.getElementById('show-more-btn').addEventListener('click', function() {
-            var moreCourses = document.getElementById('more-courses');
-            var btn = document.getElementById('show-more-btn');
+        document.addEventListener("DOMContentLoaded", function() {
 
-            if (moreCourses.style.display === 'none' || moreCourses.style.display === '') {
-                moreCourses.style.display = 'block';
-                btn.textContent = 'Show Less Courses';
-            } else {
-                moreCourses.style.display = 'none';
-                btn.textContent = 'Show All Courses';
-            }
-        });
+            //Calendar JS
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                events: '../ajax/getStudentSchedules.php',
+                eventDisplay: 'block',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'timeGridDay' // Add buttons for dayGridMonth and timeGridDay views
+                },
+                initialView: 'timeGridDay',
+                allDaySlot: false,
+                minTime: "05:00:00",
+                maxTime: "08:00:00"
+                
+            });
+            calendar.render();
+
+        }); 
     </script>
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

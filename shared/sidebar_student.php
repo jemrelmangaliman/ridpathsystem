@@ -40,7 +40,7 @@
         <span>Class Schedule</span></a>
 </li> -->
 <li class="nav-item">
-    <a class="nav-link" href="">
+    <a class="nav-link" href="enrollmentrecords.php">
         <i class="fas fa-fw fa-wrench"></i>
         <span>My Enrollment Records</span></a>
 </li>
