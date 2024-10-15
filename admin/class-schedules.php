@@ -117,6 +117,41 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Section Calendar</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="row mx-1 my-3" id="page-btn-container">
+                                        <div class="col-6">
+                                            <small class="fw-bold">Select Section</small>
+                                            <select class="form-select" id="sectionschedule-dropdown">
+                                                <option value="0">--Select a Section--</option>
+                                                <?php 
+                                                $getSections = mysqli_query($conn, "SELECT * FROM sections ss LEFT JOIN strands st ON ss.strandID = st.strandID WHERE ss.isactive = 'Yes' ORDER BY ss.gradelevel ASC, st.abbreviation ASC, ss.sectionname ASC");
+
+                                                while($DataArray = mysqli_fetch_assoc($getSections)) {
+                                                    echo '<option value="'.$DataArray['sectionID'].'">' . $DataArray['abbreviation'].' '.$DataArray['gradelevel'].' - '.$DataArray['sectionname'] . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="calendar" class="border shadow m-2 p-4">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- Modals -->
                      <div class="modal fade" id="modal-Edit" tabindex="-1" aria-hidden="true">
@@ -221,6 +256,45 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         $('#table').DataTable();
+
+        var sectionscheduledropdown = document.getElementById('sectionschedule-dropdown');
+
+        sectionscheduledropdown.addEventListener("change", function() {
+            var sectionID = sectionscheduledropdown.value;
+            //Calendar JS -- initialization
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                events: '../ajax/getStudentSchedules_Registrar.php?ID='+sectionID,
+                eventDisplay: 'block',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'timeGridDay,dayGridMonth' // Add buttons for dayGridMonth and timeGridDay views
+                },
+                initialView: 'timeGridDay',
+                allDaySlot: false
+
+                
+            });
+            calendar.render();
+        });
+
+        //Calendar JS -- initialization
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            events: '../ajax/getStudentSchedules_Registrar.php',
+            eventDisplay: 'block',
+            headerToolbar: {
+                start: 'prev,next today',
+                center: 'title',
+                end: 'timeGridDay,dayGridMonth' // Add buttons for dayGridMonth and timeGridDay views
+            },
+            initialView: 'timeGridDay',
+            allDaySlot: false
+            
+        });
+        calendar.render();
+
     });
 
     var exampleModal = document.getElementById('modal-Edit');

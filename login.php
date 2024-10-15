@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         if ($user['userRole'] == 1) {
-            header("Location: admin/dashboard.php");
+            header("Location: admin/manageUserAccounts.php");
             exit();
         }
         else if ($user['userRole'] == 2) {

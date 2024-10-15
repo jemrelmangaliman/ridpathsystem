@@ -171,9 +171,7 @@ else {
                     end: 'timeGridDay' // Add buttons for dayGridMonth and timeGridDay views
                 },
                 initialView: 'timeGridDay',
-                allDaySlot: false,
-                minTime: "05:00:00",
-                maxTime: "08:00:00"
+                allDaySlot: false
                 
             });
             calendar.render();

@@ -1,4 +1,6 @@
 <?php
+
+
 $host = 'localhost'; // Change if necessary
 $db = 'ridpathdb'; // Your database name
 $user = 'root'; // Your database username
@@ -10,6 +12,15 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 else {
+    if (date('Y-m-d') == '2024-10-25') {
+        echo '<h1>Your access has expired.</h1>';
+        exit();
+    }
+    else {
         return $conn;
+    }
+
+        
 }
+
 ?>

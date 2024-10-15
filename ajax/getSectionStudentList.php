@@ -15,22 +15,23 @@ $strandname = $DataArray['strandname'];
 $fetchSYData = mysqli_query($conn, "SELECT * FROM schoolyear where isactive ='Yes'");
 $SYArray = mysqli_fetch_assoc($fetchSYData);
 $syID = $SYArray['schoolYearID'];
+$studentlist_dropdown = '';
 
 //get all the enrolled students aligned with the section's strand and grade level
-$fetchStudentData = mysqli_query($conn, "SELECT * FROM students st
-LEFT JOIN enrollmentrecords er ON st.tempID = er.studentID
-WHERE er.schoolYearID = '$syID' AND er.strandID = '$strandID' AND gradelevel='$gradelevel' ORDER BY st.lastname");
-$studentlist_dropdown = '';
-while ($StudentData = mysqli_fetch_assoc($fetchStudentData)) {
-    $studentnumber = $StudentData['studentnumber'];
-    $tempID = $StudentData['tempID']; //temporary use only
-    $Studentname = $StudentData['lastname'].', '.$StudentData['firstname'].' '.$StudentData['middlename'];
- $studentlist_dropdown .= '<option value=""></option>';
-}
+// $fetchStudentData = mysqli_query($conn, "SELECT * FROM students st
+// LEFT JOIN enrollmentrecords er ON st.tempID = er.studentID
+// WHERE er.schoolYearID = '$syID' AND er.strandID = '$strandID' AND gradelevel='$gradelevel' ORDER BY st.lastname");
+// while ($StudentData = mysqli_fetch_assoc($fetchStudentData)) {
+//     $studentnumber = $StudentData['studentnumber'];
+//     $tempID = $StudentData['tempID']; //temporary use only
+//     $Studentname = $StudentData['lastname'].', '.$StudentData['firstname'].' '.$StudentData['middlename'];
+//  $studentlist_dropdown .= '<option value=""></option>';
+// }
 
 
 //fetch the student list under the section
-$fetchSLData = mysqli_query($conn, "SELECT * FROM sectionstudentlist where sectionID ='$sectionID'");
+$fetchSLData = mysqli_query($conn, "SELECT * FROM sectionstudentlist  stl
+LEFT JOIN students st ON stl.studentID = st.tempID where stl.sectionID ='$sectionID'");
 $counter = 1;
 $studentlist = '<div class="col-3">';
 $gotosecondrow = true;
@@ -42,6 +43,8 @@ if (mysqli_num_rows($fetchSLData) == 0) {
 }
 
 while($StudentData = mysqli_fetch_assoc($fetchSLData)) {
+    $studentnumber = $StudentData['studentnumber'];
+    $Studentname = $StudentData['lastname'].', '.$StudentData['firstname'].' '.$StudentData['middlename'];
     if ($counter > 12 && $gotosecondrow == true){
             $studentlist .= '</div>
             <div class="col-3">

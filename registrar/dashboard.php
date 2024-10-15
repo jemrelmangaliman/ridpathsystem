@@ -97,23 +97,61 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                         </div>
                     </div>
                 </div>  
-            </div>
-            
-            
+            </div>            
+        </div>
+       
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- Content Row -->
+    <div class="row d-flex">
             <!-- Area Chart -->
-            <div class="col-xl-12 col-lg-12">
+            <div class="col-7">
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Dashboard</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Recently Enrolled Students</h6>
                     </div>
 
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
+                        <ul class="list-group list-group-flush">
                             
+                            <?php 
+                            //get all recently enrolled students
+                            $getRecentEnrolled = mysqli_query($conn, "SELECT * FROM enrollmentrecords er
+                            LEFT JOIN students st on er.studentID = st.tempID ORDER BY er.enrollmentID DESC LIMIT 10");
+
+                            while ($StudentData = mysqli_fetch_assoc($getRecentEnrolled)) {
+                                echo '<li class="list-group-item" style="font-size: 15px;">'.$StudentData['lastname'].', '.$StudentData['firstname'].' '.$StudentData['middlename'].' ('.$StudentData['studentnumber'].')</li>';
+                            }
+                            ?>
+                        </ul>
                             
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Shortcuts</h6>
+                    </div>
+
+                    <div class="row">
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col d-flex justify-content-center">
+                                    <a href="class-schedules.php" class="w-100">
+                                        <button class="btn btn-primary w-100" style="height: 50px;">View Class Schedules</button>
+                                    </a>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

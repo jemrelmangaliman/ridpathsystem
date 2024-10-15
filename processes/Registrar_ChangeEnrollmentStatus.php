@@ -49,12 +49,11 @@ $conn = require '../config/config.php';
         //Add student to the section's student list
         $SectionListQuery = "INSERT INTO sectionstudentlist (sectionID, studentID) VALUES ('$section','$studentID')";
 
-        //Student query
-        if ($studentnumber == 0) {
-            $StudentQuery = "UPDATE students SET studentnumber = '$studentnumber' WHERE tempID = '$studentID'";
-            //set the student number of the student
-            if (mysqli_query($conn, $StudentQuery));
-        }
+
+        $StudentQuery = "UPDATE students SET studentnumber = '$studentnumber' WHERE tempID = '$studentID'";
+        //set the student number of the student
+        if (mysqli_query($conn, $StudentQuery));
+        
         
         //execute sectionquery
         if (mysqli_query($conn, $SectionListQuery)){

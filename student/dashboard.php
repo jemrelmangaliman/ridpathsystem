@@ -5,6 +5,7 @@ $tempid = $_SESSION['user_id'];
 $fetchQuery = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID WHERE ER.studentID = '$tempid'";
 $fetchedData = mysqli_query($conn, $fetchQuery);
 $EnrollmentData = mysqli_fetch_assoc($fetchedData);
+$hide = 'style="display: none;"';
 
 if (mysqli_num_rows($fetchedData) != 0) {
     $enrollmentstatus = $EnrollmentData['statusname'];
@@ -13,6 +14,7 @@ if (mysqli_num_rows($fetchedData) != 0) {
 else {
     $enrollmentstatus = "Not Enrolled";
     $enrollmentbutton = '<a href="enrollment.php" class="w-100"><button class="btn btn-primary w-100" id="page-btn">Enroll Now</button></a>';
+    $hide = 'style="display: flex; justify-content: center;"';
 }
 ?>
 
@@ -68,27 +70,26 @@ else {
 
                         <div class="container border shadow w-50 py-3">
                                 <h5 class="text-center">Quick Links</h5>
-                                <div class="row w-75 py-2 ml-auto mr-auto border-bottom">
-                                    <div class="col-7 d-flex align-items-center">
-                                        <p>View Enrollment Record</p>
+                                <div class="row w-75 py-2 ml-auto mr-auto border-bottom">  
+                                    <div class="col">
+                                        <button class="btn btn-primary w-100 fs-4" data-bs-toggle="modal" data-bs-target="#modal-View">View Strand Catalog <i class="bi bi-arrow-right"></i></button>
                                     </div>
-                                    <div class="col-5">
-                                        <a href="admission.php"><button class="btn btn-primary w-100">Go to page <i class="bi bi-arrow-right"></i></button></a>
+                                </div>
+                                <div class="row w-75 py-2 ml-auto mr-auto border-bottom  mt-3">  
+                                    <div class="col">
+                                        <a href="admission.php"><button class="btn btn-primary w-100 fs-4">View Enrollment <i class="bi bi-arrow-right"></i></button></a>
                                     </div>
                                 </div>
                                 <div class="row w-75 py-2 ml-auto mr-auto mt-3">
-                                    <div class="col-7 d-flex align-items-center">
-                                        <p>View Class Schedules</p>
-                                    </div>
-                                    <div class="col-5">
-                                        <a href="admission.php"><button class="btn btn-primary w-100">Go to page  <i class="bi bi-arrow-right"></i></button></a>
+                                    <div class="col">
+                                        <a href="class-schedules.php"><button class="btn btn-primary w-100 fs-4">View Schedules  <i class="bi bi-arrow-right"></i></button></a>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row w-100 mt-5 d-flex justify-content-end">
-                                <div class="col-4 d-flex justify-content-end">
-                                    
+                            <div class="row w-50 mt-5 py-3 border shadow ml-auto mr-auto" <?php echo $hide ;?>>
+                                <div class="col">
+                                    <p>Not yet enrolled? Begin enrollment here!</p>
                                     <?php echo $enrollmentbutton; ?>
                                 </div>
                             </div>
@@ -103,6 +104,94 @@ else {
         </div>
        
         <!-- /.container-fluid -->
+
+        <!-- Modals -->
+        <div class="modal fade" id="modal-View" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-4" style="font-family: Arial;">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="text-center">Strands</h4>
+                                <div class="accordion" id="accordionPanel">
+
+                                <?php 
+                                    //get all strands
+                                    $getStrands = mysqli_query($conn,"SELECT * FROM strands");
+
+                                    while ($DataArray = mysqli_fetch_assoc($getStrands)) {
+                                        $strandID = $DataArray['strandID'];
+                                        $strandname = $DataArray['strandname'];
+                                        ?>
+
+                                    <div class="accordion-item">
+                                            <button class="accordion-button bg-gradient-primary text-white border-bottom pl-0"  style="height: 60px;" type="button" id="accordionButton<?php echo $strandID; ?>" data-bs-toggle="collapse" data-bs-target="#accordionCollapsePanel<?php echo $strandID; ?>" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                <p class="fw-bold mt-3 ml-3"><?php echo $strandname; ?></p>
+                                            </button>
+                                        <div id="accordionCollapsePanel<?php echo $strandID; ?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                                            <div class="accordion-body p-1">
+                                                <p class="fw-bold text-center mt-2 mb-1">Subjects</p>
+                                                
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <table class="table table-hover table-bordered table-sm w-100" id="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col" class="text-center" id="dashboard-subjects-text"><small class="fw-bold">Grade Level</small></th> 
+                                                                    <th scope="col" class="text-center" id="dashboard-subjects-text"><small class="fw-bold">Subject Name</small></th>
+                                                                    <th scope="col" class="text-center" id="dashboard-subjects-text"><small class="fw-bold">Pre Requisite</small></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody >
+                                                                
+                                                                <?php
+                                                                $fetchSubjectsQuery = "SELECT sj1.subjectname as subjectname, sj2.subjectname as prsubjectname, ss.gradelevel 
+                                                                FROM strandsubjects ss 
+                                                                LEFT JOIN subjects sj1 ON ss.subjectID = sj1.subjectID
+                                                                LEFT JOIN subjects sj2 ON sj1.pr_subjectID = sj2.subjectID
+                                                                WHERE ss.strandID = '$strandID' ORDER BY sj1.subjectname";
+                                                                $fetchedSubjectData = mysqli_query($conn, $fetchSubjectsQuery);
+                                                                
+                                                                while($DataArray = mysqli_fetch_assoc($fetchedSubjectData)){
+                                                                    $subjectname = $DataArray['subjectname'];
+                                                                    $prsubjectname = ($DataArray['prsubjectname'] != null) ? $DataArray['prsubjectname']: "None";
+                                                                    $gradelevel1 = "Grade ".$DataArray['gradelevel'];
+                                                                    
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td class="text-center" id="dashboard-subjects-text"><?php echo $gradelevel1; ?></td>
+                                                                        <td class="text-center" id="dashboard-subjects-text"><?php echo $subjectname; ?></td>
+                                                                        <td class="text-center" id="dashboard-subjects-text"><?php echo $prsubjectname; ?></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                            </tbody>
+                                                        </table> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <?php
+                                        }
+                                    ?>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-4">
+                            <div class="col  d-flex justify-content-center">
+                                <button type="button" id="page-btn" class="btn btn-secondary w-50" data-bs-dismiss="modal">Close</button>
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
 
     </div>
     <!-- End of Main Content -->

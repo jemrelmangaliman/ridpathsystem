@@ -105,6 +105,7 @@ $assessmentbuttons = 'style="display: none;"';
 $balancesettlementbuttons = 'style="display: none;"';
 $admissionbutton = 'style="display: none;"';
 $admissiondetailscontainer = 'style="display: none;"';
+$hideremarksfield = 'style="display: flex;"';
 
 switch ($enrollmentstatusID) {
     case "2":
@@ -116,6 +117,14 @@ switch ($enrollmentstatusID) {
     case "5":
         $admissionbutton = 'style="display: flex;"';
         $admissiondetailscontainer = 'style="display: block;"';
+        break;
+    case "6":
+        $hideremarksfield = 'style="display: none;"';
+        break;
+    case "7":
+        $hideremarksfield = 'style="display: none;"';
+        break;
+
 }
 
 $transactionID = '';
@@ -458,7 +467,7 @@ else {
                                                 <input type="hidden" value="<?php echo $studentID; ?>" name="studentID">
                                                 <input type="hidden" value="<?php echo $returnpage; ?>" name="returnpage">
                                                 
-                                                <div class="row w-100 mt-3 mb-1">
+                                                <div class="row w-100 mt-3 mb-1" <?php echo $hideremarksfield; ?>>
                                                     <small>Enrollment Remarks</small>
                                                     <div class="col">
                                                             <textarea name="enrollmentremarks" class="form-control w-100" placeholder="Please include an enrollment remark" required></textarea>        
@@ -512,9 +521,9 @@ else {
                                                     <div class="col">   
                                                             <button class="btn btn-success w-100" id="page-btn" type="submit" name="ConfirmBalanceSettlement">Confirm Balance Settlement</button>
                                                     </div>
-                                                    <div class="col">   
+                                                    <!-- <div class="col">   
                                                             <button class="btn btn-danger w-100" id="page-btn" type="submit" name="HoldEnrollment">Put On Hold</button>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                                 <div class="row w-100 mt-3 mb-3" <?php echo $admissionbutton; ?>>
                                                     <div class="col">   
