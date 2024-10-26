@@ -12,11 +12,11 @@
     <link rel="icon" type="image/x-icon" href="img/ridpath.jpg">
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="css/boostrap5.min.css" rel="stylesheet">
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/bootstrap5.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-success">
     <div class="container">
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
@@ -78,13 +78,13 @@
                                         <input type="password" class="form-control form-control-user" name="repeatpassword" placeholder="Repeat Password" required>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" class="btn btn-outline-success fw-bold btn-user btn-block">
                                     Register Account
                                 </button>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="index.php">Already have an account? Login!</a>
+                                <a class="small  text-decoration-none" href="index.php">Already have an account? Click here to login!</a>
                             </div>
                         </div>
                     </div>

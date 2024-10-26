@@ -8,6 +8,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['userrole'] != 2) {
         header('Location: ../index.php');
         exit(); 
 }
+//get profile picture
+$userID = $_SESSION['user_id'];
+$DataArray = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM users WHERE userID = '$userID'"));
+$profileimgurl =  ($DataArray['profileimgurl'] != null) ? $DataArray['profileimgurl']  : "../img/undraw_profile.svg";
+
 ?>
 
 
@@ -75,7 +80,9 @@ if (!isset($_SESSION['user_id']) || $_SESSION['userrole'] != 2) {
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    
+                    <div class="container pl-3">
+                        <h4 class="text-success fw-bold">Ridpath Academy of Mabuhay</h4>
+                    </div>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -91,7 +98,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['userrole'] != 2) {
                                     <?php echo $_SESSION['logged_username']; ?>
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="<?php echo $profileimgurl; ?>">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

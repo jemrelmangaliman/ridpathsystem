@@ -34,11 +34,11 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
         <div class="row">
             <div class="row">
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card border-left-success shadow h-100 py-1">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                         Pending Enrollments
                                     </div>
                                     <div class="fs-5 mb-0 font-weight-bold text-gray-800">
@@ -50,11 +50,11 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                     </div>
                 </div>  
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card border-left-success shadow h-100 py-1">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                         For Balance Settlement
                                     </div>
                                     <div class="fs-5 mb-0 font-weight-bold text-gray-800">
@@ -66,11 +66,11 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                     </div>
                 </div>  
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card border-left-success shadow h-100 py-1">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                         For Admission Confirmation
                                     </div>
                                     <div class="fs-5 mb-0 font-weight-bold text-gray-800">
@@ -82,11 +82,11 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                     </div>
                 </div>  
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card border-left-success shadow h-100 py-1">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                         For Resubmission
                                     </div>
                                     <div class="fs-5 mb-0 font-weight-bold text-gray-800">
@@ -110,7 +110,7 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Recently Enrolled Students</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Recently Enrolled Students</h6>
                     </div>
 
                     <div class="row">
@@ -137,7 +137,7 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Shortcuts</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Shortcuts</h6>
                     </div>
 
                     <div class="row">
@@ -146,7 +146,7 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                             <div class="row">
                                 <div class="col d-flex justify-content-center">
                                     <a href="class-schedules.php" class="w-100">
-                                        <button class="btn btn-primary w-100" style="height: 50px;">View Class Schedules</button>
+                                        <button class="btn btn-success w-100" style="height: 50px;">View Class Schedules</button>
                                     </a>
                                 </div>
                             </div>    

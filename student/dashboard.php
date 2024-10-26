@@ -13,7 +13,7 @@ if (mysqli_num_rows($fetchedData) != 0) {
 }
 else {
     $enrollmentstatus = "Not Enrolled";
-    $enrollmentbutton = '<a href="enrollment.php" class="w-100"><button class="btn btn-primary w-100" id="page-btn">Enroll Now</button></a>';
+    $enrollmentbutton = '<a href="enrollment.php" class="w-100"><button class="btn btn-success w-100" id="page-btn">Enroll Now</button></a>';
     $hide = 'style="display: flex; justify-content: center;"';
 }
 ?>
@@ -41,11 +41,11 @@ else {
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-4 col-md-6 mb-3">
-                <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card border-left-success shadow h-100 py-1">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col ml-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Enrollment Status
                                 </div>
                                 <div class="fs-5 mb-0 font-weight-bold text-gray-800">
@@ -61,7 +61,7 @@ else {
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Dashboard</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Dashboard</h6>
                     </div>
 
                     <div class="row">
@@ -72,17 +72,17 @@ else {
                                 <h5 class="text-center">Quick Links</h5>
                                 <div class="row w-75 py-2 ml-auto mr-auto border-bottom">  
                                     <div class="col">
-                                        <button class="btn btn-primary w-100 fs-4" data-bs-toggle="modal" data-bs-target="#modal-View">View Strand Catalog <i class="bi bi-arrow-right"></i></button>
+                                        <button class="btn btn-success w-100 fs-4" data-bs-toggle="modal" data-bs-target="#modal-View">View Strand Catalog <i class="bi bi-arrow-right"></i></button>
                                     </div>
                                 </div>
                                 <div class="row w-75 py-2 ml-auto mr-auto border-bottom  mt-3">  
                                     <div class="col">
-                                        <a href="admission.php"><button class="btn btn-primary w-100 fs-4">View Enrollment <i class="bi bi-arrow-right"></i></button></a>
+                                        <a href="admission.php"><button class="btn btn-success w-100 fs-4">View Enrollment <i class="bi bi-arrow-right"></i></button></a>
                                     </div>
                                 </div>
                                 <div class="row w-75 py-2 ml-auto mr-auto mt-3">
                                     <div class="col">
-                                        <a href="class-schedules.php"><button class="btn btn-primary w-100 fs-4">View Schedules  <i class="bi bi-arrow-right"></i></button></a>
+                                        <a href="class-schedules.php"><button class="btn btn-success w-100 fs-4">View Schedules  <i class="bi bi-arrow-right"></i></button></a>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@ else {
                                         ?>
 
                                     <div class="accordion-item">
-                                            <button class="accordion-button bg-gradient-primary text-white border-bottom pl-0"  style="height: 60px;" type="button" id="accordionButton<?php echo $strandID; ?>" data-bs-toggle="collapse" data-bs-target="#accordionCollapsePanel<?php echo $strandID; ?>" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                            <button class="accordion-button bg-success text-white border-bottom pl-0"  style="height: 60px;" type="button" id="accordionButton<?php echo $strandID; ?>" data-bs-toggle="collapse" data-bs-target="#accordionCollapsePanel<?php echo $strandID; ?>" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                                                 <p class="fw-bold mt-3 ml-3"><?php echo $strandname; ?></p>
                                             </button>
                                         <div id="accordionCollapsePanel<?php echo $strandID; ?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">

@@ -41,7 +41,7 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Enrollment Information</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Enrollment Information</h6>
                     </div>
                     <div class="row">
                         <!-- Card Body -->

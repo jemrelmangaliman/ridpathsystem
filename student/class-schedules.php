@@ -9,14 +9,25 @@ $enrollmentcount = mysqli_num_rows($fetchedData2);
 $enrollmentstatusdisplay = '';
 $hide = '';
 
+//get current user's section
+$CurrentUserData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM sectionstudentlist WHERE studentID = '$studentID'"));
+$sectionID = '';
+$EnrollmentData = mysqli_fetch_assoc($fetchedData2);
+
 //check if there is an active enrollment record
-if ($enrollmentcount != 0) {
-    $EnrollmentData = mysqli_fetch_assoc($fetchedData2);
+if ($enrollmentcount != 0 && isset($CurrentUserData['sectionID'])) {
+
+    $sectionID = $CurrentUserData['sectionID'];
     $enrollmentstatusdisplay = '';
     $enrollmentstatus = $EnrollmentData['statusname'];
 }
-else {
+else if ($enrollmentcount == 0) {
     $enrollmentstatus = "Not Enrolled";
+    $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Content cannot be displayed.</p>';
+    $hide = 'style="display: none;"'; //used to hide the page
+}
+else if (!isset($CurrentUserData['sectionID'])) {
+    $enrollmentstatus = $EnrollmentData['statusname'];
     $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Content cannot be displayed.</p>';
     $hide = 'style="display: none;"'; //used to hide the page
 }
@@ -45,11 +56,11 @@ else {
         <!-- Content Row -->
         <div class="row">
             <div class="col-xl-4 col-md-6 mb-3">
-                <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card border-left-success shadow h-100 py-1">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col ml-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Enrollment Status
                                 </div>
                                 <div class="fs-5 mb-0 font-weight-bold text-gray-800">
@@ -68,7 +79,7 @@ else {
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Class Calendar</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Class Calendar</h6>
                     </div>
 
                     <div class="row">
@@ -87,7 +98,7 @@ else {
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Class Schedules</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Class Schedules</h6>
                     </div>
 
                     <div class="row">
@@ -110,10 +121,7 @@ else {
                                             <?php
                                             $studentID = $_SESSION['user_id'];
 
-                                            //get current user's section
-                                            $CurrentUserData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM sectionstudentlist WHERE studentID = '$studentID'"));
-                                            $sectionID = $CurrentUserData['sectionID'];
-
+                                           
                                             $fetchSchedulesQuery = "SELECT * FROM classschedule cs
                                             LEFT JOIN strandsubjects ssb ON cs.strandSubjectID = ssb.strandSubjectID
                                             LEFT JOIN subjects sj ON ssb.subjectID = sj.subjectID

@@ -28,10 +28,11 @@ session_unset();
     <link href="css/style.css" rel="stylesheet"> 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/bootstrap5.min.css" rel="stylesheet">
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-success">
 
     <div class="container">
 
@@ -63,14 +64,13 @@ session_unset();
                                                 id="password" placeholder="Password" required>
                                         </div>
                                        
-                                        <button class="btn btn-primary btn-user btn-block" type="submit">Login</button>
+                                        <button class="btn btn-outline-success fw-bold  btn-user btn-block" type="submit">Login</button>
 
-                                        <hr>
-                                       
+
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="register_form.php">Create an Account!</a>
+                                        <a class="small text-decoration-none" href="register_form.php">Click here to create an account!</a>
                                     </div>
                                 </div>
                             </div>

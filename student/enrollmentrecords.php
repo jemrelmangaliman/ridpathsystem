@@ -35,11 +35,11 @@ else {
 
                     <div class="row">
                         <div class="col-xl-4 col-md-6 mb-3">
-                            <div class="card border-left-primary shadow h-100 py-1">
+                            <div class="card border-left-success shadow h-100 py-1">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col ml-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Enrollment Status
                                             </div>
                                             <div class="fs-5 mb-0 font-weight-bold text-gray-800">
@@ -58,7 +58,7 @@ else {
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">My Enrollment Records</h6>
+                                    <h6 class="m-0 font-weight-bold text-success">My Enrollment Records</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">

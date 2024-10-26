@@ -106,7 +106,7 @@ if(mysqli_num_rows($GetPaymentRecord) == 1) {
     $paymentremarks = $PaymentDetails['paymentremarks'];
 
     if($paymenttype == "Online") {
-        $showproofbutton = '<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+        $showproofbutton = '<button type="button" class="btn btn-success" data-bs-toggle="modal"
                                     data-bs-target="#modal-View"
                                     data-bs-proofimgurl="'.$proofimgurl.'" style="font-size: 11px;"><i class="bi bi-eye-fill" id="table-btn-icon"></i> View Payment Proof</button>';
     }
@@ -149,7 +149,7 @@ $attachmentlabellist =
                 <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Admission Details</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Admission Details</h6>
                     </div>
                     <div class="row">
                         <!-- Card Body -->
@@ -298,7 +298,7 @@ $attachmentlabellist =
                                                     <small id="small" class="fw-bold">:</small>
                                                 </div>
                                                 <div class="col-8">
-                                                    <small class="text-primary"><?php echo $enrollmentremarks; ?></small>
+                                                    <small class="text-success"><?php echo $enrollmentremarks; ?></small>
                                                 </div>
                                             </div>                          
                                         </div>
@@ -560,7 +560,7 @@ $attachmentlabellist =
     <script>
        
     var transactionID = document.getElementById("transactionID").value;
-    if (transactionID != '') {
+    if (transactionID != null) {
         document.getElementById('paymentlink').href = "";
     }
 

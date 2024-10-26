@@ -77,7 +77,6 @@ function checkEnrollmentInputs () {
         psafile.classList.remove("is-valid");
     }
     else {
-        noError = true;
         psafile.classList.remove("is-invalid")
     }
 
@@ -87,7 +86,6 @@ function checkEnrollmentInputs () {
         enrollmentformfile.classList.remove("is-valid");
     }
     else {
-        noError = true;
         psafile.classList.remove("is-invalid")
     }
 
@@ -97,7 +95,6 @@ function checkEnrollmentInputs () {
         interestdropdown.classList.remove("is-valid");
     }
     else {
-        noError = true;
         interestdropdown.classList.add("is-valid")
         interestdropdown.classList.remove("is-invalid")
     }
@@ -108,7 +105,6 @@ function checkEnrollmentInputs () {
         stranddropdown.classList.remove("is-valid");
     }
     else {
-        noError = true;
         stranddropdown.classList.add("is-valid")
         stranddropdown.classList.remove("is-invalid")
     }

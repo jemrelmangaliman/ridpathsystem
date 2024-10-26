@@ -17,6 +17,11 @@ else {
     header('Location: ../index.php');
     exit();
 }
+
+//get profile picture
+$studentID = $_SESSION['user_id'];
+$DataArray = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM students WHERE tempID = '$studentID'"));
+$profileimgurl =  ($DataArray['profileimgurl'] != null) ? $DataArray['profileimgurl']  : "../img/undraw_profile.svg";
 ?>
 
 
@@ -84,11 +89,14 @@ else {
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+                    <div class="container pl-3">
+                        <h4 class="text-success fw-bold">Ridpath Academy of Mabuhay</h4>
+                    </div>
                     
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                        
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -100,7 +108,7 @@ else {
                                     <?php echo $_SESSION['logged_username']; ?>
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="../img/undraw_profile.svg">
+                                    src="<?php echo $profileimgurl; ?>">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

@@ -1,0 +1,34 @@
+PNC DB changes
+-added new enrollment status (Enrolled)
+-added new enrollment status (On Hold)
+-enrollment remarks for registrar (enrollmentrecords table)
+-proofimgurl (paymentrecord table)
+-enrollmentID (paymentrecord table)
+-accountnumber (paymentmodes)
+
+
+new table
+strandsubjects
+-strandID (int FK)
+-subjectID (int FK)
+
+
+For Configuration:
+-grade level (enrollment submission, displaying of enrollment data, enrollment process)*
+-semester date must be saved on class schedules not by semester ID but by start date and end date*
+-irregular student class schedules
+-validation messages*/
+-change password on profile pages*/*
+-enrollment remarks (display in student, require on registrar)*/
+-configure account number on payment modes*/*
+-display account number on students
+-configure strand selection on subjects*
+-configure student type on enrollment*
+-required fields in enrollment submission*
+-add strand subjects configuration on admin*
+-enrolled view page on registrar
+-configure school year and grade level selection on strand stubjects (PRIORITY)*
+-change semester to school year*
+-remove school year on strand subject selection*
+
+when enrollment process is completed, configure the ID to be used by students (tempID or studentnumber) if they already have student number or not in their next enrollment. This can be based on grade level, existence of student number, or student type (new, old, or transferee)
