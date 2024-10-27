@@ -92,19 +92,24 @@
         <i class="fas fa-fw fa-wrench"></i>
         <span>Class Schedules</span></a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="endcurrentschoolyear.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>End School Year</span></a>
+</li>
 <!-- Divider -->
 <hr class="sidebar-divider">
 
 <!-- Heading -->
-<div class="sidebar-heading">
+<!-- <div class="sidebar-heading">
     Reports
-</div>
+</div> -->
 <!-- Nav Item - Charts -->
-<li class="nav-item">
+<!-- <li class="nav-item">
     <a class="nav-link" href="reports.php">
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Generate Reports</span></a>
-</li>
+</li> -->
 
 
 <!-- Divider -->

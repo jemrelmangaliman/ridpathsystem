@@ -100,53 +100,6 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
             </div>            
         </div> 
 
-         <!-- Content Row -->
-        <div class="row d-flex">
-            <!-- Area Chart -->
-            <div class="col">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-success">Enrollment Summary</h6>
-                    </div>
-
-                    <div class="row">
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="row mx-2">
-                                <div class="col-12">
-                                    <canvas id="barChart-strandStudents"></canvas>
-                                </div>
-
-                                <div class="col-12">
-                                    <canvas id="lineChart-enrollmentCount"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-        </div>
-
-         <!-- Content Row -->
-         <div class="row d-flex">
-            <!-- Area Chart -->
-            <div class="col">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-success">Demographics</h6>
-                    </div>
-
-                    <div class="row">
-                        <!-- Card Body -->
-                        <div class="card-body">
-
-                        </div>
-                    </div>
-                </div>
-            </div> 
-        </div>
         <!-- Content Row -->
         <div class="row d-flex">
             <!-- Area Chart -->
@@ -160,7 +113,11 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
-
+                            <div class="row mx-2">
+                                <div class="col-12">
+                                    <canvas id="barChart-sectionCapacity"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -175,16 +132,16 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
     <script>
 
         // bar chart for strand students
-        fetch('../ajax/getStudentCountPerStrand.php')
+        fetch('../ajax/getStudentCountPerSection.php')
         .then(response => response.json())
         .then(data => {
-            const ctx = document.getElementById('barChart-strandStudents').getContext('2d');
+            const ctx = document.getElementById('barChart-sectionCapacity').getContext('2d');
             const myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: data.labels,
                     datasets: [{
-                        label: 'Enrolled Students Per Strand',
+                        label: 'Available Student Slots',
                         data: data.data,
                         backgroundColor: 'rgba(25,135,84, 0.6)',
                         borderColor: 'rgba(25,135,84, 1)',
@@ -193,42 +150,18 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                 },
                 options: {
                     scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
                     }
                 }
             });
         })
         .catch(error => console.error('Error fetching data:', error));
 
-        // bar chart for strand students
-        fetch('../ajax/getStudentCountPerSchoolYear.php')
-        .then(response => response.json())
-        .then(data => {
-            const ctx = document.getElementById('lineChart-enrollmentCount').getContext('2d');
-            const myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Enrollment Counts Per School Year',
-                        data: data.data,
-                        backgroundColor: 'rgba(25,135,84, 0.6)',
-                        borderColor: 'rgba(25,135,84, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+
     </script>
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

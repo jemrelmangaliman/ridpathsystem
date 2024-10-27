@@ -68,7 +68,7 @@ else {
                         <!-- Card Body -->
                         <div class="card-body">
 
-                        <div class="container border shadow w-50 py-3">
+                            <div class="container border shadow w-50 py-3">
                                 <h5 class="text-center">Quick Links</h5>
                                 <div class="row w-75 py-2 ml-auto mr-auto border-bottom">  
                                     <div class="col">
@@ -191,7 +191,7 @@ else {
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 
     </div>
     <!-- End of Main Content -->

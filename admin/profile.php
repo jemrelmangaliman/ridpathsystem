@@ -78,25 +78,25 @@
                                                         <input type="text" class="form-control" name="firstname" value="<?php echo $firstname; ?>" required>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-1">
+                                                <!-- <div class="row mb-1">
                                                     <small>User Role</small>
                                                     <div class="col">
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="userRole" id="registrar" value="2" required <?php echo $registrarChecked; ?>>
+                                                        <input class="form-check-input" type="radio" name="userRole" id="registrar" value="2" required <?php echo $registrarChecked; ?> disabled>
                                                         <label class="form-check-label" for="user">
                                                             Registrar
                                                         </label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="userRole" id="admin" value="1" required <?php echo $adminChecked; ?>>
+                                                        <input class="form-check-input" type="radio" name="userRole" id="admin" value="1" required <?php echo $adminChecked; ?> disabled> 
                                                         <label class="form-check-label" for="admin">
                                                             Administrator
                                                         </label>
                                                     </div>
                                                  
-                                                    </div>
+                                                </div> -->
                                                 </div>
-                                                <div class="row mt-3 d-flex justify-content-center">
+                                                <div class="row mt-3 mb-3 d-flex justify-content-center">
                                                        <button class="btn btn-success" id="page-btn" type="submit" name="EditUser" style="width:50%;">Save</button>
                                                 </div>
                                 
