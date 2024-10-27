@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 else {
-    if (date('Y-m-d') == '2024-10-25') {
+    if (date('Y-m-d') > '2024-11-01') {
         echo '<h1>Your access has expired.</h1>';
         exit();
     }

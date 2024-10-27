@@ -1,16 +1,13 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
  <div class="container-fluid bg-white pt-4 pb-4 border shadow">
     <a class="sidebar-brand d-flex align-items-center justify-content-center mb-5" href="dashboard.php">
         <div class="row d-flex flex-column mt-5">
             <div class="col">
-                <img src="../img/ridpath.jpg" class="img w-50">
-            </div>
-            <div class="col">
-                <div class="sidebar-brand-text text-primary">Ridpath Academy of Mabuhay</div>
-            </div>
+                <img src="../img/ridpath.jpg" class="img w-100">
+            </div>  
         </div>
     </a>
  </div>
@@ -85,7 +82,7 @@
     <div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="manageUserAccounts.php">User Accounts</a>
-            <a class="collapse-item" href="studentrecords.php">Student Records</a> 
+            <a class="collapse-item" href="studentrecords.php">Student Accounts</a> 
         </div>
     </div>
 </li>

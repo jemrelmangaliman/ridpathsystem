@@ -23,14 +23,14 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <h1 class="h3 mb-0 text-gray-800">Reports</h1>
         
     </div>
 
     <!-- Content Row -->
-    <div class="row">
+    <div class="row  d-flex justify-content-center">
 
-        <!-- Content Row -->
+        <!-- Enrollment Status Count Row -->
         <div class="row">
             <div class="row">
                 <div class="col-xl-3 col-md-12 mb-3">
@@ -98,81 +98,137 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
                     </div>
                 </div>  
             </div>            
-        </div>
-       
-        <!-- /.container-fluid -->
+        </div> 
 
-    </div>
-    <!-- Content Row -->
-    <div class="row d-flex">
+         <!-- Content Row -->
+        <div class="row d-flex">
             <!-- Area Chart -->
-            <div class="col-7">
-                <div class="card shadow mb-4" style="min-height: 50vh; height: auto;">
+            <div class="col">
+                <div class="card shadow mb-4">
                     <!-- Card Header -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-success">Recently Enrolled Students</h6>
+                        <h6 class="m-0 font-weight-bold text-success">Enrollment Summary</h6>
                     </div>
 
                     <div class="row">
                         <!-- Card Body -->
                         <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            
-                            <?php 
-                            //get all recently enrolled students
-                            $getRecentEnrolled = mysqli_query($conn, "SELECT * FROM enrollmentrecords er
-                            LEFT JOIN students st on er.studentID = st.tempID WHERE enrollmentStatusID = '6' ORDER BY er.enrollmentID DESC LIMIT 10");
-
-                            while ($StudentData = mysqli_fetch_assoc($getRecentEnrolled)) {
-                                echo '<li class="list-group-item" style="font-size: 15px;">'.$StudentData['lastname'].', '.$StudentData['firstname'].' '.$StudentData['middlename'].' ('.$StudentData['studentnumber'].')</li>';
-                            }
-                            ?>
-                        </ul>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-5">
-                <div class="card shadow mb-4" style="min-height: 50vh; height: auto;">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-success">Shortcuts</h6>
-                    </div>
-
-                    <div class="row">
-                        <!-- Card Body -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col d-flex justify-content-center">
-                                    <a href="class-schedules.php" class="w-100">
-                                        <button class="btn btn-success w-100" style="height: 50px;">View Class Schedules</button>
-                                    </a>
+                            <div class="row mx-2">
+                                <div class="col-12">
+                                    <canvas id="barChart-strandStudents"></canvas>
                                 </div>
-                            </div>    
+
+                                <div class="col-12">
+                                    <canvas id="lineChart-enrollmentCount"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
-       
-        <!-- /.container-fluid -->
 
-    </div>
+         <!-- Content Row -->
+         <div class="row d-flex">
+            <!-- Area Chart -->
+            <div class="col">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-success">Demographics</h6>
+                    </div>
+
+                    <div class="row">
+                        <!-- Card Body -->
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <!-- Content Row -->
+        <div class="row d-flex">
+            <!-- Area Chart -->
+            <div class="col">
+                <div class="card shadow mb-4">
+                    <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-success">Section Capacity</h6>
+                    </div>
+
+                    <div class="row">
+                        <!-- Card Body -->
+                        <div class="card-body">
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>  
+
+</div>
+   
+    
     <!-- End of Main Content -->
     <script>
-        document.getElementById('show-more-btn').addEventListener('click', function() {
-            var moreCourses = document.getElementById('more-courses');
-            var btn = document.getElementById('show-more-btn');
 
-            if (moreCourses.style.display === 'none' || moreCourses.style.display === '') {
-                moreCourses.style.display = 'block';
-                btn.textContent = 'Show Less Courses';
-            } else {
-                moreCourses.style.display = 'none';
-                btn.textContent = 'Show All Courses';
-            }
-        });
+        // bar chart for strand students
+        fetch('../ajax/getStudentCountPerStrand.php')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('barChart-strandStudents').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Enrolled Students Per Strand',
+                        data: data.data,
+                        backgroundColor: 'rgba(25,135,84, 0.6)',
+                        borderColor: 'rgba(25,135,84, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+        // bar chart for strand students
+        fetch('../ajax/getStudentCountPerSchoolYear.php')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('lineChart-enrollmentCount').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Enrollment Counts Per School Year',
+                        data: data.data,
+                        backgroundColor: 'rgba(25,135,84, 0.6)',
+                        borderColor: 'rgba(25,135,84, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
     </script>
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

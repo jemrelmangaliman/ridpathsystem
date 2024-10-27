@@ -112,7 +112,7 @@ while($StudentData = mysqli_fetch_assoc($fetchSLData)) {
 
 
 
-echo '<div class="container border shadow py-3 bg-gradient-primary">
+echo '<div class="container border shadow py-3 bg-success">
 <form action="AddStudentsToSection.php" method="POST" class="mx-4">
     <h5 class="text-white">Student List</h5>
     <div class="row">

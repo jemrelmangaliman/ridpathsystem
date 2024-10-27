@@ -21,7 +21,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Student List Configuration</h6>
+                                    <h6 class="m-0 font-weight-bold text-success">Student List Configuration</h6>
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -29,6 +29,16 @@
                                     <div class="container">
                                             <div class="container-fluid" id="ViewStudentContainer">
 
+                                            </div>
+                                            <div class="row mt-2" id="page-btn-container">
+                                                <div class="col-4">
+                                                <button class="btn btn-danger border-0" title="Reset Student List"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modal-Delete"
+                                                                        >
+                                                                        <i class="bi bi-trash" id="table-btn-icon"></i> <span id="tablebutton-text"> Clear Class Student List</span>
+                                                                </button> 
+                                                </div>
                                             </div>
                                         <div class="table-responsive mt-4">
                                             <table class="table table-hover table-bordered table-sm w-100" id="table">
@@ -71,13 +81,13 @@
                                                                     onclick="AddStudentToSection(this)">
                                                                     <i class="bi bi-eye-fill" id="table-btn-icon"></i> <span id="tablebutton-text"></span>
                                                                 </button>
-                                                                <button class="btn btn-danger border-0" title="Reset Student List" id="table-button"
+                                                                <!-- <button class="btn btn-danger border-0" title="Reset Student List" id="table-button"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#modal-Delete"
                                                                         data-bs-SectionID="<?php echo $ID;?>"
                                                                         >
                                                                         <i class="bi bi-arrow-clockwise" id="table-btn-icon"></i> <span id="tablebutton-text"></span>
-                                                                </button> 
+                                                                </button>  -->
                                                             </td>
                                                         </tr>
                                                     <?php
@@ -96,11 +106,10 @@
                                                     <div class="modal-body p-4" style="font-family: Arial;">
                                                             <div class="container mb-2" id="view-container">
                                                                 <form action="../processes/resetStudentList.php" method="POST">
-                                                                    <h5><b>Reset Student List</b></h5>
+                                                                    <h5 class="text-danger"><b>Reset Student List</b></h5>
                                                                     <div class="row">
                                                                         <div class="col">
-                                                                            <input type="hidden" name="section" id="section">
-                                                                            <p>This will clear all the students from the list. Are you sure you want to reset the student list? </p>
+                                                                            <p>This will clear all the students from the list. It is strongly recommended to do this by the end of current school year only. This action cannot be undone. Are you sure you want to reset the student list? </p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row mt-3">
@@ -137,14 +146,7 @@
         $('#table').DataTable();
     });
 
-    var deleteModal = document.getElementById('modal-Delete')
-    deleteModal.addEventListener('show.bs.modal', function (event) {
-        // Button that triggered the modal
-        var button = event.relatedTarget
-        var sectionID = button.getAttribute('data-bs-SectionID');   
-        
-        deleteModal.querySelector('#section').value = sectionID;
-    });
+    
 </script>
 
 <?php

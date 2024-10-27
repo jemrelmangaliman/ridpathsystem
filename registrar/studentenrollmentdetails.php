@@ -154,7 +154,7 @@ if(mysqli_num_rows($GetPaymentRecord) == 1) {
     $paymentremarks = $PaymentDetails['paymentremarks'];
     
     if($paymenttype == "Online") {
-        $showproofbutton = '<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+        $showproofbutton = '<button type="button" class="btn btn-success" data-bs-toggle="modal"
                                     data-bs-target="#modal-View"
                                     data-bs-proofimgurl="'.$proofimgurl.'" style="font-size: 11px;"><i class="bi bi-eye-fill" id="table-btn-icon"></i> View Payment Proof</button>';
     }
@@ -185,7 +185,7 @@ else {
                             <div class="card shadow mb-4">
                             
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary"><?php echo $pagetitle; ?></h6>
+                                    <h6 class="m-0 font-weight-bold text-success"><?php echo $pagetitle; ?></h6>
                                 </div>
                                 <div class="row mt-1 ml-1">
                                     <div class="col">
@@ -351,7 +351,7 @@ else {
                                                     <small id="small" class="fw-bold">:</small>
                                                 </div>
                                                 <div class="col-8">
-                                                    <small class="text-primary"><?php echo $enrollmentremarks; ?></small>
+                                                    <small class="text-success"><?php echo $enrollmentremarks; ?></small>
                                                 </div>
                                             </div>                          
                                         </div>
