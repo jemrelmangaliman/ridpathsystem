@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2024 at 05:00 PM
+-- Generation Time: Nov 03, 2024 at 03:32 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -124,7 +124,9 @@ INSERT INTO `enrollmentstatus` (`statusID`, `statusname`) VALUES
 (4, 'Pending Balance Settlement'),
 (5, 'Awaiting Admission Confirmation'),
 (6, 'Enrolled'),
-(7, 'On Hold');
+(7, 'On Hold'),
+(8, 'Cancelled'),
+(9, 'Completed');
 
 -- --------------------------------------------------------
 
@@ -149,7 +151,11 @@ INSERT INTO `fileattachments` (`fileID`, `tempID`, `enrollmentID`, `filename`, `
 (41, 1, 22, '22-psa.txt', 'psa', '../enrollment-files/22-psa.txt'),
 (42, 1, 22, '22-enrollmentform.txt', 'enrollmentform', '../enrollment-files/22-enrollmentform.txt'),
 (43, 3, 23, '23-psa.txt', 'psa', '../enrollment-files/23-psa.txt'),
-(44, 3, 23, '23-enrollmentform.txt', 'enrollmentform', '../enrollment-files/23-enrollmentform.txt');
+(44, 3, 23, '23-enrollmentform.txt', 'enrollmentform', '../enrollment-files/23-enrollmentform.txt'),
+(45, 2, 25, '25-psa.txt', 'psa', '../enrollment-files/25-psa.txt'),
+(46, 2, 25, '25-enrollmentform.txt', 'enrollmentform', '../enrollment-files/25-enrollmentform.txt'),
+(47, 2, 26, '26-psa.txt', 'psa', '../enrollment-files/26-psa.txt'),
+(48, 2, 26, '26-enrollmentform.txt', 'enrollmentform', '../enrollment-files/26-enrollmentform.txt');
 
 -- --------------------------------------------------------
 
@@ -330,8 +336,8 @@ CREATE TABLE `sectionstudentlist` (
 --
 
 INSERT INTO `sectionstudentlist` (`listItemID`, `sectionID`, `studentID`) VALUES
-(4, 11, 1),
-(5, 11, 3);
+(7, 11, 1),
+(8, 11, 3);
 
 -- --------------------------------------------------------
 
@@ -408,17 +414,18 @@ CREATE TABLE `students` (
   `password` varchar(254) NOT NULL,
   `userRole` int(10) NOT NULL,
   `isassignedtosection` int(2) NOT NULL DEFAULT 0,
-  `isactive` varchar(10) NOT NULL
+  `isactive` varchar(10) NOT NULL,
+  `profileimgurl` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`tempID`, `firstname`, `middlename`, `lastname`, `birthday`, `gender`, `address`, `email`, `contactnumber`, `studentnumber`, `password`, `userRole`, `isassignedtosection`, `isactive`) VALUES
-(1, 'John', 'Titor', 'Smith', '2024-10-07', 'Male', 'Pulo, Cabuyao, Laguna, Philippines, Earth, Milky Way Galaxy', 'johnsmith@gmail.com', '09123456789', '201810517', 'password', 4, 0, ''),
-(2, 'Erik', 'Smith', 'Titor', '2024-10-15', 'Male', 'test', 'eriktitor@gmail.com', '09123456789', '', 'password', 4, 0, ''),
-(3, 'Walter', 'Hartwell', 'White', '2024-10-07', 'Male', 'Test', 'walterwhite@gmail.com', '01234567890', '123454321', 'password', 4, 0, '');
+INSERT INTO `students` (`tempID`, `firstname`, `middlename`, `lastname`, `birthday`, `gender`, `address`, `email`, `contactnumber`, `studentnumber`, `password`, `userRole`, `isassignedtosection`, `isactive`, `profileimgurl`) VALUES
+(1, 'John', 'Titor', 'Smith', '2008-10-07', 'Male', 'Pulo, Cabuyao, Laguna, Philippines, Earth, Milky Way Galaxy', 'johnsmith@gmail.com', '09123456789', '201810517', 'password', 4, 0, '', ''),
+(2, 'Erik', 'Smith', 'Titor', '2007-10-15', 'Male', 'test', 'eriktitor@gmail.com', '09123456789', '', 'password', 4, 0, '', '../userimages/s2.jpg'),
+(3, 'Walter', 'Hartwell', 'White', '2009-10-07', 'Female', 'Test', 'walterwhite@gmail.com', '01234567890', '123454321', 'password', 4, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -505,18 +512,19 @@ CREATE TABLE `users` (
   `userRole` int(11) NOT NULL,
   `fullname` varchar(200) NOT NULL,
   `lastname` varchar(200) NOT NULL,
-  `firstname` varchar(200) NOT NULL
+  `firstname` varchar(200) NOT NULL,
+  `profileimgurl` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userID`, `username`, `password`, `isActive`, `userRole`, `fullname`, `lastname`, `firstname`) VALUES
-(1, 'admin', 'admin', 1, 1, 'admin, admin', 'admin', 'admin'),
-(7, '053961', 'test@2024', 1, 2, 'test, test', 'test', 'test'),
-(8, 'tet', 'tet@2024', 1, 2, 'tet, tetris', 'tet', 'tetris'),
-(9, 'Registrar', 'Regie@2024', 1, 2, 'Regie, Strar', 'Regie', 'Strar');
+INSERT INTO `users` (`userID`, `username`, `password`, `isActive`, `userRole`, `fullname`, `lastname`, `firstname`, `profileimgurl`) VALUES
+(1, 'admin', 'admin', 1, 1, 'admin, admin', 'admin', 'admin', ''),
+(7, '053961', 'test@2024', 1, 2, 'test, test', 'test', 'test', ''),
+(8, 'tet', 'tet@2024', 1, 2, 'tet, tetris', 'tet', 'tetris', ''),
+(9, 'Registrar', 'Regie@2024', 1, 2, 'Regie, Strar', 'Regie', 'Strar', '../userimages/r9.png');
 
 --
 -- Indexes for dumped tables
@@ -656,19 +664,19 @@ ALTER TABLE `days`
 -- AUTO_INCREMENT for table `enrollmentrecords`
 --
 ALTER TABLE `enrollmentrecords`
-  MODIFY `enrollmentID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `enrollmentID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `enrollmentstatus`
 --
 ALTER TABLE `enrollmentstatus`
-  MODIFY `statusID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `statusID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `fileattachments`
 --
 ALTER TABLE `fileattachments`
-  MODIFY `fileID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `fileID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `interests`
@@ -710,7 +718,7 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT for table `sectionstudentlist`
 --
 ALTER TABLE `sectionstudentlist`
-  MODIFY `listItemID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `listItemID` int(254) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `strands`

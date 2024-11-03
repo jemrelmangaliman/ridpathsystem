@@ -97,19 +97,23 @@
         <i class="fas fa-fw fa-wrench"></i>
         <span>End School Year</span></a>
 </li>
-<!-- Divider -->
-<hr class="sidebar-divider">
 
-<!-- Heading -->
-<!-- <div class="sidebar-heading">
-    Reports
-</div> -->
-<!-- Nav Item - Charts -->
-<!-- <li class="nav-item">
-    <a class="nav-link" href="reports.php">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Generate Reports</span></a>
-</li> -->
+
+<!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#reportsCollapse"
+        aria-expanded="true" aria-controls="collapseTwo">
+        <i class="bi bi-card-list"></i>
+        <span>Reports</span>
+    </a>
+    <div id="reportsCollapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="reports-enrollmentsummary.php">Enrollment Summary</a>
+            <a class="collapse-item" href="reports-demographics.php">Demographics</a>
+            <a class="collapse-item" href="reports-enrollmentcapacity.php">Enrollment Capacity</a>
+        </div>
+    </div>
+</li>
 
 
 <!-- Divider -->

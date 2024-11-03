@@ -1,12 +1,6 @@
 <?php
-require '../shared/header_registrar.php';
+require '../shared/header.php';
 $userid = $_SESSION['user_id'];
-
-$fetchPending = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID = 2";
-$fetchForResubmit = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID = 3";
-$fetchForBalanceSettlement = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID = 4";
-$fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID = 5";
-
 
 ?>
 
@@ -29,76 +23,6 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
 
     <!-- Content Row -->
     <div class="row  d-flex justify-content-center">
-
-        <!-- Enrollment Status Count Row -->
-        <div class="row">
-            <div class="row">
-                <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        Pending Enrollments
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchPending)); ?>
-                                    </div>
-                                </div>              
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-                <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        For Balance Settlement
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForBalanceSettlement)); ?>
-                                    </div>
-                                </div>              
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-                <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        For Admission Confirmation
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForAdmission)); ?>
-                                    </div>
-                                </div>              
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-                <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        For Resubmission
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForResubmit)); ?>
-                                    </div>
-                                </div>              
-                            </div>
-                        </div>
-                    </div>
-                </div>  
-            </div>            
-        </div> 
 
          <!-- Content Row -->
         <div class="row d-flex">
