@@ -2,19 +2,47 @@
 require '../shared/header_student.php';
 $tempid = $_SESSION['user_id'];
 
-$fetchQuery = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID WHERE ER.studentID = '$tempid'";
-$fetchedData = mysqli_query($conn, $fetchQuery);
-$EnrollmentData = mysqli_fetch_assoc($fetchedData);
-$hide = 'style="display: none;"';
+$fetchEnrollment = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID WHERE ER.studentID = '$tempid'";
+$fetchedData2 = mysqli_query($conn, $fetchEnrollment);
+$EnrollmentData = null;
+$enrollmentcount = mysqli_num_rows($fetchedData2);
+$enrollmentstatusdisplay = '';
+$hide = '';
+$showwarning = 'style="display: none;"';
 
-if (mysqli_num_rows($fetchedData) != 0) {
+
+//get current user's section
+$CurrentUserData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM sectionstudentlist WHERE studentID = '$tempid'"));
+$sectionID = '';
+$EnrollmentData = mysqli_fetch_assoc($fetchedData2);
+$enrollmentstatusid = (isset($EnrollmentData['enrollmentStatusID'])) ? $EnrollmentData['enrollmentStatusID'] : 0;
+
+//check if there is an active enrollment record
+if ($enrollmentcount != 0 && isset($CurrentUserData['sectionID'])) {
+
+    if ($enrollmentstatusid == 6) {
+        $enrollmentstatusdisplay = '';
+    }
+    else {
+        $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Content cannot be displayed.</p>';
+        $hide = 'style="display: none;"'; //used to hide the page
+        $showwarning = 'style="display: block;"';
+    }
+
+    $sectionID = $CurrentUserData['sectionID'];
     $enrollmentstatus = $EnrollmentData['statusname'];
-    $enrollmentbutton = '';
 }
-else {
+else if ($enrollmentcount == 0) {
     $enrollmentstatus = "Not Enrolled";
-    $enrollmentbutton = '<a href="enrollment.php" class="w-100"><button class="btn btn-success w-100" id="page-btn">Enroll Now</button></a>';
-    $hide = 'style="display: flex; justify-content: center;"';
+    $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Content cannot be displayed.</p>';
+    $hide = 'style="display: none;"'; //used to hide the page
+    $showwarning = 'style="display: block;"';
+}
+else if (!isset($CurrentUserData['sectionID'])) {
+    $enrollmentstatus = $EnrollmentData['statusname'];
+    $enrollmentstatusdisplay = '<p class="text-danger ml-3">You are not admitted yet. Content cannot be displayed.</p>';
+    $hide = 'style="display: none;"'; //used to hide the page
+    $showwarning = 'style="display: block;"';
 }
 ?>
 
@@ -51,7 +79,7 @@ else {
                     </div>
                 </div>
             </div>
-            <div class="row px-4 pb-2">
+            <div class="row px-4 pb-2" <?php echo $hide; ?>>
                 <button class="btn btn-success w-25" id="downloadBtn"><i class="bi bi-file-pdf"></i> Download PDF</button>
             </div>
 
@@ -69,23 +97,42 @@ else {
             LEFT JOIN studenttype sp ON er.studentTypeID = sp.studentTypeID
             LEFT JOIN sectionstudentlist ssc ON ssc.studentID = st.tempID
             LEFT JOIN sections sc ON sc.sectionID = ssc.sectionID
-            WHERE er.schoolYearID = '$syID'";
+            WHERE er.schoolYearID = '$syID' AND st.tempID = '$tempid' AND enrollmentStatusID = 6";
 
             $StudentData = mysqli_fetch_assoc(mysqli_query($conn, $StudentQuery));
-            $studentname = strtoupper($StudentData['lastname'].', '.$StudentData['firstname'].' '.$StudentData['middlename']);
-            $email = $StudentData['email'];
-            $strandname = $StudentData['strandname'];
-            $studentnumber = $StudentData['studentnumber'];
-            $gradelevel = $StudentData['gradelevel'];
-            $studenttype = $StudentData['studenttypedescription'];
-            $section = $StudentData['sectionname'];
-            $sectionID = $StudentData['sectionID'];
-            $strandID = $StudentData['strandID'];
-            $admissiondate = date('F d, Y', strtotime($StudentData['admissiondate']));
+            $strandID = (isset($StudentData['strandID'])) ? $StudentData['strandID'] : '';
+            if($strandID != '') {
+                $studentname = strtoupper($StudentData['lastname'].', '.$StudentData['firstname'].' '.$StudentData['middlename']);
+            }
+            else {
+                $studentname='';
+            }
+            $email = (isset($StudentData['email'])) ? $StudentData['email'] : '';
+            $strandname = (isset($StudentData['strandname'])) ? $StudentData['strandname'] : '';
+            $studentnumber = (isset($StudentData['studentnumber'])) ? $StudentData['studentnumber'] : '';
+            $gradelevel = (isset($StudentData['gradelevel'])) ? $StudentData['gradelevel'] : '';
+            $studenttype = (isset($StudentData['studenttypedescription'])) ? $StudentData['studenttypedescription'] : '';
+            $section = (isset($StudentData['sectionname'])) ? $StudentData['sectionname'] : '';
+            $sectionID = (isset($StudentData['sectionID'])) ? $StudentData['sectionID'] : '';
+
+            
+            $admissiondate = (isset($StudentData['admissiondate'])) ? date('F d, Y', strtotime($StudentData['admissiondate'])) : '';
             ?>
             <!-- Area Chart -->
             <div class="col-xl-12 col-lg-12">
-                <div class="container shadow bg-white px-4 py-4" id="assessmentform">
+                <div class="card shadow mb-4" <?php echo $showwarning; ?>>
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <h6 class="m-0 font-weight-bold text-success">Assessment Form</h6>
+                    </div>
+                    <div class="card-body">
+                    <?php 
+                        echo $enrollmentstatusdisplay;
+                    ?>
+                    </div>
+                </div>
+                
+                <div class="container shadow bg-white px-4 py-4" id="assessmentform" <?php echo $hide; ?>>
                     <div class="container w-75 mt-4" style="margin-right: 120px;">
                         <!--Page Header-->
                         <div class="row">
