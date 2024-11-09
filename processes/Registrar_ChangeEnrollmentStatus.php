@@ -40,8 +40,9 @@ $conn = require '../config/config.php';
         $studentnumber = $_POST['studentnumber'];
         $studentID = $_POST['studentID'];
         $section = $_POST['section'];
+        $currentDate = date("Y-m-d");
 
-        $Query = "UPDATE enrollmentrecords SET enrollmentStatusID = 6, enrollmentremarks='$enrollmentremarks' WHERE enrollmentID = '$ID'";
+        $Query = "UPDATE enrollmentrecords SET enrollmentStatusID = 6, enrollmentremarks='$enrollmentremarks', admissiondate='$currentDate' WHERE enrollmentID = '$ID'";
 
         //Update slot count of the section
         $SectionQuery = "UPDATE sections SET currentavailableslot = currentavailableslot-1 WHERE sectionID = '$section'";

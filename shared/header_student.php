@@ -58,6 +58,9 @@ $profileimgurl =  ($DataArray['profileimgurl'] != null) ? $DataArray['profileimg
     <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="../js/popper.min.js" ></script>
     <script src="../js/fullcalendar.js" ></script>
+    <script src="../js/htmlcanvas.js"></script>
+    <script src="../js/dompurify.js"></script>
+    <script src="../js/jspdf.js"></script>
     <script src="../js/scripts.js"></script>
 
     <!-- Datatables CDN-->

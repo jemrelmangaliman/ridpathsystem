@@ -116,7 +116,7 @@ else if (!isset($CurrentUserData['sectionID'])) {
                                                 <th scope="col" class="text-center"><small class="fw-bold">End Time</small></th>
                                             </tr>
                                         </thead>
-                                        <tbody >
+                                        <tbody>
                                             
                                             <?php
                                             $studentID = $_SESSION['user_id'];

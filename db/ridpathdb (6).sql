@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2024 at 03:32 PM
+-- Generation Time: Nov 09, 2024 at 12:35 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -91,16 +91,17 @@ CREATE TABLE `enrollmentrecords` (
   `transactionID` int(254) NOT NULL,
   `gradelevel` varchar(5) NOT NULL,
   `interest` varchar(254) NOT NULL,
-  `enrollmentremarks` varchar(500) NOT NULL
+  `enrollmentremarks` varchar(500) NOT NULL,
+  `admissiondate` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `enrollmentrecords`
 --
 
-INSERT INTO `enrollmentrecords` (`enrollmentID`, `studentID`, `strandID`, `enrollmentStatusID`, `studentTypeID`, `schoolYearID`, `transactionID`, `gradelevel`, `interest`, `enrollmentremarks`) VALUES
-(22, 1, 4, 6, 2, 4, 11, '12', 'Computers', 'You are now enrolled to Grade 12 - Section Crocs'),
-(23, 3, 4, 6, 1, 4, 12, '12', 'Technology', 'test');
+INSERT INTO `enrollmentrecords` (`enrollmentID`, `studentID`, `strandID`, `enrollmentStatusID`, `studentTypeID`, `schoolYearID`, `transactionID`, `gradelevel`, `interest`, `enrollmentremarks`, `admissiondate`) VALUES
+(22, 1, 4, 6, 2, 4, 11, '12', 'Computers', 'You are now enrolled to Grade 12 - Section Crocs', '2024-11-11'),
+(23, 3, 4, 6, 1, 4, 12, '12', 'Technology', 'test', '');
 
 -- --------------------------------------------------------
 

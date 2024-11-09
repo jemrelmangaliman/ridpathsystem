@@ -59,6 +59,11 @@
         <i class="fas fa-fw fa-wrench"></i>
         <span>Admission</span></a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="assessmentform.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>Assessment Form</span></a>
+</li>
 
 <!-- Divider -->
 <hr class="sidebar-divider d-none d-md-block">
