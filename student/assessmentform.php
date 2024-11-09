@@ -56,7 +56,10 @@ else {
                     </div>
                 </div>
             </div>
-            <button id="downloadBtn">Download PDF</button>
+            <div class="row px-4 pb-2">
+                <button class="btn btn-success w-25" id="downloadBtn"><i class="bi bi-file-pdf"></i> Download PDF</button>
+            </div>
+
             <?php
             //get current active school year
             $getSchoolYear = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive = 'Yes'"));
@@ -290,7 +293,7 @@ else {
                                 <div class="col">
                                     <table class="table table-bordered table-sm w-100" id="table">
                                         <tbody>
-                                                <tr>
+                                                <tr class="bg-white">
                                                     <td scope="col" class="text-center bg-white" rowspan="4" colspan="3" style="border: 2px solid black;">
                                                         <div class="row mt-3">
                                                             <h4 class="fw-bold">Registered</h4>
@@ -343,7 +346,7 @@ else {
 
                     // Add image to PDF
                     doc.addImage(imgData, 'PNG', 0, 0, width, height);
-                    doc.save('generated.pdf');
+                    doc.save('assessmentform.pdf');
                 }
             });
             });
