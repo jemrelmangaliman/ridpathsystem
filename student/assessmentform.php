@@ -29,11 +29,6 @@ else {
     
 <?php require '../shared/action-message.php'; ?>
 
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Assessment Form</h1>
-        
-    </div>
 
     <!-- Content Row -->
     <div class="row">
