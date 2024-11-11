@@ -3,7 +3,7 @@
 
 <!-- Sidebar - Brand -->
  <div class="container-fluid bg-white pt-4 pb-4 border shadow">
-    <a class="sidebar-brand d-flex align-items-center justify-content-center mb-5" href="dashboard.php">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center mb-5" href="#">
         <div class="row d-flex flex-column mt-5">
             <div class="col">
                 <img src="../img/ridpath.jpg" class="img w-100">
