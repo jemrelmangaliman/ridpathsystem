@@ -224,7 +224,7 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                     </div>
 
                                     <div class="col-4">
-                                    <h5>Other Enrollment Details</h5>
+                                        <h5>Other Enrollment Details</h5>
                                         <div class="container border shadow">
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
@@ -256,6 +256,16 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                                         </select>
                                                 </div>
                                             </div>
+                                        </div> 
+
+                                        <h5 class="mt-2">Examination</h5>
+                                        <div class="container border shadow">
+                                            <div class="row mx-1 my-3">
+                                                <div class="col">
+                                                    <small class="text-danger">Please take examinations first.</small> 
+                                                    <a href="examination_home.php"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button" name="EnrollStudent">Take Examination</button></a>  
+                                                </div>
+                                            </div>  
                                         </div> 
 
                                         <h5 class="mt-2">Strand Selection</h5>
