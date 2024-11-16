@@ -4,8 +4,8 @@ $conn = require '../config/config.php';
 
 if (isset($_POST['AddExamCategory'])) {
     $categoryname = $_POST['categoryname'];
-
-    $Query = "INSERT INTO examcategory (categoryname) VALUES ('$categoryname')";
+    $strandID = $_POST['strand'];
+    $Query = "INSERT INTO examcategory (categoryname, strandID) VALUES ('$categoryname','$strandID')";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Exam category added.";
@@ -21,7 +21,8 @@ if (isset($_POST['AddExamCategory'])) {
 if (isset($_POST['EditExamCategory'])) {
     $categoryname = $_POST['categoryname'];
     $ID = $_POST['ID'];
-    $Query = "UPDATE examcategory SET categoryname='$categoryname' WHERE examCategoryID = '$ID'";
+    $strandID = $_POST['strand'];
+    $Query = "UPDATE examcategory SET categoryname='$categoryname', strandID='$strandID' WHERE examCategoryID = '$ID'";
 
     if (mysqli_query($conn, $Query)) {
             $_SESSION['action-success'] = "Exam category updated.";

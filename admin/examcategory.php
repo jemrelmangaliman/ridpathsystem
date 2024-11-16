@@ -30,6 +30,7 @@ require '../shared/header.php';
                                 <thead>
                                     <tr>
                                         <th scope="col" class="text-center" id="th"><small>ID</small></th>
+                                        <th scope="col" class="text-center" id="th"><small>Strand</small></th>
                                         <th scope="col" class="text-center" id="th"><small>Category Name</small></th>
                                         <th scope="col" class="text-senter" id="th"><small>Actions</small></th>
                                     </tr>
@@ -37,15 +38,17 @@ require '../shared/header.php';
                                 <tbody>
 
                                     <?php
-                                    $fetchQuery = "SELECT * FROM examcategory";
+                                    $fetchQuery = "SELECT * FROM examcategory ec LEFT JOIN strands st ON ec.strandID = st.strandID";
                                     $fetchedData = mysqli_query($conn, $fetchQuery);
 
                                     while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
                                         $ID = $DataArray['examCategoryID'];
                                         $categoryname = $DataArray['categoryname'];
+                                        $strandname = $DataArray['strandname'];
                                     ?>
                                         <tr>
                                             <td class="text-center" id="td"><?php echo $ID; ?></td>
+                                            <td class="text-center" id="td"><?php echo $strandname; ?></td>
                                             <td class="text-center" id="td"><?php echo $categoryname; ?></td>
 
                                             <td class="text-center" id="td">
@@ -93,6 +96,22 @@ require '../shared/header.php';
                     <h5><b>Exam Category Information</b></h5>
                     <div class="container mb-2">
                         <form action="../processes/Admin_ExamCategory.php" method="POST">
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <small>Strand</small>
+                                    <select class="form-select" name="strand" required>
+                                    <?php
+                                        $fetchQuery = "SELECT * FROM strands";
+                                        $fetchedData = mysqli_query($conn, $fetchQuery);
+
+                                        while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
+                                        
+                                                echo '<option value="'.$DataArray['strandID'].'">'.$DataArray['strandname'].'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row mb-1">
                                 <div class="col">
                                     <small>Category Name</small>

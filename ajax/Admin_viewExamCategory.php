@@ -5,10 +5,33 @@ $ID = $_REQUEST['ID'];
 $fetchData = mysqli_query($conn, "SELECT * FROM examcategory WHERE examCategoryID = '$ID'");
 $DataArray = mysqli_fetch_assoc($fetchData);
 $categoryname = $DataArray['categoryname'];
+$strandID = $DataArray['strandID'];
 
+
+$fetchQuery = "SELECT * FROM strands";
+$fetchedData = mysqli_query($conn, $fetchQuery);
+$strandoption = '';
+
+while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
+        if ($DataArray['strandID'] == $strandID) {
+            $strandoption .= '<option value="'.$DataArray['strandID'].'" selected>'.$DataArray['strandname'].'</option>';
+        }
+        else {
+            $strandoption .= '<option value="'.$DataArray['strandID'].'">'.$DataArray['strandname'].'</option>';
+        }
+
+}
 
 
 echo '<form action="../processes/Admin_ExamCategory.php" method="POST">
+        <div class="row mb-1">
+            <div class="col">
+                <small>Strand</small>
+                <select class="form-select" name="strand" required>
+                '.$strandoption.'
+                </select>
+            </div>
+        </div>
         <div class="row mb-1">
             <div class="col">
                 <small>Category Name</small>

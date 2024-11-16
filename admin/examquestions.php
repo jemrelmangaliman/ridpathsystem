@@ -38,7 +38,7 @@ require '../shared/header.php';
                                 <tbody>
 
                                     <?php
-                                    $fetchQuery = "SELECT * FROM examquestions eq LEFT JOIN examcategory ec ON eq.examCategoryID = ec.examCategoryID";
+                                    $fetchQuery = "SELECT * FROM examquestions eq LEFT JOIN examcategory ec ON eq.examCategoryID = ec.examCategoryID ORDER BY eq.questionID DESC";
                                     $fetchedData = mysqli_query($conn, $fetchQuery);
 
                                     while ($DataArray = mysqli_fetch_assoc($fetchedData)) {
@@ -56,7 +56,7 @@ require '../shared/header.php';
                                                 <button class="btn btn-success border-0" title="Edit" id="table-button"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#modal-Edit"
-                                                    data-bs-syID="<?php echo $ID; ?>">
+                                                    data-bs-syID="<?php echo $questionID; ?>">
                                                     <i class="bi bi-pencil-fill" id="table-btn-icon"></i> <span id="tablebutton-text">Edit</span>
                                                 </button>
                                             </td>
@@ -94,7 +94,7 @@ require '../shared/header.php';
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-4" style="font-family: Arial;">
-                    <h5><b>Exam Category Information</b></h5>
+                    <h5><b>Exam Question Information</b></h5>
                     <div class="container mb-2">
                         <form action="../processes/Admin_ExamQuestions.php" method="POST">
                             <div class="row mb-1">
@@ -204,7 +204,9 @@ require '../shared/header.php';
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        $('#table').DataTable();
+        $('#table').DataTable({
+            "order": [[0    , 'desc']]
+        });
     });
 
     var exampleModal = document.getElementById('modal-Edit')
@@ -223,7 +225,7 @@ require '../shared/header.php';
                 console.log(this.status);
             }
         };
-        ajax.open("GET", "../ajax/Admin_viewExamCategory.php?ID=" + syID, true);
+        ajax.open("GET", "../ajax/Admin_viewExamQuestions.php?ID=" + syID, true);
         ajax.send();
     });
 </script>
