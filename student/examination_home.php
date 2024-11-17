@@ -6,6 +6,7 @@ $fetchQuery = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES 
 $fetchedData = mysqli_query($conn, $fetchQuery);
 $EnrollmentData = mysqli_fetch_assoc($fetchedData);
 $hide = 'style="display: none;"';
+$gobackbutton = '';
 
 if (mysqli_num_rows($fetchedData) != 0) {
     $enrollmentstatus = $EnrollmentData['statusname'];
@@ -15,6 +16,7 @@ else {
     $enrollmentstatus = "Not Enrolled";
     $enrollmentbutton = '<a href="enrollment.php" class="w-100"><button class="btn btn-success w-100" id="page-btn">Enroll Now</button></a>';
     $hide = 'style="display: flex; justify-content: center;"';
+    $gobackbutton = '<a href="enrollment.php"><button class="btn btn-secondary" type="button"><i class="bi bi-chevron-left"></i> Go back to enrollment</button></a>';
 }
 ?>
 
@@ -54,7 +56,11 @@ else {
         </div>
 
         <div class="row">
-           
+            <div class="row mb-2">
+                <div class="col-3 ml-2">
+                    <?php echo $gobackbutton; ?>
+                </div>
+            </div>
             <!-- exam links -->
             <div class="col-xl-7">
                 <div class="card shadow mb-4">

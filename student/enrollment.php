@@ -15,6 +15,12 @@ $studentnumber = $DataArray['studentnumber'];
 $gender = $DataArray['gender'];
 $birthday = date('M d, Y', strtotime($DataArray['birthday']));
 $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
+$disabled = 'disabled';
+$buttontype = 'submit';
+
+//get current school year
+$getSchoolYear = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive='Yes'"));
+$syID = $getSchoolYear['schoolYearID'];
 ?>
 
 <style>
@@ -262,10 +268,60 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                         <div class="container border shadow">
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
-                                                    <small class="text-danger">Please take examinations first.</small> 
-                                                    <a href="examination_home.php"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button" name="EnrollStudent">Take Examination</button></a>  
+                                                    
+                                                    <a href="examination_home.php"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button" name="EnrollStudent">Examination Page</button></a> 
+                                                    <small class="text-danger" style="font-size: 11px;">Examination is required to proceed with enrollment</small> 
                                                 </div>
-                                            </div>  
+                                            </div>
+                                            
+                                            <?php 
+                                            //check if all exams are answered
+                                            $getScores = mysqli_query($conn, "SELECT * FROM examcategory ec 
+                                            LEFT JOIN examscores es ON ec.examCategoryID = es.examCategoryID
+                                            LEFT JOIN strands st ON ec.strandID = st.strandID
+                                            WHERE es.studentID = '$tempid' AND es.schoolYearID = '$syID' ORDER BY es.score ASC");
+                                            $highestScore = 0;
+                                            $highestScoreCategoryID = '';
+                                            $categoryname = '';
+                                            $strandname = '';
+
+                                            $CategoryCount = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM examcategory"));
+                                            $ScoreCount = mysqli_num_rows($getScores);
+                                           
+                                            while ($scoreData = mysqli_fetch_assoc($getScores)) {
+                                                $highestScore = $scoreData['score'];
+                                                $highestScoreCategory = $scoreData['examCategoryID'];
+                                                $categoryname = $scoreData['categoryname'];
+                                                $strandname = $scoreData['strandname'];
+                                            }
+
+                                            if ($CategoryCount == $ScoreCount) {
+                                                echo 
+                                                '
+                                                <small class=" ml-3 mt-2">Highest Exam Score</small>
+                                                <div class="row mx-1">
+                                                    <div class="col">
+                                                       <p class="fw-bold"><span class="text-success">'.$highestScore.'/15 ('.$categoryname.')</span></p>
+                                                    </div>
+                                                </div>
+
+                                                <small class=" ml-3 mt-2">Suggested Strand</small>
+                                                <div class="row mx-1">
+                                                    <div class="col">
+                                                       <p class="fw-bold"><span class="text-success">'.$strandname.'</span></p>
+                                                    </div>
+                                                </div>
+                                                ';
+
+                                                $buttontype = 'submit';
+                                                $disabled = '';
+                                            }
+                                            else {
+                                                $buttontype = 'button';
+                                                $disabled = 'disabled';
+                                            }  
+                                            ?>
+                                            
                                         </div> 
 
                                         <h5 class="mt-2">Strand Selection</h5>
@@ -273,7 +329,8 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     <small>Interests <span class="text-danger">*</span></small>
-                                                    <select class="form-select w-100" name="interest" id="interest-dropdown" onchange="getSuggestedStrands()">
+                                                    <!-- <select class="form-select w-100" name="interest" id="interest-dropdown" onchange="getSuggestedStrands()"> -->
+                                                    <select class="form-select w-100" name="interest" id="interest-dropdown">
                                                         <option value="0" disabled selected>--Select an interest--</option>
                                                         <?php 
                                                         $fetchQuery2 = "SELECT DISTINCT (description) FROM interests WHERE isactive = 'Yes' ORDER BY description ASC";
@@ -286,14 +343,14 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                                     <div class="invalid-feedback">Please choose an interest</div>
                                                 </div>
                                             </div>
-                                            <div class="row mx-1 mt-3">
+                                            <!-- <div class="row mx-1 mt-3">
                                                 <div class="col">
                                                     <small>Suggested Strands</small>
                                                     <div class="container" id="suggestedstrandcontainer">
-                                                        <small><span class="fw-bold">• None</span></small>
+                                                        <p><span class="fw-bold text-success">None</span></p>
                                                     </div>
                                                 </div>
-                                            </div> 
+                                            </div>  -->
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     <small>Chosen Strand <span class="text-danger">*</span></small>
@@ -314,7 +371,7 @@ $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet 
                                         
                                         <div class="row mt-3 ml-2 mr-2">
                                             
-                                                <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="submit" name="EnrollStudent" onclick="checkEnrollmentInputs(this)">Submit Enrollment</button>
+                                                <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="<?php echo $buttontype; ?>" name="EnrollStudent" onclick="checkEnrollmentInputs(this)" <?php echo $disabled; ?>>Submit Enrollment</button>
                                             
                                         </div>
                                     </div>

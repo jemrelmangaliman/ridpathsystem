@@ -9,11 +9,11 @@ $strandstext = '';
 if (mysqli_num_rows($fetchData) != 0) {
    while ($Data = mysqli_fetch_assoc($fetchData)) {
     $strandname = $Data['strandname'];
-    $strandstext .= '<small><span class="fw-bold">• '.$strandname.'</small><br>';   
+    $strandstext .= '<p><span class="fw-bold text-success">'.$strandname.'</p>';   
    }
 }
 else {
-    $strandstext = '<small><span class="fw-bold">• None </span></small>';
+    $strandstext = '<p><span class="fw-bold text-success">None </span></p>';
 }
 
 echo $strandstext;
