@@ -60,7 +60,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Components:</h6>
             <a class="collapse-item" href="strands.php">Strands</a>
-            <a class="collapse-item" href="interests.php">Interests</a>
+            <!-- <a class="collapse-item" href="interests.php">Interests</a> -->
             <a class="collapse-item" href="section.php">Sections</a>
             <a class="collapse-item" href="subject.php">Subjects</a>
             <a class="collapse-item" href="strandsubjects.php">Strand Subjects</a>
