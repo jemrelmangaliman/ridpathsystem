@@ -178,14 +178,14 @@ $syID = $getSchoolYear['schoolYearID'];
                                                     </div>
                                                 </div>
                                             </div>   
-                                            <div class="row mx-1 mt-2">
+                                            <!-- <div class="row mx-1 mt-2">
                                                 <div class="col-6">
                                                     <small>Form 137</small>
                                                     <div class="input-group mb-3">
                                                         <input type="file" class="form-control" name="form137">
                                                     </div>
                                                 </div>
-                                            </div>  
+                                            </div>   -->
                                         </div>     
 
                                         <h5>Estimated Enrollment Costs</h5>

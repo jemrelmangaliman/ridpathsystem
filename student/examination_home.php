@@ -6,7 +6,31 @@ $fetchQuery = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES 
 $fetchedData = mysqli_query($conn, $fetchQuery);
 $EnrollmentData = mysqli_fetch_assoc($fetchedData);
 $hide = 'style="display: none;"';
+$noSchoolYear = 'style="display:none;"';
+$noSchoolYearNotif = '<div class="row">
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                        <!-- Card Header -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-success">Examination Home</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <p class="text-danger">School year has not started yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>';
 $gobackbutton = '';
+
+//get current school year
+$getSchoolYear = mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive='Yes'");
+
+
+if (mysqli_num_rows($getSchoolYear) != 0) {
+    $noSchoolYear = 'style="display:block;"';
+    $noSchoolYearNotif = '';
+}
 
 if (mysqli_num_rows($fetchedData) != 0) {
     $enrollmentstatus = $EnrollmentData['statusname'];
@@ -17,7 +41,8 @@ else {
     $enrollmentbutton = '<a href="enrollment.php" class="w-100"><button class="btn btn-success w-100" id="page-btn">Enroll Now</button></a>';
     $hide = 'style="display: flex; justify-content: center;"';
     $gobackbutton = '<a href="enrollment.php"><button class="btn btn-secondary" type="button"><i class="bi bi-chevron-left"></i> Go back to enrollment</button></a>';
-}
+    }
+
 ?>
 
 <style>
@@ -55,119 +80,123 @@ else {
             </div>          
         </div>
 
-        <div class="row">
-            <div class="row mb-2">
-                <div class="col-3 ml-2">
-                    <?php echo $gobackbutton; ?>
-                </div>
-            </div>
-            <!-- exam links -->
-            <div class="col-xl-7">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-success">Exam Links</h6>
+        <?php echo $noSchoolYearNotif; ?>
+        <div class="container-fluid" <?php echo $noSchoolYear; ?>>
+            <div class="row">
+                <div class="row mb-2">
+                    <div class="col-3 ml-2">
+                        <?php echo $gobackbutton; ?>
                     </div>
+                </div>
+                <!-- exam links -->
+                <div class="col-xl-7">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-success">Exam Links</h6>
+                        </div>
 
-                    <div class="row">
-                        <!-- Card Body -->
-                        <div class="card-body">
+                        <div class="row">
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <?php
+
+                                    //get current school year
+                                    $getSchoolYear = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive='Yes'"));
+                                    $syID = $getSchoolYear['schoolYearID'];
+
+                                    //get all the exam categories
+                                    $getCategories = mysqli_query($conn, "SELECT * FROM examcategory ORDER BY categoryname ASC");
+
+                                    while($CategoryData = mysqli_fetch_assoc($getCategories)) {
+                                        $categoryname = $CategoryData['categoryname'];
+                                        $categoryID = $CategoryData['examCategoryID'];
+                                        $buttontext='';
+
+                                        //check if there's a score for the category already
+                                        $getScore = mysqli_query($conn, "SELECT * FROM examscores WHERE studentID='$tempid' AND examCategoryID = '$categoryID' AND schoolYearID = '$syID'");
+                                        if (mysqli_num_rows($getScore) != 0) {
+                                            $buttontext = '<p class="text-success"><i class="bi bi-patch-check-fill"></i> Completed</p>';
+                                        }
+                                        else {
+                                            $buttontext = '
+                                                <a href="exam.php?category='.$categoryID.'&categoryname='.$categoryname.'"><button class="btn btn-success">Begin Exam <i class="bi bi-chevron-right"></i></button></a>';
+                                        }
+                                        echo 
+                                        '
+                                        <div class="row mx-3 mb-3">
+                                            <div class="col-8 pt-1">
+                                                <h5 class="text-success">'.$categoryname.'</h5>
+                                            </div>
+                                            <div class="col-4 d-flex justify-content-end">
+                                                '.$buttontext.'
+                                            </div>
+                                        </div>
+                                        ';
+                                    }
+                                    
+                                ?>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Exam Scores -->
+                <div class="col-xl-5">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header -->
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-success">Scores</h6>
+                        </div>
+
+                        <div class="row">
+                            <!-- Card Body -->
+                            <div class="card-body">
                             <?php
+                                    //get all the exam categories
+                                    $getCategories = mysqli_query($conn, "SELECT * FROM examcategory ORDER BY categoryname ASC");
 
-                                //get current school year
-                                $getSchoolYear = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive='Yes'"));
-                                $syID = $getSchoolYear['schoolYearID'];
+                                    while($CategoryData = mysqli_fetch_assoc($getCategories)) {
+                                        $categoryname = $CategoryData['categoryname'];
+                                        $categoryID = $CategoryData['examCategoryID'];
+                                        $scoretext='';
 
-                                //get all the exam categories
-                                $getCategories = mysqli_query($conn, "SELECT * FROM examcategory ORDER BY categoryname ASC");
-
-                                while($CategoryData = mysqli_fetch_assoc($getCategories)) {
-                                    $categoryname = $CategoryData['categoryname'];
-                                    $categoryID = $CategoryData['examCategoryID'];
-                                    $buttontext='';
-
-                                    //check if there's a score for the category already
-                                    $getScore = mysqli_query($conn, "SELECT * FROM examscores WHERE studentID='$tempid' AND examCategoryID = '$categoryID' AND schoolYearID = '$syID'");
-                                    if (mysqli_num_rows($getScore) != 0) {
-                                        $buttontext = '<p class="text-success"><i class="bi bi-patch-check-fill"></i> Completed</p>';
-                                    }
-                                    else {
-                                        $buttontext = '
-                                            <a href="exam.php?category='.$categoryID.'&categoryname='.$categoryname.'"><button class="btn btn-success">Begin Exam <i class="bi bi-chevron-right"></i></button></a>';
-                                    }
-                                    echo 
-                                    '
-                                    <div class="row mx-3 mb-3">
-                                        <div class="col-8 pt-1">
-                                            <h5 class="text-success">'.$categoryname.'</h5>
+                                        //check if there's a score for the category already
+                                        $getScore = mysqli_query($conn, "SELECT * FROM examscores WHERE studentID='$tempid' AND examCategoryID = '$categoryID' AND schoolYearID = '$syID'");
+                                        if (mysqli_num_rows($getScore) != 0) {
+                                            $scoreData = mysqli_fetch_assoc($getScore);
+                                            $score = $scoreData['score'];
+                                            $scoretext = '<p class="fw-bold"><span class="text-success fs-5">'.$score.'</span>/15</p>';
+                                        }
+                                        else {
+                                            $scoretext = '
+                                                <p class="text-danger">Not Yet Scored</p>';
+                                        }
+                                        echo 
+                                        '
+                                        <div class="row mx-3 mb-3">
+                                            <div class="col-8 pt-1">
+                                                <p class="text-success">'.$categoryname.'</p>
+                                            </div>
+                                            <div class="col-4 d-flex justify-content-end">
+                                                '.$scoretext.'
+                                            </div>
                                         </div>
-                                        <div class="col-4 d-flex justify-content-end">
-                                            '.$buttontext.'
-                                        </div>
-                                    </div>
-                                    ';
-                                }
-                                
-                            ?>
-                            
+                                        ';
+                                    }
+                                    
+                                ?>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+                
             </div>
-
-            <!-- Exam Scores -->
-            <div class="col-xl-5">
-                <div class="card shadow mb-4">
-                    <!-- Card Header -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-success">Scores</h6>
-                    </div>
-
-                    <div class="row">
-                        <!-- Card Body -->
-                        <div class="card-body">
-                        <?php
-                                //get all the exam categories
-                                $getCategories = mysqli_query($conn, "SELECT * FROM examcategory ORDER BY categoryname ASC");
-
-                                while($CategoryData = mysqli_fetch_assoc($getCategories)) {
-                                    $categoryname = $CategoryData['categoryname'];
-                                    $categoryID = $CategoryData['examCategoryID'];
-                                    $scoretext='';
-
-                                    //check if there's a score for the category already
-                                    $getScore = mysqli_query($conn, "SELECT * FROM examscores WHERE studentID='$tempid' AND examCategoryID = '$categoryID' AND schoolYearID = '$syID'");
-                                    if (mysqli_num_rows($getScore) != 0) {
-                                        $scoreData = mysqli_fetch_assoc($getScore);
-                                        $score = $scoreData['score'];
-                                        $scoretext = '<p class="fw-bold"><span class="text-success fs-5">'.$score.'</span>/15</p>';
-                                    }
-                                    else {
-                                        $scoretext = '
-                                            <p class="text-danger">Not Yet Scored</p>';
-                                    }
-                                    echo 
-                                    '
-                                    <div class="row mx-3 mb-3">
-                                        <div class="col-8 pt-1">
-                                            <p class="text-success">'.$categoryname.'</p>
-                                        </div>
-                                        <div class="col-4 d-flex justify-content-end">
-                                            '.$scoretext.'
-                                        </div>
-                                    </div>
-                                    ';
-                                }
-                                
-                            ?>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            
         </div>
+       
 
     </div>
     <!-- End of Main Content -->

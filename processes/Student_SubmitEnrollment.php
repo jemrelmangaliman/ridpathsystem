@@ -49,7 +49,7 @@ $conn->query($Query);
 
 $enrollmentID = $conn->insert_id;
 
-$attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc','form137'];
+$attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc'];
 foreach($attachmentlist as $attachment) {
     processsAttachmentFiles($attachment, $enrollmentID, $studentid, $conn);
 }

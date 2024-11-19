@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2024 at 02:41 PM
+-- Generation Time: Nov 17, 2024 at 03:05 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -852,9 +852,9 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`tempID`, `firstname`, `middlename`, `lastname`, `birthday`, `gender`, `address`, `email`, `contactnumber`, `studentnumber`, `password`, `userRole`, `isassignedtosection`, `isactive`, `profileimgurl`) VALUES
-(1, 'John', 'Titor', 'Smith', '2008-10-07', 'Male', 'Pulo, Cabuyao, Laguna, Philippines, Earth, Milky Way Galaxy', 'johnsmith@gmail.com', '09123456789', '201810517', 'password', 4, 0, '', ''),
+(1, 'John', 'Titor', 'Smith', '2008-10-07', 'Male', 'Pulo, Cabuyao, Laguna, Philippines, Earth, Milky Way Galaxy', 'johnsmith@gmail.com', '09123456789', '', 'password', 4, 0, '', ''),
 (2, 'Erik', 'Smith', 'Titor', '2007-10-15', 'Male', 'test', 'eriktitor@gmail.com', '09123456789', '', 'password', 4, 0, '', '../userimages/s2.jpg'),
-(3, 'Walter', 'Hartwell', 'White', '2009-10-07', 'Female', 'Test', 'walterwhite@gmail.com', '01234567890', '123454321', 'password', 4, 0, '', '');
+(3, 'Walter', 'Hartwell', 'White', '2009-10-07', 'Female', 'Test', 'walterwhite@gmail.com', '01234567890', '', 'password', 4, 0, '', '');
 
 -- --------------------------------------------------------
 

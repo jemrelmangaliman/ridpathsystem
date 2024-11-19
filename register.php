@@ -1,5 +1,6 @@
 <?php
 $conn = require 'config/config.php';
+session_start();
 
 // Function to generate a unique tempID
 function generateUniqueTempID($conn) {
@@ -38,8 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Validate data
     if ($password !== $repeatpassword) {
-        header('Location: register_form.php?error=password_mismatch');
-        exit;
+        $_SESSION['action-error'] = "Passwords do not match";
+        header('location: index.php');
+        exit();
     }
 
     // Prepare and bind
@@ -48,14 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Execute the statement
     if ($stmt->execute()) {
-        header('Location: index.php');
+        $_SESSION['action-success'] = "Account created successfully";
+        header('location: index.php');
         exit();
     } else {
-        echo "Error: " . $stmt->error;
+        $_SESSION['action-error'] = "An error occurred. Please try again";
+        header('location: index.php');
+        exit();
     }
-
-    // Close statement and connection
-    $stmt->close();
-    $conn->close();
 }
 ?>
