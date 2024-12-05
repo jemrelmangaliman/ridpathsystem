@@ -460,7 +460,8 @@ $attachmentlabellist =
                                             </div>
                                             <div class="row w-100 mt-3 ml-1 mb-3">
                                                 <div class="col">
-                                                    <a href="balancesettlement.php?enrollmentID=<?php echo $enrollmentID; ?>" id="paymentlink"><button class="btn btn-success w-100 ml-auto mr-auto"  id="page-btn" name="UpdateChecklist" data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
+                                                    <a href="balancesettlement.php?enrollmentID=<?php echo $enrollmentID; ?>" id="paymentlink">
+                                                            <button class="btn btn-success w-100 ml-auto mr-auto"  id="page-btn" name="UpdateChecklist" data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
                                                     <?php echo $proceedtopayment; ?>>Proceed to Payment</button></a>
                                                 </div>
                                                 <div class="col">
@@ -560,7 +561,8 @@ $attachmentlabellist =
     <script>
        
     var transactionID = document.getElementById("transactionID").value;
-    if (transactionID != null) {
+    if (transactionID != '') {
+        alert(transactionID);
         document.getElementById('paymentlink').href = "";
     }
 

@@ -290,7 +290,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                            
                                             while ($scoreData = mysqli_fetch_assoc($getScores)) {
                                                 $highestScore = $scoreData['score'];
-                                                $highestScoreCategory = $scoreData['examCategoryID'];
+                                                $highestScoreCategoryID = $scoreData['examCategoryID'];
                                                 $categoryname = $scoreData['categoryname'];
                                                 $strandname = $scoreData['strandname'];
                                             }

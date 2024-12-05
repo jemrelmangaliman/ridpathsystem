@@ -12,7 +12,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 else {
-    if (date('Y-m-d') > '2024-11-29') {
+    if (date('Y-m-d') > '2024-12-13') {
         echo '<h1>Error 404: page not found.</h1>';
         exit();
     }
