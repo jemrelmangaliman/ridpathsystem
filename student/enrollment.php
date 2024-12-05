@@ -151,9 +151,10 @@ $syID = $getSchoolYear['schoolYearID'];
                                             </div>   
                                             <div class="row mx-1 mt-2">
                                                 <div class="col">
-                                                    <small>Original Report Card</small>
+                                                    <small>Original Report Card <span class="text-danger fw-bold">*</span></small>
                                                     <div class="input-group mb-3">
-                                                        <input type="file" class="form-control" name="reportcard">
+                                                        <input type="file" class="form-control" name="reportcard" id="reportcard">
+                                                        <div class="invalid-feedback">Report card is required</div>
                                                     </div>
                                                 </div>
                                                 <div class="col">
@@ -259,7 +260,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                                     <select class="form-select w-100" name="gradelevel" required>
                                                         <option value="11">Grade 11</option>
                                                         <option value="12">Grade 12</option>
-                                                        </select>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div> 
@@ -279,39 +280,64 @@ $syID = $getSchoolYear['schoolYearID'];
                                             $getScores = mysqli_query($conn, "SELECT * FROM examcategory ec 
                                             LEFT JOIN examscores es ON ec.examCategoryID = es.examCategoryID
                                             LEFT JOIN strands st ON ec.strandID = st.strandID
-                                            WHERE es.studentID = '$tempid' AND es.schoolYearID = '$syID' ORDER BY es.score ASC");
+                                            WHERE es.studentID = '$tempid' AND es.schoolYearID = '$syID' ORDER BY es.score DESC");
                                             $highestScore = 0;
-                                            $highestScoreCategoryID = '';
-                                            $categoryname = '';
-                                            $strandname = '';
+                                            
+                                            
+                                            //highscore array
+                                            $highScoreArray = [];
+                                            $highestScoreCategoryID = [];
+                                            $categoryname = [];
+                                            $strandname = [];
 
                                             $CategoryCount = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM examcategory"));
                                             $ScoreCount = mysqli_num_rows($getScores);
                                            
                                             while ($scoreData = mysqli_fetch_assoc($getScores)) {
-                                                $highestScore = $scoreData['score'];
-                                                $highestScoreCategoryID = $scoreData['examCategoryID'];
-                                                $categoryname = $scoreData['categoryname'];
-                                                $strandname = $scoreData['strandname'];
+                                                if (empty($highScoreArray)) {
+                                                    $highScoreArray[] = $scoreData['score'];
+                                                    $highestScore = $scoreData['score'];
+                                                    $highestScoreCategoryID[] = $scoreData['examCategoryID'];
+                                                    $categoryname[] = $scoreData['categoryname'];
+                                                    $strandname[] = $scoreData['strandname'];
+                                                }
+                                                else {
+                                                    if ($highestScore == $scoreData['score']) {
+                                                        $highScoreArray[] = $scoreData['score'];
+                                                        $highestScoreCategoryID[] = $scoreData['examCategoryID'];
+                                                        $categoryname[] = $scoreData['categoryname'];
+                                                        $strandname[] = $scoreData['strandname'];
+                                                    }
+                                                }
+                                                
                                             }
 
                                             if ($CategoryCount == $ScoreCount) {
-                                                echo 
-                                                '
-                                                <small class=" ml-3 mt-2">Highest Exam Score</small>
-                                                <div class="row mx-1">
-                                                    <div class="col">
-                                                       <p class="fw-bold"><span class="text-success">'.$highestScore.'/15 ('.$categoryname.')</span></p>
-                                                    </div>
-                                                </div>
+                                                echo '<small class=" ml-3 mt-2">Highest Exam Score(s)</small>';
+                                                
+                                                $counter = 0;
+                                                foreach($highScoreArray as $score) {
+                                                    echo '  <div class="row mx-1">
+                                                        <div class="col">
+                                                        <p class="fw-bold"><span class="text-success">'.$score.'/15 ('.$categoryname[$counter].')</span></p>
+                                                        </div>
+                                                    </div>';
+                                                    $counter++;
+                                                }
+                                               
 
-                                                <small class=" ml-3 mt-2">Suggested Strand</small>
-                                                <div class="row mx-1">
-                                                    <div class="col">
-                                                       <p class="fw-bold"><span class="text-success">'.$strandname.'</span></p>
+                                                echo ' <small class=" ml-3 mt-2">Suggested Strand</small>';
+                                                $counter = 0;
+                                                foreach($highScoreArray as $score) {
+                                                    echo '<div class="row mx-1">
+                                                        <div class="col">
+                                                        <p class="fw-bold"><span class="text-success">'.$strandname[$counter].'</span></p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                ';
+                                                    ';
+                                                    $counter++;
+                                                }
+                                                
 
                                                 $buttontype = 'submit';
                                                 $disabled = '';
@@ -326,23 +352,22 @@ $syID = $getSchoolYear['schoolYearID'];
 
                                         <h5 class="mt-2">Strand Selection</h5>
                                         <div class="container border shadow">
-                                            <div class="row mx-1 my-3">
+                                            <!-- <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     <small>Interests <span class="text-danger">*</span></small>
-                                                    <!-- <select class="form-select w-100" name="interest" id="interest-dropdown" onchange="getSuggestedStrands()"> -->
-                                                    <select class="form-select w-100" name="interest" id="interest-dropdown">
+                                                     <select class="form-select w-100" name="interest" id="interest-dropdown" onchange="getSuggestedStrands()">
                                                         <option value="0" disabled selected>--Select an interest--</option>
                                                         <?php 
-                                                        $fetchQuery2 = "SELECT DISTINCT (description) FROM interests WHERE isactive = 'Yes' ORDER BY description ASC";
-                                                        $fetchedData2 = mysqli_query($conn, $fetchQuery2);
-                                                        while ($DataArray2 = mysqli_fetch_assoc($fetchedData2)) {
-                                                            echo '<option value="'.$DataArray2['description'].'">'.$DataArray2['description'].'</option>';
-                                                        }
+                                                        // $fetchQuery2 = "SELECT DISTINCT (description) FROM interests WHERE isactive = 'Yes' ORDER BY description ASC";
+                                                        // $fetchedData2 = mysqli_query($conn, $fetchQuery2);
+                                                        // while ($DataArray2 = mysqli_fetch_assoc($fetchedData2)) {
+                                                        //     echo '<option value="'.$DataArray2['description'].'">'.$DataArray2['description'].'</option>';
+                                                        // }
                                                         ?>
                                                     </select>
                                                     <div class="invalid-feedback">Please choose an interest</div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                             <!-- <div class="row mx-1 mt-3">
                                                 <div class="col">
                                                     <small>Suggested Strands</small>

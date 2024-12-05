@@ -65,9 +65,9 @@ function checkEnrollmentInputs () {
     event.preventDefault();
     event.stopPropagation();
     var noError = true;
-    var interestdropdown = document.getElementById('interest-dropdown');
     var stranddropdown = document.getElementById('strand-dropdown');
     const enrollmentformfile = document.getElementById('enrollmentformfile');
+    const reportcardfile = document.getElementById('reportcard');
     const psafile  = document.getElementById('psa');
     const enrollmentform = document.getElementById('enrollmentform');
 
@@ -80,24 +80,24 @@ function checkEnrollmentInputs () {
         psafile.classList.remove("is-invalid")
     }
 
+    if(!reportcardfile.files.length) {
+        noError = false;
+        reportcardfile.classList.add("is-invalid");
+        reportcardfile.classList.remove("is-valid");
+    }
+    else {
+        reportcardfile.classList.remove("is-invalid")
+    }
+
     if(!enrollmentformfile.files.length) {
         noError = false;
         enrollmentformfile.classList.add("is-invalid");
         enrollmentformfile.classList.remove("is-valid");
     }
     else {
-        psafile.classList.remove("is-invalid")
+        enrollmentformfile.classList.remove("is-invalid")
     }
 
-    if(interestdropdown.value == '0') {
-        noError = false;
-        interestdropdown.classList.add("is-invalid");
-        interestdropdown.classList.remove("is-valid");
-    }
-    else {
-        interestdropdown.classList.add("is-valid")
-        interestdropdown.classList.remove("is-invalid")
-    }
 
     if(stranddropdown.value == '0') {
         noError = false;

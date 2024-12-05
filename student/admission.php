@@ -120,9 +120,9 @@ else {
 }
 
 //get current uploaded enrollment attachments
-$attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc','form137'];
+$attachmentlist = ['psa','goodmoral','reportcard','idpicture','enrollmentform','coc'];
 $attachmentlabellist = 
-['Original Copy of PSA','Certificate of Good Moral Character','Original Report Card','2pcs 2×2 and 1x1 picture (white background)','Duly Accomplished Enrolment Form','Certificate of Completion (grade 10)','Form 137'];
+['Original Copy of PSA','Certificate of Good Moral Character','Original Report Card','2pcs 2×2 and 1x1 picture (white background)','Duly Accomplished Enrolment Form','Certificate of Completion (grade 10)'];
 ?>
 
 <style>
@@ -266,7 +266,7 @@ $attachmentlabellist =
                                                 </div>
                                             </div>     
                                             <!-- Interest Display -->
-                                            <div class="row w-100" style="margin-top: -5px;">
+                                            <!-- <div class="row w-100" style="margin-top: -5px;">
                                                 <div class="col-3">
                                                     <small id="small" class="fw-bold">Interest</small>
                                                 </div>
@@ -276,7 +276,7 @@ $attachmentlabellist =
                                                 <div class="col-8">
                                                     <small><?php echo $interest; ?></small>
                                                 </div>
-                                            </div> 
+                                            </div>  -->
                                             <!-- Strand Display -->
                                             <div class="row w-100" style="margin-top: -5px;">
                                                 <div class="col-3">

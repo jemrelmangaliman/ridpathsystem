@@ -244,7 +244,7 @@ else {
                                                 </div>
                                             </div>     
                                             <!-- Interest Display -->
-                                            <div class="row w-100" style="margin-top: -5px;">
+                                            <!-- <div class="row w-100" style="margin-top: -5px;">
                                                 <div class="col-3">
                                                     <small id="small" class="fw-bold">Interest</small>
                                                 </div>
@@ -254,7 +254,7 @@ else {
                                                 <div class="col-8">
                                                     <small><?php echo $interest; ?></small>
                                                 </div>
-                                            </div> 
+                                            </div>  -->
                                             <!-- Strand Display -->
                                             <div class="row w-100" style="margin-top: -5px;">
                                                 <div class="col-3">
