@@ -6,7 +6,7 @@ session_unset();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height:100vh;">
 
 <head>
 
@@ -37,7 +37,7 @@ session_unset();
     <div class="container-fluid">
 
         <!-- Nested Row within Card Body -->
-        <div class="row">
+        <div class="row" style="height:100vh;">
             <div class="col-lg-6 d-flex justify-content-center">
                 <img src="img/ridpath.png" class="w-100">
             </div>

@@ -245,7 +245,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                                         </select>';
                                                     }
                                                     else {
-                                                        echo '<select class="form-select w-100" name="studenttype" required disabled>
+                                                        echo '<select class="form-select w-100" required disabled>
                                                         <option value="2">Old Student</option>
                                                         </select>
                                                         <input type="hidden" value="2" name="studenttype">';
@@ -266,7 +266,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                         </div> 
 
                                         <h5 class="mt-2">Examination</h5>
-                                        <div class="container border shadow">
+                                        <div class="container border shadow" id="exambutton-container">
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     
@@ -396,7 +396,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                         
                                         <div class="row mt-3 ml-2 mr-2">
                                             
-                                                <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="<?php echo $buttontype; ?>" name="EnrollStudent" onclick="checkEnrollmentInputs(this)" <?php echo $disabled; ?>>Submit Enrollment</button>
+                                                <button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="<?php echo $buttontype; ?>" name="EnrollStudent" id="EnrollStudent" onclick="checkEnrollmentInputs(this)" <?php echo $disabled; ?>>Submit Enrollment</button>
                                             
                                         </div>
                                     </div>

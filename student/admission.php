@@ -79,7 +79,7 @@ else {
     $hide = 'style="display: none;"'; //used to hide the page
 }
 
-$transactionID = '';
+$transactionID = "none";
 $paymentmode = '';
 $amount = '';
 $paymentremarks = '';
@@ -136,6 +136,7 @@ $attachmentlabellist =
 
 <?php require '../shared/action-message.php'; ?>
 <input type="hidden" id="transactionID" value="<?php echo $transactionID; ?>">
+<input type="hidden" id="esID" value="<?php echo $enrollmentstatusID; ?>">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Admission</h1>
@@ -462,7 +463,7 @@ $attachmentlabellist =
                                                 <div class="col">
                                                     <a href="balancesettlement.php?enrollmentID=<?php echo $enrollmentID; ?>" id="paymentlink">
                                                             <button class="btn btn-success w-100 ml-auto mr-auto"  id="page-btn" name="UpdateChecklist" data-bs-enrollmentID="<?php echo $enrollmentID;?>" 
-                                                    <?php echo $proceedtopayment; ?>>Proceed to Payment</button></a>
+                                                            <?php echo $proceedtopayment; ?>>Proceed to Payment</button></a>
                                                 </div>
                                                 <div class="col">
                                                     <form action="../processes/Student_ResubmitEnrollment.php" method="POST">
@@ -560,11 +561,15 @@ $attachmentlabellist =
     <!-- End of Main Content -->
     <script>
        
-    var transactionID = document.getElementById("transactionID").value;
-    if (transactionID != '') {
-        alert(transactionID);
-        document.getElementById('paymentlink').href = "";
-    }
+        document.addEventListener("DOMContentLoaded", function() {
+        const transactionID = document.getElementById("transactionID").value;
+        const esID = document.getElementById("esID").value;
+
+            if (transactionID != "none" && esID ) {
+                document.getElementById('paymentlink').href = "";
+            }
+        });
+    
 
     var viewModal = document.getElementById('modal-View')
     viewModal.addEventListener('show.bs.modal', function (event) {

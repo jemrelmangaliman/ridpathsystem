@@ -61,7 +61,7 @@ function computeEnrollmentCostTotal(strandID) {
     ajax.send(); 
 }
 
-function checkEnrollmentInputs () {
+function checkEnrollmentInputs (element) {
     event.preventDefault();
     event.stopPropagation();
     var noError = true;
@@ -111,6 +111,7 @@ function checkEnrollmentInputs () {
 
     if (noError == true) {
         enrollmentform.submit();
+        element.disabled = true;
     }
 }
 
@@ -133,4 +134,16 @@ function AddStudentToSection (element) {
 }
 function hideStudentList() {
     $("#ViewStudentContainer").hide();
+}
+function disableButton(element) {
+    const form = document.getElementById("ExamForm");
+
+    if (!form.checkValidity()) {
+        event.preventDefault(); 
+        element.disabled = true;
+    }
+    else {
+        form.submit();
+    }
+
 }

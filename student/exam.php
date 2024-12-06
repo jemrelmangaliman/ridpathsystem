@@ -71,7 +71,7 @@ else {
                                 <a href="examination_home.php"><button class="btn btn-secondary" type="button"><i class="bi bi-chevron-left"></i> Go back</button></a>
                                 </div>
                             </div>
-                            <form method="POST" action="../processes/Student_SubmitExam.php">
+                            <form method="POST" action="../processes/Student_SubmitExam.php" id="examForm">
                                 <?php
                                     $categoryID = $_GET['category'];
                                     $questioncounter = 1;
@@ -125,7 +125,7 @@ else {
                                 <div class="row mx-3 mt-4">
                                     <div class="col-3 pt-1">
                                         <input type="hidden" value="<?php echo $categoryID?>" name="categoryID">
-                                        <button class="btn btn-success w-100" type="submit"><i class="bi bi-check-lg"></i> Finish Exam</button>
+                                        <button class="btn btn-success w-100" type="submit" id="SubmitExam" onclick="disableButton(this)"><i class="bi bi-check-lg"></i> Finish Exam</button>
                                     </div>
                                 </div>
                             </form>
