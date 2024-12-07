@@ -61,6 +61,39 @@ function computeEnrollmentCostTotal(strandID) {
     ajax.send(); 
 }
 
+function onchangeGradeLevel() {
+    var gradelevel = document.getElementById('gradelevel').value;
+    const required = document.querySelectorAll('#required-indicator');
+    const enrollmentformfile = document.getElementById('enrollmentformfile');
+    const reportcardfile = document.getElementById('reportcard');
+    const psafile  = document.getElementById('psa');
+    const submitbtn = document.getElementsByName('EnrollStudent');
+    
+    if (gradelevel == "12") {
+        required.forEach(function(element) {
+            element.style.display = 'none'; // Hides each element
+            enrollmentformfile.removeAttribute('required');
+            reportcardfile.removeAttribute('required');
+            psafile.removeAttribute('required');
+            submitbtn.forEach(function(element) {
+                element.removeAttribute('disabled');
+            });
+        });
+    }
+    if (gradelevel == "11"){
+        required.forEach(function(element) {
+            element.style.display = 'inline-block';
+            enrollmentformfile.setAttribute('required', true);
+            reportcardfile.setAttribute('required', true);
+            psafile.setAttribute('required', true);
+            submitbtn.forEach(function(element) {
+                element.disabled = true;
+            });
+        });
+    }
+
+}
+
 function checkEnrollmentInputs (element) {
     event.preventDefault();
     event.stopPropagation();
@@ -70,44 +103,59 @@ function checkEnrollmentInputs (element) {
     const reportcardfile = document.getElementById('reportcard');
     const psafile  = document.getElementById('psa');
     const enrollmentform = document.getElementById('enrollmentform');
+    var gradelevel = document.getElementById('gradelevel').value;
 
-    if(!psafile.files.length) {
-        noError = false;
-        psafile.classList.add("is-invalid");
-        psafile.classList.remove("is-valid");
+    if (gradelevel == "11") {
+        if(!psafile.files.length) {
+            noError = false;
+            psafile.classList.add("is-invalid");
+            psafile.classList.remove("is-valid");
+        }
+        else {
+            psafile.classList.remove("is-invalid")
+        }
+    
+        if(!reportcardfile.files.length) {
+            noError = false;
+            reportcardfile.classList.add("is-invalid");
+            reportcardfile.classList.remove("is-valid");
+        }
+        else {
+            reportcardfile.classList.remove("is-invalid")
+        }
+    
+        if(!enrollmentformfile.files.length) {
+            noError = false;
+            enrollmentformfile.classList.add("is-invalid");
+            enrollmentformfile.classList.remove("is-valid");
+        }
+        else {
+            enrollmentformfile.classList.remove("is-invalid")
+        }
+    
+    
+        if(stranddropdown.value == '0') {
+            noError = false;
+            stranddropdown.classList.add("is-invalid");
+            stranddropdown.classList.remove("is-valid");
+        }
+        else {
+            stranddropdown.classList.add("is-valid")
+            stranddropdown.classList.remove("is-invalid")
+        }
     }
     else {
-        psafile.classList.remove("is-invalid")
+        if(stranddropdown.value == '0') {
+            noError = false;
+            stranddropdown.classList.add("is-invalid");
+            stranddropdown.classList.remove("is-valid");
+        }
+        else {
+            stranddropdown.classList.add("is-valid")
+            stranddropdown.classList.remove("is-invalid")
+        }
     }
-
-    if(!reportcardfile.files.length) {
-        noError = false;
-        reportcardfile.classList.add("is-invalid");
-        reportcardfile.classList.remove("is-valid");
-    }
-    else {
-        reportcardfile.classList.remove("is-invalid")
-    }
-
-    if(!enrollmentformfile.files.length) {
-        noError = false;
-        enrollmentformfile.classList.add("is-invalid");
-        enrollmentformfile.classList.remove("is-valid");
-    }
-    else {
-        enrollmentformfile.classList.remove("is-invalid")
-    }
-
-
-    if(stranddropdown.value == '0') {
-        noError = false;
-        stranddropdown.classList.add("is-invalid");
-        stranddropdown.classList.remove("is-valid");
-    }
-    else {
-        stranddropdown.classList.add("is-valid")
-        stranddropdown.classList.remove("is-invalid")
-    }
+    
 
     if (noError == true) {
         enrollmentform.submit();

@@ -136,7 +136,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                             <div class="row mx-1 mt-2">
                                             <small><span class="text-danger fw-bold">(Note: Fields with asterisk are required)</span></small>
                                                 <div class="col">
-                                                    <small>Original Copy of PSA <span class="text-danger fw-bold">*</span></small>
+                                                    <small>Original Copy of PSA <span class="text-danger fw-bold" id="required-indicator">*</span></small>
                                                     <div class="input-group mb-3">
                                                         <input type="file" class="form-control" name="psa" id="psa" required>
                                                         <div class="invalid-feedback"><small>PSA is required</small></div>
@@ -151,7 +151,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                             </div>   
                                             <div class="row mx-1 mt-2">
                                                 <div class="col">
-                                                    <small>Original Report Card <span class="text-danger fw-bold">*</span></small>
+                                                    <small>Original Report Card <span class="text-danger fw-bold" id="required-indicator">*</span></small>
                                                     <div class="input-group mb-3">
                                                         <input type="file" class="form-control" name="reportcard" id="reportcard">
                                                         <div class="invalid-feedback">Report card is required</div>
@@ -166,7 +166,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                             </div>  
                                             <div class="row mx-1 mt-2">
                                                 <div class="col">
-                                                    <small>Duly Accomplished Enrolment Form <span class="text-danger fw-bold">*</span></small>
+                                                    <small>Duly Accomplished Enrolment Form <span class="text-danger fw-bold" id="required-indicator">*</span></small>
                                                     <div class="input-group mb-3">
                                                         <input type="file" class="form-control" name="enrollmentform" id="enrollmentformfile" required>
                                                         <div class="invalid-feedback">Enrollment form is required</div>
@@ -257,7 +257,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     <small>Grade Level <span class="text-danger">*</span></small>
-                                                    <select class="form-select w-100" name="gradelevel" required>
+                                                    <select class="form-select w-100" name="gradelevel" id="gradelevel" onchange="onchangeGradeLevel()" required>
                                                         <option value="11">Grade 11</option>
                                                         <option value="12">Grade 12</option>
                                                     </select>
@@ -270,7 +270,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     
-                                                    <a href="examination_home.php"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button" name="EnrollStudent">Examination Page</button></a> 
+                                                    <a href="examination_home.php"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button">Examination Page</button></a> 
                                                     <small class="text-danger" style="font-size: 11px;">Examination is required to proceed with enrollment</small> 
                                                 </div>
                                             </div>
