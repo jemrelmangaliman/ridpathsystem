@@ -265,7 +265,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                             </div>
                                         </div> 
 
-                                        <h5 class="mt-2">Examination</h5>
+                                        <h5 class="mt-2" id="exambutton-label">Examination</h5>
                                         <div class="container border shadow" id="exambutton-container">
                                             <div class="row mx-1 my-3">
                                                 <div class="col">

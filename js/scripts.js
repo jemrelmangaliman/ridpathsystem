@@ -68,6 +68,8 @@ function onchangeGradeLevel() {
     const reportcardfile = document.getElementById('reportcard');
     const psafile  = document.getElementById('psa');
     const submitbtn = document.getElementsByName('EnrollStudent');
+    const examcontainer = document.getElementById('exambutton-container');
+    const examlabel = document.getElementById('exambutton-label');
     
     if (gradelevel == "12") {
         required.forEach(function(element) {
@@ -79,6 +81,8 @@ function onchangeGradeLevel() {
                 element.removeAttribute('disabled');
             });
         });
+        examcontainer.style.display = "none";
+        examlabel.style.display = "none";
     }
     if (gradelevel == "11"){
         required.forEach(function(element) {
@@ -90,6 +94,8 @@ function onchangeGradeLevel() {
                 element.disabled = true;
             });
         });
+        examcontainer.style.display = "block";
+        examlabel.style.display = "block";
     }
 
 }
