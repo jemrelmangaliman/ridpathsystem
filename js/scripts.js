@@ -201,3 +201,108 @@ function disableButton(element) {
     }
 
 }
+
+function RegistrationValidation () {
+    event.preventDefault();
+    event.stopPropagation();
+    var noError = true;
+    var fname = document.getElementById('registerform');
+    var fname = document.getElementById('firstname');
+    var mname = document.getElementById('middlename');
+    var lname = document.getElementById('lastname');
+    var email = document.getElementById('email');
+    var bday = document.getElementById('birthday');
+    var contact = document.getElementById('contactnumber');
+    var pass = document.getElementById('password');
+    var confirmpass = document.getElementById('repeatpassword');
+    var passvalidation = document.getElementById('password1');
+    var confirmpassvalidation = document.getElementById('password2');
+
+    if(fname.value == '') {
+        noError = false;
+        fname.classList.add("is-invalid");
+        fname.classList.remove("is-valid");
+    }
+    else {
+        fname.classList.remove("is-invalid")
+    }
+
+    if(mname.value == '') {
+        noError = false;
+        mname.classList.add("is-invalid");
+        mname.classList.remove("is-valid");
+    }
+    else {
+        mname.classList.remove("is-invalid")
+    }
+
+    if(lname.value == '') {
+        noError = false;
+        lname.classList.add("is-invalid");
+        lname.classList.remove("is-valid");
+    }
+    else {
+        lname.classList.remove("is-invalid")
+    }
+
+    if(email.value == '') {
+        noError = false;
+        email.classList.add("is-invalid");
+        email.classList.remove("is-valid");
+    }
+    else {
+        email.classList.remove("is-invalid")
+    }
+
+    if(bday.value == '') {
+        noError = false;
+        bday.classList.add("is-invalid");
+        bday.classList.remove("is-valid");
+    }
+    else {
+        bday.classList.remove("is-invalid")
+    }
+
+    if(contact.value == '') {
+        noError = false;
+        contact.classList.add("is-invalid");
+        contact.classList.remove("is-valid");
+    }
+    else {
+        contact.classList.remove("is-invalid")
+    }
+
+    if((confirmpass.value != '' && pass.value != '')) {
+        if (pass.value != confirmpass.value) {
+            noError = false;
+            pass.classList.add("is-invalid");
+            pass.classList.remove("is-valid");
+            confirmpass.classList.add("is-invalid");
+            confirmpass.classList.remove("is-valid");
+            passvalidation.textContent = "Passwords do not match";
+            confirmpassvalidation.textContent = "Passwords do not match";
+        } 
+    }
+    else if (pass.value == '' && confirmpass.value != '') {
+        noError = false;
+        pass.classList.add("is-invalid");
+        pass.classList.remove("is-valid");
+    }
+    else if(pass.value != '' && confirmpass.value == '') {
+        noError = false;
+        confirmpass.classList.add("is-invalid");
+        confirmpass.classList.remove("is-valid");
+    }
+    else {
+        noError = false;
+        pass.classList.add("is-invalid");
+        pass.classList.remove("is-valid");
+        confirmpass.classList.add("is-invalid");
+        confirmpass.classList.remove("is-valid");
+    }
+
+    if (noError == true) {
+        registerform.submit();
+        element.disabled = true;
+    }
+}

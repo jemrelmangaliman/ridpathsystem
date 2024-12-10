@@ -77,7 +77,7 @@ else {
                                     $questioncounter = 1;
                                     
                                     //get all the exam categories
-                                    $getQuestions = mysqli_query($conn, "SELECT * FROM examquestions WHERE examCategoryID = '$categoryID' ORDER BY questionID ASC");
+                                    $getQuestions = mysqli_query($conn, "SELECT * FROM examquestions WHERE examCategoryID = '$categoryID' ORDER BY RAND()");
 
                                     while($QuestionData = mysqli_fetch_assoc($getQuestions)) {
                                         $questionID = $QuestionData['questionID'];
@@ -97,7 +97,7 @@ else {
                                             <div class="row mx-3 mb-3">
                                             ';
                                         //get question choices
-                                        $getChoices = mysqli_query($conn, "SELECT * FROM examchoices WHERE questionID = '$questionID' ORDER BY choiceID ASC");
+                                        $getChoices = mysqli_query($conn, "SELECT * FROM examchoices WHERE questionID = '$questionID' ORDER BY RAND()");
                                         $choicecounter = 1;
                                         while ($ChoiceData = mysqli_fetch_assoc($getChoices)) {
                                             $choiceID = $ChoiceData['choiceID'];
