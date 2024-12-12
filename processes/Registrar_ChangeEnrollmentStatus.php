@@ -38,7 +38,10 @@ $conn = require '../config/config.php';
     }
     else if (isset($_POST['ConfirmAdmission'])) {
         $studentnumber = $_POST['studentnumber'];
+        $isgenerated = $_POST['isgenerated'];
+        $studentcount = $_POST['studentcount'];
         $studentID = $_POST['studentID'];
+        $syID = $_POST['syID'];
         $section = $_POST['section'];
         $currentDate = date("Y-m-d");
 
@@ -53,9 +56,13 @@ $conn = require '../config/config.php';
 
         $StudentQuery = "UPDATE students SET studentnumber = '$studentnumber' WHERE tempID = '$studentID'";
         //set the student number of the student
-        if (mysqli_query($conn, $StudentQuery));
+        mysqli_query($conn, $StudentQuery);
         
-        
+        if ($isgenerated) {
+            mysqli_query($conn, "UPDATE schoolyear SET studentcount = '$studentcount' WHERE schoolYearID = '$syID'");
+
+        }
+
         //execute sectionquery
         if (mysqli_query($conn, $SectionListQuery)){
             //execute sectionlistquery

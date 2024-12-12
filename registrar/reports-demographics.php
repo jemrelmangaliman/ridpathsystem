@@ -34,71 +34,79 @@ $fetchForAdmission = "SELECT * FROM enrollmentrecords WHERE enrollmentStatusID =
         <div class="row">
             <div class="row">
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        Pending Enrollments
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchPending)); ?>
-                                    </div>
-                                </div>              
+                    <a href="forassessment.php" class="text-decoration-none">
+                        <div class="card border-left-success shadow h-100 py-1">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col ml-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Pending Enrollments
+                                        </div>
+                                        <div class="fs-5 mb-0 font-weight-bold text-gray-800">
+                                            <?php echo mysqli_num_rows(mysqli_query($conn, $fetchPending)); ?>
+                                        </div>
+                                    </div>              
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>  
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        For Balance Settlement
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForBalanceSettlement)); ?>
-                                    </div>
-                                </div>              
+                    <a href="forbalancesettlement.php" class="text-decoration-none">
+                        <div class="card border-left-success shadow h-100 py-1">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col ml-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            For Balance Settlement
+                                        </div>
+                                        <div class="fs-5 mb-0 font-weight-bold text-gray-800">
+                                            <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForBalanceSettlement)); ?>
+                                        </div>
+                                    </div>              
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>   
                 </div>  
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        For Admission Confirmation
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForAdmission)); ?>
-                                    </div>
-                                </div>              
+                    <a href="foradmission.php" class="text-decoration-none">
+                        <div class="card border-left-success shadow h-100 py-1">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col ml-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            For Admission Confirmation
+                                        </div>
+                                        <div class="fs-5 mb-0 font-weight-bold text-gray-800">
+                                            <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForAdmission)); ?>
+                                        </div>
+                                    </div>              
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>  
                 <div class="col-xl-3 col-md-12 mb-3">
-                    <div class="card border-left-success shadow h-100 py-1">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col ml-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        For Resubmission
-                                    </div>
-                                    <div class="fs-5 mb-0 font-weight-bold text-gray-800">
-                                        <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForResubmit)); ?>
-                                    </div>
-                                </div>              
+                    <a href="forresubmission.php" class="text-decoration-none">
+                        <div class="card border-left-success shadow h-100 py-1">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col ml-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            For Resubmission
+                                        </div>
+                                        <div class="fs-5 mb-0 font-weight-bold text-gray-800">
+                                            <?php echo mysqli_num_rows(mysqli_query($conn, $fetchForResubmit)); ?>
+                                        </div>
+                                    </div>              
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>  
             </div>            
-        </div> 
+        </div>
 
         <div class="row d-flex">
             <!-- Area Chart -->

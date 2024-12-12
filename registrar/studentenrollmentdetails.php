@@ -54,6 +54,10 @@ else {
     $miscfeetext = '<small style="font-size: 12px;">₱0.00</small>';
 }
 
+//get current school year
+$SchoolYearData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive = 'Yes'"));
+$syID = $SchoolYearData['schoolYearID'];
+
 //getting the uploaded file attachments
 $ctr = 0;
 $attachmenttext = '';
@@ -479,11 +483,19 @@ else {
                                                         <div class="col">
                                                             <?php 
                                                                 if ($studentnumber == 0 && $enrollmentstatusID == 5) {
-                                                                    echo '<input type="number" class="form-control" name="studentnumber" required>';
+                                                                    //get school year current student count
+                                                                    $currentstudentcount = $SchoolYearData['studentcount'] + 1;
+                                                                    $studentcounttext = '2024'.str_pad($currentstudentcount, 4, $pad_string = "0", $pad_type = STR_PAD_LEFT);
+                                                                    echo '<input type="number" class="form-control" name="studentnumber" value="'.$studentcounttext.'" required readonly>';
+                                                                    echo '<input type="hidden" class="form-control" name="isgenerated" value="true">';
+                                                                    echo '<input type="hidden" class="form-control" name="studentcount" value="'.$currentstudentcount.'">';
                                                                 }
                                                                 else if ($studentnumber != 0 && $enrollmentstatusID == 5)  {
                                                                     echo '<input type="number" class="form-control" name="studentnumber" value="'.$studentnumber.'" readonly required>';
+                                                                    echo '<input type="hidden" class="form-control" name="isgenerated" value="false">';
+                                                                    echo '<input type="hidden" class="form-control" name="studentcount" value="0">';
                                                                 }
+                                                                echo '<input type="hidden" class="form-control" name="syID" value="'.$syID.'">';
                                                             ?>
                                                                     
                                                         </div>  
