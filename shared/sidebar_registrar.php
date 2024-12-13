@@ -48,7 +48,11 @@
 <div class="sidebar-heading">
     Manage Enrollment
 </div>
-
+<li class="nav-item">
+    <a class="nav-link" href="registration.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>Account Registration</span></a>
+</li>
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"

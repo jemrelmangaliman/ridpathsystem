@@ -94,6 +94,13 @@
                                         <div class="invalid-feedback" id="password2">Password confirmation is required</div>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <small style="font-size: 11px;">Registration Code</small>
+                                        <input type="text" class="form-control form-control-user" name="code" id="code" required>
+                                        <div class="invalid-feedback" id="codevalidation">Registration code is required</div>
+                                    </div>
+                                </div>
                                 <button type="submit" class="btn btn-outline-success fw-bold btn-user btn-block" onclick="RegistrationValidation()">
                                     Register Account
                                 </button>
@@ -108,7 +115,7 @@
             </div>
         </div>
     </div>
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>

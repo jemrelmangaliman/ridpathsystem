@@ -217,6 +217,10 @@ function RegistrationValidation () {
     var confirmpass = document.getElementById('repeatpassword');
     var passvalidation = document.getElementById('password1');
     var confirmpassvalidation = document.getElementById('password2');
+    var code = document.getElementById('code');
+    var codevalidation = document.getElementById('codevalidation');
+    codevalidation.textContent = "Registration code is required";
+    var isValidCode = "";
 
     if(fname.value == '') {
         noError = false;
@@ -301,8 +305,75 @@ function RegistrationValidation () {
         confirmpass.classList.remove("is-valid");
     }
 
-    if (noError == true) {
-        registerform.submit();
-        element.disabled = true;
+    if(code.value == '') {
+        noError = false;
+        code.classList.add("is-invalid");
+    }
+    else {
+        //check if registration code exists and is correct
+        $.ajax({
+            url: "ajax/Registrar_getCodeValidity.php",
+            type: "GET",
+            data: {
+                code: code.value,
+                email: email.value
+            },
+            success: function(response) {
+                isValidCode = response;
+                if (isValidCode == "No") {
+                    noError = false;
+                    code.classList.add("is-invalid");
+                    codevalidation.textContent = "Invalid code. Please check again";
+                }
+                else if (isValidCode == "Used") {
+                    noError = false;
+                    code.classList.add("is-invalid");
+                    codevalidation.textContent = "Code is already used. Please request a new one";
+                }
+                else {
+                    code.classList.remove("is-invalid");
+                    codevalidation.textContent = "Registration code is required";
+                }
+
+                if (noError == true) {
+                    registerform.submit();
+                    element.disabled = true;
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("Error: " + error);  // Optional: handle the error if needed
+            }
+        });        
+    }
+
+}
+
+let isUserInput = false;
+
+function generateCode() {
+    var registrationCodeField = document.getElementById('code');
+
+    const button = document.getElementById('generatebutton');
+
+    const array = new Uint8Array(8); // Create an array of 8 random bytes
+    window.crypto.getRandomValues(array); // Fill it with random values
+    
+    var code = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('').slice(0, 8); 
+    registrationCodeField.value = code;
+    button.disabled = true;
+    registrationCodeField.setAttribute('readonly',true);
+    isUserInput = true;
+    registrationCodeField.classList.remove("is-invalid");
+}
+
+function clearField() {
+    var registrationCodeField = document.getElementById('code');
+
+    if (isUserInput == false) {
+        registrationCodeField.value = '';
+        registrationCodeField.classList.add("is-invalid");
+    }
+    else {
+        registrationCodeField.classList.remove("is-invalid");
     }
 }

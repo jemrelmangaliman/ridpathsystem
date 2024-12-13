@@ -61,10 +61,10 @@ session_unset();
 
 
                     </form>
-                    <hr>
+                    <!-- <hr>
                     <div class="text-center">
                         <a class="small text-decoration-none" href="register_form.php">Click here to create an account!</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

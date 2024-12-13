@@ -2,26 +2,26 @@
 $conn = require 'config/config.php';
 session_start();
 
-// Function to generate a unique tempID
-function generateUniqueTempID($conn) {
-    $count = 0; // Initialize $count
+// // Function to generate a unique tempID
+// function generateUniqueTempID($conn) {
+//     $count = 0; // Initialize $count
     
-    do {
-        // Generate a random number for tempID
-        $tempID = mt_rand(100000, 999999); // Adjust range as needed
+//     do {
+//         // Generate a random number for tempID
+//         $tempID = mt_rand(100000, 999999); // Adjust range as needed
 
-        // Check if the generated tempID already exists in the studentaccount table
-        $stmt = $conn->prepare("SELECT COUNT(*) FROM studentaccount WHERE tempID = ?");
-        $stmt->bind_param("i", $tempID);
-        $stmt->execute();
-        $stmt->bind_result($count);
-        $stmt->fetch();
-        $stmt->close();
+//         // Check if the generated tempID already exists in the studentaccount table
+//         $stmt = $conn->prepare("SELECT COUNT(*) FROM studentaccount WHERE tempID = ?");
+//         $stmt->bind_param("i", $tempID);
+//         $stmt->execute();
+//         $stmt->bind_result($count);
+//         $stmt->fetch();
+//         $stmt->close();
 
-    } while ($count > 0); // Repeat if tempID already exists
+//     } while ($count > 0); // Repeat if tempID already exists
 
-    return $tempID;
-}
+//     return $tempID;
+// }
 
 // Process registration form
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $userrole = 4;
     $password = $_POST['password'];
     $repeatpassword = $_POST['repeatpassword'];
+    $code = $_POST['code'];
 
     // Validate data
     if ($password !== $repeatpassword) {
@@ -50,6 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Execute the statement
     if ($stmt->execute()) {
+        //update code usage status
+        mysqli_query($conn, "UPDATE registrationcodes SET used = 'Yes' WHERE code='$code'");
+
         $_SESSION['action-success'] = "Account created successfully";
         header('location: index.php');
         exit();
