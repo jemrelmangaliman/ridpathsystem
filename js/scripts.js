@@ -377,3 +377,29 @@ function clearField() {
         registrationCodeField.classList.remove("is-invalid");
     }
 }
+
+function displaySecondPaymentMode(element) {
+        var secondpaymentmoderow = document.getElementById('secondpaymentmode-row');
+        if(element.checked) {
+            secondpaymentmoderow.style.display = "flex";
+        }
+        else {
+            secondpaymentmoderow.style.display = "none";
+        }
+}
+
+function displaySecondPaymentForm(element) {
+        var enrollmentID = document.getElementById('enrollmentID');
+
+        var paymentOptionValue = element.value;
+
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var onlinepaymentcontainer = document.getElementById('onlinepayment-container2');
+                    onlinepaymentcontainer.innerHTML = this.responseText;               
+                }
+            };
+        ajax.open("GET", "../ajax/Student_getPaymentDetails2.php?pmID="+paymentOptionValue+"&enrollmentID="+enrollmentID.value, true);
+        ajax.send();
+}

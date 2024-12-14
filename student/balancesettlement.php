@@ -12,6 +12,25 @@ $enrollmentID = $_GET['enrollmentID'];
 //     window.location.href = 'admission.php';
 //     </script>";
 // }
+
+//get the tuition fee amount
+$fetchEnrollmentData = mysqli_query($conn, "SELECT * FROM enrollmentrecords er
+LEFT JOIN tuitionfees tf ON er.strandID = tf.strandID
+WHERE er.enrollmentID='$enrollmentID'");
+$EnrollmentDetails = mysqli_fetch_assoc($fetchEnrollmentData);
+
+$strandID = $EnrollmentDetails['strandID'];
+$tuitionfee = $EnrollmentDetails['amount'];
+
+//get misc fee total using fetched strand ID in the first query
+$MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strandID='$strandID'");
+$totalamount = 0;
+$totalamount += $tuitionfee; //add the tuition fee to the total amount
+while ($Data = mysqli_fetch_assoc($MiscFeeData)) {
+    $amount = $Data['amount'];
+    $totalamount += $amount; //add the misc fee to the total
+}
+
 ?>
 
 
@@ -41,7 +60,51 @@ $enrollmentID = $_GET['enrollmentID'];
                         <form action="../processes/Student_sendPaymentRequest.php" method="POST" enctype="multipart/form-data" class="mx-4">
                             <div class="row mb-1">
                                 <div class="col">
-                                    <small>Payment Option</small>
+                                    <small>Payment Terms</small>
+                                    <?php
+                                        $fetchQuery = "SELECT * FROM enrollmentrecords WHERE enrollmentID = '$enrollmentID'";
+                                        $fetchedData = mysqli_query($conn, $fetchQuery);
+                                        $enrollmentData = mysqli_fetch_assoc($fetchedData);
+                                        $paymentterm = ($enrollmentData['paymentterm'] != "" && $enrollmentData['paymentterm'] != null) ? $enrollmentData['paymentterm'] : "";
+                                    
+                                        if ($paymentterm != "") {
+                                            echo '
+                                            <select class="form-select" disabled>
+                                            <input type="hidden" name="paymentterm" id="paymentterm" value="'.$paymentterm.'">
+                                            ';
+                                        }
+                                        else {
+                                            echo '<select class="form-select" name="paymentterm" id="paymentterm" required>';
+                                        }
+                                        ?>
+                                        <option value="0">--Select Payment Term--</option>
+                                        <?php 
+
+                                        if ($paymentterm == "Full") {
+                                            echo '
+                                            <option value="Full" selected>Full</option>
+                                            <option value="Partial">Partial</option>
+                                            ';
+                                        }
+                                        else if ($paymentterm == "Partial") {
+                                            echo '
+                                            <option value="Full">Full</option>
+                                            <option value="Partial" selected>Partial</option>
+                                            ';
+                                        }
+                                        else {
+                                            echo '
+                                            <option value="Full">Full</option>
+                                            <option value="Partial">Partial</option>
+                                            ';
+                                        }
+                                        ?>    
+                                    </select>
+                                </div>
+                            </div> 
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <small>Primary Payment Option</small>
                                     <select class="form-select" name="paymentmode" id="paymentmode" required>
                                         <option value="0">--Select Payment Mode--</option>
                                     <?php
@@ -56,10 +119,24 @@ $enrollmentID = $_GET['enrollmentID'];
                                     </select>
                                 </div>
                             </div> 
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <small>Total Payable Amount (Tuition Fee + Miscellaneous Fees)</small>
+                                    <input type="number" class="form-control" value="<?php echo $totalamount; ?>" disabled>
+                                </div>
+                            </div> 
                             <div class="container-fluid p-0 m-0" id="onlinepayment-container">
                                 
                             </div>
-                            
+                            <div class="container-fluid p-0 m-0" id="onlinepayment-container2">
+                                
+                            </div>
+                            <div class="row mt-3 ml-2 mr-2 mb-3 d-flex justify-content-end">
+                                <input type="hidden" class="form-control" id ="enrollmentID_hidden" name="enrollmentID" value="<?php echo $enrollmentID; ?>">
+                                <div class="col-4">
+                                    <button class="btn btn-success ml-auto mr-auto w-100" id="page-btn" type="submit" name="SendPaymentRequest" disabled>Submit Payment</button>
+                                </div>
+                            </div>
                         </form>   
                         </div>
                 </div>
@@ -85,7 +162,13 @@ $enrollmentID = $_GET['enrollmentID'];
             ajax.open("GET", "../ajax/Student_getPaymentDetails.php?pmID="+paymentOptionValue+"&enrollmentID="+enrollmentID.value, true);
             ajax.send();
 
-            });
+            if (paymentOptionValue != "0") {
+                document.getElementById('page-btn').removeAttribute('disabled');
+            }
+            else {
+                document.getElementById('page-btn').disabled = true
+            }
+        });
         
 
     </script>

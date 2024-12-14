@@ -25,6 +25,7 @@ $enrollmentstatusID = $DataArray['statusID'];
 $strandID = $DataArray['strandID'];
 $interest = $DataArray['interest'];
 $enrollmentID = $DataArray['enrollmentID'];
+$paymentterm = $DataArray['paymentterm'];
 $gradelevel = $DataArray['gradelevel'];
 $gender = $DataArray['gender'];
 $birthday = date('M d, Y', strtotime($DataArray['birthday']));
@@ -33,12 +34,27 @@ $enrollmentremarks = $DataArray['enrollmentremarks'];
 
 //get payment record of the enrollment record
 $getPaymentRecord = mysqli_query($conn, "SELECT * FROM paymentrecord WHERE enrollmentID='$enrollmentID'");
-
+$paymentcount = mysqli_num_rows($getPaymentRecord);
 $proceedtopayment = '';
 $resubmit = 'disabled';
 
-if ($enrollmentstatusID != 4 || ($enrollmentstatusID == 4 && mysqli_num_rows($getPaymentRecord) == 1)) {
-    $proceedtopayment = 'disabled';
+// if ($enrollmentstatusID != 4 || ($enrollmentstatusID == 4 && mysqli_num_rows($getPaymentRecord) == 1)) {
+//     $proceedtopayment = 'disabled';
+// }
+
+if ($enrollmentstatusID == 4 || $enrollmentstatusID == 10) {
+    if ($paymentterm == "Full") {
+        if ($paymentcount == 1) {
+            $proceedtopayment = 'disabled';
+        }
+        else {
+            $proceedtopayment = '';
+        }
+    }
+    else if ($paymenttype == "Partial") {
+            //check if payment amount met the tuition fee amount
+            $proceedtopayment = '';
+    }    
 }
 
 if ($enrollmentstatusID == 3) {
