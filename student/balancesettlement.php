@@ -30,7 +30,14 @@ while ($Data = mysqli_fetch_assoc($MiscFeeData)) {
     $amount = $Data['amount'];
     $totalamount += $amount; //add the misc fee to the total
 }
+$totalpaidamount = 0;
+$GetPaymentRecordsQuery = "SELECT * FROM paymentrecord WHERE enrollmentID='$enrollmentID'";
+$GetPaymentRecord = mysqli_query($conn, $GetPaymentRecordsQuery);
+while ($PaymentDetail = mysqli_fetch_assoc($GetPaymentRecord)) {
+    $totalpaidamount += $PaymentDetail['totalpaymentamount'];
+}
 
+$remainingbalance = $totalamount - $totalpaidamount;
 ?>
 
 
@@ -60,17 +67,17 @@ while ($Data = mysqli_fetch_assoc($MiscFeeData)) {
                         <form action="../processes/Student_sendPaymentRequest.php" method="POST" enctype="multipart/form-data" class="mx-4">
                             <div class="row mb-1">
                                 <div class="col">
-                                    <small>Payment Terms</small>
+                                    <small>Payment Term</small>
                                     <?php
                                         $fetchQuery = "SELECT * FROM enrollmentrecords WHERE enrollmentID = '$enrollmentID'";
                                         $fetchedData = mysqli_query($conn, $fetchQuery);
                                         $enrollmentData = mysqli_fetch_assoc($fetchedData);
-                                        $paymentterm = ($enrollmentData['paymentterm'] != "" && $enrollmentData['paymentterm'] != null) ? $enrollmentData['paymentterm'] : "";
+                                        $paymentterm = $enrollmentData['paymentterm'];
                                     
                                         if ($paymentterm != "") {
                                             echo '
-                                            <select class="form-select" disabled>
                                             <input type="hidden" name="paymentterm" id="paymentterm" value="'.$paymentterm.'">
+                                            <select class="form-select" disabled>
                                             ';
                                         }
                                         else {
@@ -125,6 +132,12 @@ while ($Data = mysqli_fetch_assoc($MiscFeeData)) {
                                     <input type="number" class="form-control" value="<?php echo $totalamount; ?>" disabled>
                                 </div>
                             </div> 
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <small>Remaining Balance</small>
+                                    <input type="number" class="form-control" value="<?php echo $remainingbalance; ?>" disabled>
+                                </div>
+                            </div> 
                             <div class="container-fluid p-0 m-0" id="onlinepayment-container">
                                 
                             </div>
@@ -133,6 +146,7 @@ while ($Data = mysqli_fetch_assoc($MiscFeeData)) {
                             </div>
                             <div class="row mt-3 ml-2 mr-2 mb-3 d-flex justify-content-end">
                                 <input type="hidden" class="form-control" id ="enrollmentID_hidden" name="enrollmentID" value="<?php echo $enrollmentID; ?>">
+                                <input type="hidden" class="form-control" name="totalamount" value="<?php echo $totalamount; ?>">
                                 <div class="col-4">
                                     <button class="btn btn-success ml-auto mr-auto w-100" id="page-btn" type="submit" name="SendPaymentRequest" disabled>Submit Payment</button>
                                 </div>

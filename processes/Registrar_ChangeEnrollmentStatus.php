@@ -45,8 +45,52 @@ $conn = require '../config/config.php';
         $section = $_POST['section'];
         $currentDate = date("Y-m-d");
 
-        $Query = "UPDATE enrollmentrecords SET enrollmentStatusID = 6, enrollmentremarks='$enrollmentremarks', admissiondate='$currentDate' WHERE enrollmentID = '$ID'";
+        $totalpaidamount = 0;
+        $GetPaymentRecordsQuery = "SELECT * FROM paymentrecord WHERE enrollmentID='$ID'";
+        $GetPaymentRecord = mysqli_query($conn, $GetPaymentRecordsQuery);
+        while ($PaymentDetail = mysqli_fetch_assoc($GetPaymentRecord)) {
+            $totalpaidamount += $PaymentDetail['totalpaymentamount'];
+        }
 
+        $fetchQuery = "SELECT * FROM enrollmentrecords ER
+        LEFT JOIN strands SD ON SD.strandID = ER.strandID
+        LEFT JOIN tuitionfees TF ON TF.strandID = SD.strandID
+        WHERE ER.enrollmentID = '$ID'";
+        $fetchedData = mysqli_query($conn, $fetchQuery);
+        $DataArray = mysqli_fetch_assoc($fetchedData);
+        $tuitionfee = $DataArray['amount'];
+        $paymentterm =$DataArray['paymentterm'];
+        $strandID =$DataArray['strandID'];
+
+        //get misc fee total using fetched strand ID in the first query
+        $MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strandID='$strandID'");
+        $totalamount = 0;
+        $totalamount += $tuitionfee; //add the tuition fee to the total amount
+        $miscfeetext = '';
+
+
+        while ($Data = mysqli_fetch_assoc($MiscFeeData)) {
+            $amount = $Data['amount'];
+            $totalamount += $amount; //add the misc fee to the total
+            $description = $Data['description'];
+            $miscfeetext .= '<br><small style="font-size: 13px;">₱'.$amount.' - '.$description.'</small>';   
+        }
+
+
+        $Query = '';
+        if ($paymentterm == 'Partial') {
+            if ($totalpaidamount >= $totalamount) {
+                $Query = "UPDATE enrollmentrecords SET enrollmentStatusID = 6, enrollmentremarks='$enrollmentremarks', admissiondate='$currentDate' WHERE enrollmentID = '$ID'";
+            }
+            else {
+                $Query = "UPDATE enrollmentrecords SET enrollmentStatusID = 10, enrollmentremarks='$enrollmentremarks', admissiondate='$currentDate' WHERE enrollmentID = '$ID'";
+            }  
+        }
+        else {
+            $Query = "UPDATE enrollmentrecords SET enrollmentStatusID = 6, enrollmentremarks='$enrollmentremarks', admissiondate='$currentDate' WHERE enrollmentID = '$ID'";
+
+        }
+        
         //Update slot count of the section
         $SectionQuery = "UPDATE sections SET currentavailableslot = currentavailableslot-1 WHERE sectionID = '$section'";
 

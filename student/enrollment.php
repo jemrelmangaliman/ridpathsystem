@@ -270,7 +270,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     
-                                                    <a href="examination_home.php"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button">Examination Page</button></a> 
+                                                    <a href="examination_home.php" id="exambuttonlink"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button">Examination Page</button></a> 
                                                     <small class="text-danger" style="font-size: 11px;">Examination is required to proceed with enrollment</small> 
                                                 </div>
                                             </div>

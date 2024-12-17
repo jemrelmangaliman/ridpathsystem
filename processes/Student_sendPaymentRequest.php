@@ -9,10 +9,19 @@ $enrollmentID = $_POST['enrollmentID'];
 $paymentmode = $_POST['paymentmode'];
 $paymenttype = $_POST['paymenttype'];
 $amount = $_POST['amount'];
+$totalamount = $_POST['totalamount'];
 $paymentremarks = (isset($_POST['paymentremarks'])) ? $_POST['paymentremarks'] : "";
 $paymentterm = $_POST['paymentterm'];
 $Query = '';
 $currentdate = date('Y-m-d');
+
+$totalpaidamount = 0;
+$GetPaymentRecordsQuery = "SELECT * FROM paymentrecord WHERE enrollmentID='$enrollmentID'";
+$GetPaymentRecord = mysqli_query($conn, $GetPaymentRecordsQuery);
+while ($PaymentDetail = mysqli_fetch_assoc($GetPaymentRecord)) {
+    $totalpaidamount += $PaymentDetail['totalpaymentamount'];
+}
+
     if ($paymenttype == "Online") {
         if (isset($_FILES['paymentproof']) && $_FILES['paymentproof']['error'] === UPLOAD_ERR_OK) {  
                 $SavePath = "../paymentproofs/";
@@ -30,12 +39,17 @@ $currentdate = date('Y-m-d');
                     values ('$enrollmentID','$paymentmode','$amount','$NewFileName','$paymentremarks', '$currentdate','$paymentterm')";
                     if($conn->query($Query)) {
                         $transactionID = $conn->insert_id;
+
+                        $totalpaidamount += $amount; //add the current payment amount to the total paid amount
                         
                         //check for second payment mode
                         if (isset($_POST['secondpaymentcheck'])) {
-                            processSecondPayment($conn, $amount, $transactionID, $enrollmentID);
+                            processSecondPayment($conn, $amount, $transactionID, $enrollmentID, $totalamount, $totalpaidamount);
                         }
                         else {
+                            mysqli_query($conn,"UPDATE paymentrecord SET totalpaymentamount = '$amount' WHERE transactionID = '$transactionID'");
+                            checkFullPaid($conn, $enrollmentID, $totalamount, $totalpaidamount);
+                            
                             $_SESSION['action-success'] = "Payment request has been sent.";
                             header("Location: ../student/admission.php");
                             exit();
@@ -76,12 +90,13 @@ $currentdate = date('Y-m-d');
 
 
 
-function processSecondPayment($conn, $firstpaymentamount, $transactionID, $enrollmentID) {
+function processSecondPayment($conn, $firstpaymentamount, $transactionID, $enrollmentID, $totalamount, $totalpaidamount) {
     $paymentmode2 = $_POST['paymentmode2'];
     $paymenttype2 = $_POST['paymenttype2'];
     $amount2 = $_POST['amount2'];
     $paymentremarks2 = (isset($_POST['paymentremarks2'])) ? $_POST['paymentremarks2'] : "";
     $totalpaymentamount = $firstpaymentamount + $amount2;
+    $totalpaidamount += $amount2;
 
 
     if ($paymenttype2 == "Online") {
@@ -95,15 +110,16 @@ function processSecondPayment($conn, $firstpaymentamount, $transactionID, $enrol
                     //changing the name of the image
                     //filename: enrollmentID-attachment.ext (ex. 34-attachment1.jpeg)
                     $NewFileName2 = $SavePath.$enrollmentID."-paymentproof2.".$FileType;
-                    rename($File, $NewFileName);
+                    rename($File, $NewFileName2);
 
                     mysqli_query($conn,"UPDATE paymentrecord SET secondPaymentModeID = '$paymentmode2', secondamount = '$amount2', secondproofimgurl = '$NewFileName2', secondpaymentremarks = '$paymentremarks2', totalpaymentamount = '$totalpaymentamount' WHERE transactionID = '$transactionID'");
+                    
+                    checkFullPaid($conn, $enrollmentID, $totalamount, $totalpaidamount);
 
                     $_SESSION['action-success'] = "Payment request has been sent.";
                     header("Location: ../student/admission.php");
                     exit();
-                    
-                    
+    
                 }   
                 else {
                     $_SESSION['action-error'] = "An error occured on payment request.";
@@ -118,6 +134,8 @@ function processSecondPayment($conn, $firstpaymentamount, $transactionID, $enrol
         }
     }
     else {
+        checkFullPaid($conn, $enrollmentID, $totalamount, $totalpaidamount);
+
         //update paymentrecord
         mysqli_query($conn,"UPDATE paymentrecord SET secondPaymentModeID = '$paymentmode2', secondamount = '$amount2', secondpaymentremarks = '$paymentremarks2', totalpaymentamount = '$totalpaymentamount' WHERE transactionID = '$transactionID'");
         $_SESSION['action-success'] = "Payment request has been sent.";
@@ -130,4 +148,19 @@ function processSecondPayment($conn, $firstpaymentamount, $transactionID, $enrol
     //mysqli_query($conn,"UPDATE paymentrecords SET  WHERE transactionID = '$transactionID'");
 }
 
+function checkFullPaid ($conn, $enrollmentID, $totalamount, $totalpaidamount) {
+
+    //get enrollment status
+    $enrollmentData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM enrollmentrecords WHERE enrollmentID = '$enrollmentID'"));
+    $enrollmentStatusID = $enrollmentData['enrollmentStatusID'];
+
+    if ($enrollmentStatusID == 10) {
+        if ($totalpaidamount >= $totalamount) {
+            mysqli_query($conn,"UPDATE enrollmentrecords SET enrollmentStatusID = 6 WHERE enrollmentID = '$enrollmentID'");             
+        }
+    }
+    
+    
+
+}
 ?>

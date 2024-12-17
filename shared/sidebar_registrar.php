@@ -53,6 +53,11 @@
         <i class="fas fa-fw fa-wrench"></i>
         <span>Account Registration</span></a>
 </li>
+<li class="nav-item">
+    <a class="nav-link" href="examaccess.php">
+        <i class="fas fa-fw fa-wrench"></i>
+        <span>Examination Access</span></a>
+</li>
 <!-- Nav Item - Pages Collapse Menu -->
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -66,6 +71,7 @@
             <a class="collapse-item" href="forbalancesettlement.php">Balance Settlement</a>
             <a class="collapse-item" href="foradmission.php">Admission Confirmation</a>
             <a class="collapse-item" href="enrolled.php">Enrolled</a>
+            <a class="collapse-item" href="enrolledwithbalance.php">Enrolled - With Balance</a>
             <a class="collapse-item" href="forresubmission.php">For Resubmission</a>
 
         </div>

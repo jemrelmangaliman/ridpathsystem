@@ -125,6 +125,9 @@ switch ($enrollmentstatusID) {
     case "6":
         $hideremarksfield = 'style="display: none;"';
         break;
+    case "10":
+        $hideremarksfield = 'style="display: none;"';
+        break;
     case "7":
         $hideremarksfield = 'style="display: none;"';
         break;
@@ -139,29 +142,31 @@ $showproofbutton = '';
 $nopaymentnotif = 'style="display: none;"';
 $paymentrecordcontainer = 'style="display: none;"';
 //get payment transaction record for the enrollment record
-$GetPaymentRecord = mysqli_query($conn, "SELECT * FROM paymentrecord pr
+//get payment transaction record for the enrollment record
+$GetPaymentRecordsQuery = "SELECT
+pr.transactionID,
+pr.enrollmentID,
+pm.description AS paymentmode1,
+pr.amount,
+pr.paymentremarks,
+pr.proofimgurl,
+pm.paymenttype AS paymenttype1,
+pm.accountnumber AS accountnumber1,
+pm2.description AS paymentmode2,
+pr.secondamount,
+pr.secondpaymentremarks,
+pr.secondproofimgurl,
+pm2.paymenttype AS paymenttype2,
+pm2.accountnumber AS accountnumber2,
+pr.totalpaymentamount,
+pr.paymentdate
+FROM paymentrecord pr
 LEFT JOIN paymentmodes pm ON pr.paymentModeID = pm.paymentModeID
-WHERE pr.enrollmentID='$enrollmentID'");
-if(mysqli_num_rows($GetPaymentRecord) == 1) {
-    $PaymentDetails = mysqli_fetch_assoc($GetPaymentRecord);
-    $transactionID = $PaymentDetails['transactionID'];
-    $accountnumber = $PaymentDetails['accountnumber'];
-    $paymenttype = $PaymentDetails['paymenttype'];
-    $proofimgurl = $PaymentDetails['proofimgurl'];
-    if ($accountnumber != "" && $accountnumber != null) {
-        $paymentmode = $PaymentDetails['description'].' - '.$accountnumber.' ('.$PaymentDetails['paymenttype'].')';
-    }
-    else {
-        $paymentmode = $PaymentDetails['description'].' ('.$PaymentDetails['paymenttype'].')';
-    }
-    $amount = $PaymentDetails['amount'];
-    $paymentremarks = $PaymentDetails['paymentremarks'];
-    
-    if($paymenttype == "Online") {
-        $showproofbutton = '<button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                    data-bs-target="#modal-View"
-                                    data-bs-proofimgurl="'.$proofimgurl.'" style="font-size: 11px;"><i class="bi bi-eye-fill" id="table-btn-icon"></i> View Payment Proof</button>';
-    }
+LEFT JOIN paymentmodes pm2 ON pr.secondPaymentModeID = pm2.paymentModeID
+WHERE pr.enrollmentID='$enrollmentID'";
+$GetPaymentRecord = mysqli_query($conn, $GetPaymentRecordsQuery);
+if(mysqli_num_rows($GetPaymentRecord) > 0) {
+
 
     //display the payment details container
     $paymentrecordcontainer = 'style="display: block;"';
@@ -407,59 +412,102 @@ else {
 
                                             <!-- Payment Information container -- will be hide/displayed based on detection of transaction ID-->
                                             <div class="container-fluid" id="paymentdetailscontainer" <?php echo $paymentrecordcontainer;?>>
-                                                <!-- Transaction ID Display -->
-                                                <div class="row w-100 mt-1">
-                                                    <div class="col-3">
-                                                        <small id="small" class="fw-bold">Transaction ID</small>
+                                                    <div class="row mt-1">
+                                                        <div class="col">
+                                                            <table class="table table-hover table-bordered table-sm w-100">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">ID</small></th> 
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Primary MOP</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Amount Paid</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Remarks</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Proof</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Secondary MOP</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Amount Paid</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Remarks</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Proof</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Total Amount</small></th>
+                                                                        <th scope="col" class="text-center" id="admission-subjects-text"><small class="fw-bold">Payment Date</small></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <?php
+                                                                //Retrieve payment transactions
+                                                                $GetPaymentRecords = mysqli_query($conn, $GetPaymentRecordsQuery);
+                                                                while ($PaymentDetails = mysqli_fetch_assoc($GetPaymentRecords)) {
+                                                                    $transactionID = $PaymentDetails['transactionID'];
+                                                                    $accountnumber1 = $PaymentDetails['accountnumber1'];
+                                                                    $paymenttype1 = $PaymentDetails['paymenttype1'];
+                                                                    $proofimgurl1 = $PaymentDetails['proofimgurl'];
+                                                                    $amount1 = $PaymentDetails['amount'];
+                                                                    $paymentremarks1 = $PaymentDetails['paymentremarks'];
+                                                                    $accountnumber2 = $PaymentDetails['accountnumber2'];
+                                                                    $paymenttype2 = $PaymentDetails['paymenttype2'];
+                                                                    $proofimgurl2 = $PaymentDetails['secondproofimgurl'];
+                                                                    $amount2 = $PaymentDetails['secondamount'];
+                                                                    $paymentremarks2 = $PaymentDetails['secondpaymentremarks'];
+                                                                    $totalamount = $PaymentDetails['totalpaymentamount'];
+                                                                    $paymentdate = $PaymentDetails['paymentdate'];
+                                                                    $showproofbutton1 = '';
+                                                                    $showproofbutton2 = '';
+                                                                    $paymentmode1 = '';
+                                                                    $paymentmode2 = '';
+                                                                    if ($accountnumber1 != "" && $accountnumber1 != null) {
+                                                                        $paymentmode1 = $PaymentDetails['paymentmode1'].' - '.$accountnumber1.' ('.$PaymentDetails['paymenttype1'].')';
+                                                                    }
+                                                                    else {
+                                                                        $paymentmode1 = $PaymentDetails['paymentmode1'].' ('.$PaymentDetails['paymenttype1'].')';
+                                                                    }
+
+
+                                                                    if ($accountnumber2 != "" && $accountnumber2 != null) {
+                                                                        $paymentmode2 = $PaymentDetails['paymentmode2'].' - '.$accountnumber2.' ('.$PaymentDetails['paymenttype2'].')';
+                                                                    }
+                                                                    else {
+                                                                        $paymentmode2 = $PaymentDetails['paymentmode2'].' ('.$PaymentDetails['paymenttype2'].')';
+                                                                    }
+
+
+                                                                    if($paymenttype1 == "Online") {
+                                                                        $showproofbutton1 = '<button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                                                                    data-bs-target="#modal-View"
+                                                                                                    data-bs-proofimgurl="'.$proofimgurl1.'" style="font-size: 11px;"><i class="bi bi-eye-fill" id="table-btn-icon"></i> </button>';
+                                                                    }
+                                                                    else {
+                                                                        $showproofbutton1 = 'N/A';
+                                                                    }
+
+                                                                    if($paymenttype2 == "Online") {
+                                                                        $showproofbutton2 = '<button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                                                                    data-bs-target="#modal-View"
+                                                                                                    data-bs-proofimgurl="'.$proofimgurl2.'" style="font-size: 11px;"><i class="bi bi-eye-fill" id="table-btn-icon"></i> </button>';
+                                                                    }
+                                                                    else {
+                                                                        $showproofbutton2 = 'N/A';
+                                                                    }
+                                                                
+                                                                    echo '
+                                                                    <tr>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$transactionID.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$paymentmode1.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$amount1.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$paymentremarks1.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$showproofbutton1.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$paymentmode2.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$amount2.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$paymentremarks2.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$showproofbutton2.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.$totalamount.'</td>
+                                                                        <td class="text-center" id="admission-subjects-text">'.date('M d, Y', strtotime($paymentdate)).'</td>
+                                                                    </tr>
+                                                                    ';
+                                                                }
+                                                                ?>
+                                                                
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-1">
-                                                        <small id="small" class="fw-bold">:</small>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <small><?php echo $transactionID; ?></small>
-                                                    </div>
-                                                </div>  
-                                                <!-- Payment Mode Display -->
-                                                <div class="row w-100" style="margin-top: -5px;">
-                                                    <div class="col-3">
-                                                        <small id="small" class="fw-bold">Payment Mode</small>
-                                                    </div>
-                                                    <div class="col-1">
-                                                        <small id="small" class="fw-bold">:</small>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <small><?php echo $paymentmode; ?></small>
-                                                    </div>
-                                                </div>     
-                                                <!-- Amount Paid Display -->
-                                                <div class="row w-100" style="margin-top: -5px;">
-                                                    <div class="col-3">
-                                                        <small id="small" class="fw-bold">Amount Paid</small>
-                                                    </div>
-                                                    <div class="col-1">
-                                                        <small id="small" class="fw-bold">:</small>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <small>₱<?php echo $amount; ?></small>
-                                                    </div>
-                                                </div>    
-                                                <!-- Payment Remarks Display -->
-                                                <div class="row w-100" style="margin-top: -5px;">
-                                                    <div class="col-3">
-                                                        <small id="small" class="fw-bold">Payment Remarks</small>
-                                                    </div>
-                                                    <div class="col-1">
-                                                        <small id="small" class="fw-bold">:</small>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <small><?php echo $paymentremarks; ?></small>
-                                                    </div>
-                                                </div>    
-                                                <div class="row w-100">
-                                                        <div class="col-5">
-                                                            <?php echo $showproofbutton; ?>
-                                                        </div>      
-                                                    </div> 
                                             </div>
                                                            
                                         </div>
