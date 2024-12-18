@@ -7,6 +7,9 @@ $syID = $_POST['syID'];
 //update the current school year to inactive
 mysqli_query($conn, "UPDATE schoolyear SET isactive = 'No' WHERE schoolYearID = '$syID'");
 
+//disable exam access to all students
+mysqli_query($conn, "UPDATE students SET allowexam = 'No'");
+
 //Update all enrollment records with 'Enrolled' status to 'Completed'
 mysqli_query($conn, "UPDATE enrollmentrecords SET enrollmentStatusID = 9 WHERE enrollmentStatusID = 6 and schoolYearID = '$syID'");
 
