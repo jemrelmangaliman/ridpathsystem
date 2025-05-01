@@ -17,6 +17,7 @@ $birthday = date('M d, Y', strtotime($DataArray['birthday']));
 $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
 $disabled = 'disabled';
 $buttontype = 'submit';
+$examaccess = $DataArray['allowexam'];
 
 //get current school year
 $getSchoolYear = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive='Yes'"));
@@ -324,6 +325,10 @@ $syID = $getSchoolYear['schoolYearID'];
                                             }
 
                                             if ($CategoryCount == $ScoreCount) {
+                                                if ($examaccess == 'Yes') {
+                                                    mysqli_query($conn, "UPDATE students SET allowexam = 'No' WHERE tempID='$tempid'");
+                                                }
+
                                                 echo '<small class=" ml-3 mt-2">Highest Exam Score(s)</small>';
                                                 
                                                 $counter = 0;
@@ -418,11 +423,13 @@ $syID = $getSchoolYear['schoolYearID'];
                 </div>
             </div>
 
-
+            <input type="hidden" id="access" value="<?php echo $examaccess; ?>">
     </div>
     <!-- End of Main Content -->
     <script>
-        
+        if (document.getElementById('access').value != 'Yes') {
+            document.getElementById('exambuttonlink').style.display = 'none';
+        }
     </script>
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -1,8 +1,6 @@
 <?php
     require '../shared/header_registrar.php';
-?>
-
-<?php require '../shared/action-message.php'; ?>
+    require '../shared/action-message.php'; ?>
 
 <?php 
 $ExamAccessData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM examaccess"));
