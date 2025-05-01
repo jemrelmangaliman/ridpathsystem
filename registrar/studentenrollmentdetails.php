@@ -39,6 +39,7 @@ $studentID = $DataArray['tempID'];
 //get misc fee total using fetched strand ID in the first query
 $MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strandID='$strandID'");
 $totalamount = 0;
+$currentbalance = 0;
 $totalamount += $tuitionfee; //add the tuition fee to the total amount
 $miscfeetext = '';
 
@@ -52,6 +53,18 @@ if (mysqli_num_rows($MiscFeeData) != 0) {
 }
 else {
     $miscfeetext = '<small style="font-size: 12px;">₱0.00</small>';
+}
+
+//computing for the current remaining balance
+$currentbalance = $totalamount;
+$CurrentPaidAmountQuery = mysqli_query($conn, "SELECT totalpaymentamount FROM paymentrecord WHERE enrollmentID = '$enrollmentID'");
+while($Data = mysqli_fetch_assoc($CurrentPaidAmountQuery)){
+    $currentbalance = $currentbalance - $Data['totalpaymentamount'];
+
+    if ($currentbalance < 0) {
+        $currentbalance = 0;
+        break;
+    }
 }
 
 //get current school year
@@ -369,34 +382,44 @@ else {
                                         <!-- Enrollment Cost container -->
                                         <p class="border-bottom fw-bold mt-3" id="enrollmentcost-text">Enrollment Costs</p>
                                         <div class="row" id="enrollmentcost-container">
-                                            <div class="col-4">
+                                            <div class="col-3">
                                                 <div class="container">
                                                     <div class="row mx-1 ">
                                                         <div class="col">
-                                                            <small class="fw-bold">Miscellaneous Fees</small>
+                                                            <small class="fw-bold" style="font-size: 12px;">Misc. Fees</small>
                                                             <!-- The contents are configured in the PHP code in the upper parts of this file -->
                                                             <?php echo $miscfeetext; ?>
                                                         </div>
                                                     </div> 
                                                 </div> 
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-3">
                                                 <div class="container">
                                                     <div class="row mx-1">
                                                         <div class="col">
-                                                            <small class="fw-bold">Tuition Fee</small>
+                                                            <small class="fw-bold" style="font-size: 12px;">Tuition Fee</small>
                                                             <p>₱<span id="tuitionfeetext"><?php echo $tuitionfee; ?>.00</span></p>
                                                         </div>
                                                     </div> 
                                                 </div>  
                                             </div>
 
-                                            <div class="col-4">
-                                            <div class="container">
+                                            <div class="col-3">
+                                                <div class="container">
                                                     <div class="row mx-1">
                                                         <div class="col">
-                                                            <small class="fw-bold">Total Enrollment Cost</small>
-                                                            <p class="fw-bold fs-3">₱<span id="totalamounttext"><?php echo $totalamount; ?></span></p>
+                                                            <small class="fw-bold" style="font-size: 12px;">Enrollment Cost</small>
+                                                            <p>₱<span id="totalamounttext"><?php echo $totalamount; ?></span></p>
+                                                        </div>
+                                                    </div> 
+                                                </div> 
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="container">
+                                                    <div class="row mx-1">
+                                                        <div class="col">
+                                                            <small class="fw-bold" style="font-size: 12px;">Current Balance</small>
+                                                            <p class="fw-bold fs-3">₱<span id="currentbalancetext"><?php echo $currentbalance; ?></span></p>
                                                         </div>
                                                     </div> 
                                                 </div> 
@@ -533,7 +556,7 @@ else {
                                                                 if ($studentnumber == 0 && $enrollmentstatusID == 5) {
                                                                     //get school year current student count
                                                                     $currentstudentcount = $SchoolYearData['studentcount'] + 1;
-                                                                    $studentcounttext = '2024'.str_pad($currentstudentcount, 4, $pad_string = "0", $pad_type = STR_PAD_LEFT);
+                                                                    $studentcounttext = date('Y').str_pad($currentstudentcount, 4, $pad_string = "0", $pad_type = STR_PAD_LEFT);
                                                                     echo '<input type="number" class="form-control" name="studentnumber" value="'.$studentcounttext.'" required readonly>';
                                                                     echo '<input type="hidden" class="form-control" name="isgenerated" value="true">';
                                                                     echo '<input type="hidden" class="form-control" name="studentcount" value="'.$currentstudentcount.'">';
@@ -615,8 +638,23 @@ else {
                                                                     echo '<div class="row mx-1">
                                                                             <div class="col">
                                                                                 <small>'.$attachmentlabel.'</small>
-                                                                                <div class="input-group mb-3" style="font-size: 14px;">
-                                                                                    <i class="bi bi-check-circle-fill text-success mr-2"></i><a href="'.$attachmentlink.'" download="'.$filename.'">'.$filename.'</a>
+                                                                                <div class="input-group mb-3">
+                                                                                    <i class="bi bi-check-circle-fill text-success mr-2 mt-1"></i>
+                                                                                    <a href="'.$attachmentlink.'" class="text-decoration-none" download="'.$filename.'">
+                                                                                        <button class="btn btn-primary text-center" id="table-button" title="download attachment" type="button">
+                                                                                            <small style="font-size: 10px;"><i class="bi bi-download text-white"></i></small>
+                                                                                        </button>
+                                                                                    </a>
+                                                                                    <button class="btn btn-secondary 
+                                                                                    text-center ml-2" 
+                                                                                    title="view attachment"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#modal-ViewAttachment"
+                                                                                    data-bs-url="'.$attachmentlink.'"
+                                                                                    type="button"
+                                                                                    id="table-button">
+                                                                                            <small style="font-size: 10px;"><i class="bi bi-eye-fill text-white"></i></small>
+                                                                                    </button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>';
@@ -679,6 +717,30 @@ else {
         </div>
 </div>
 
+<div class="modal fade" id="modal-ViewAttachment" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body p-4" style="font-family: Arial;">
+                        <h5>View Attachment</h5>
+                        
+                            <div class="row mb-1">
+                                <div class="col">
+                                    <div class="container d-flex justify-content-center">
+                                        <img class="img-thumbnail border shadow" id="attachmentimage">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3 ml-2 mr-2 mb-3">
+                                <div class="col">
+                                    <button type="button" id="page-btn" class="btn btn-danger w-100" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                         
+                </div>
+            </div>
+        </div>
+</div>
+
             </div>
             <!-- End of Main Content -->
 
@@ -693,6 +755,15 @@ else {
         var imgurl = button.getAttribute('data-bs-proofimgurl');
         
         viewModal.querySelector('#paymentproofimage').src = imgurl;
+    });
+
+    var viewAttachmentModal = document.getElementById('modal-ViewAttachment')
+    viewAttachmentModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget
+        var imgurl = button.getAttribute('data-bs-url');
+        
+        viewAttachmentModal.querySelector('#attachmentimage').src = imgurl;
     });
 </script>
 

@@ -38,6 +38,7 @@ $studentID = $DataArray['tempID'];
 //get misc fee total using fetched strand ID in the first query
 $MiscFeeData = mysqli_query($conn, "SELECT * FROM miscellaneousfees WHERE strandID='$strandID'");
 $totalamount = 0;
+$currentbalance = 0;
 $totalamount += $tuitionfee; //add the tuition fee to the total amount
 $miscfeetext = '';
 
@@ -52,6 +53,19 @@ if (mysqli_num_rows($MiscFeeData) != 0) {
 else {
     $miscfeetext = '<small style="font-size: 12px;">₱0.00</small>';
 }
+
+//computing for the current remaining balance
+$currentbalance = $totalamount;
+$CurrentPaidAmountQuery = mysqli_query($conn, "SELECT totalpaymentamount FROM paymentrecord WHERE enrollmentID = '$enrollmentID'");
+while($Data = mysqli_fetch_assoc($CurrentPaidAmountQuery)){
+    $currentbalance = $currentbalance - $Data['totalpaymentamount'];
+
+    if ($currentbalance < 0) {
+        $currentbalance = 0;
+        break;
+    }
+}
+
 
 $transactionID = '';
 $paymentmode = '';
@@ -284,34 +298,44 @@ else {
                                         <!-- Enrollment Cost container -->
                                         <p class="border-bottom fw-bold mt-3" id="enrollmentcost-text">Enrollment Costs</p>
                                         <div class="row" id="enrollmentcost-container">
-                                            <div class="col-4">
+                                            <div class="col-3">
                                                 <div class="container">
                                                     <div class="row mx-1 ">
                                                         <div class="col">
-                                                            <small class="fw-bold">Miscellaneous Fees</small>
+                                                            <small class="fw-bold" style="font-size: 12px;">Misc. Fees</small>
                                                             <!-- The contents are configured in the PHP code in the upper parts of this file -->
                                                             <?php echo $miscfeetext; ?>
                                                         </div>
                                                     </div> 
                                                 </div> 
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-3">
                                                 <div class="container">
                                                     <div class="row mx-1">
                                                         <div class="col">
-                                                            <small class="fw-bold">Tuition Fee</small>
+                                                            <small class="fw-bold" style="font-size: 12px;">Tuition Fee</small>
                                                             <p>₱<span id="tuitionfeetext"><?php echo $tuitionfee; ?>.00</span></p>
                                                         </div>
                                                     </div> 
                                                 </div>  
                                             </div>
 
-                                            <div class="col-4">
-                                            <div class="container">
+                                            <div class="col-3">
+                                                <div class="container">
                                                     <div class="row mx-1">
                                                         <div class="col">
-                                                            <small class="fw-bold">Total Enrollment Cost</small>
-                                                            <p class="fw-bold fs-3">₱<span id="totalamounttext"><?php echo $totalamount; ?></span></p>
+                                                            <small class="fw-bold" style="font-size: 12px;">Total Enrollment Cost</small>
+                                                            <p>₱<span id="totalamounttext"><?php echo $totalamount; ?></span></p>
+                                                        </div>
+                                                    </div> 
+                                                </div> 
+                                            </div>
+                                            <div class="col-3">
+                                                <div class="container">
+                                                    <div class="row mx-1">
+                                                        <div class="col">
+                                                            <small class="fw-bold" style="font-size: 12px;">Current Balance</small>
+                                                            <p class="fw-bold fs-3">₱<span id="currentbalancetext"><?php echo $currentbalance; ?></span></p>
                                                         </div>
                                                     </div> 
                                                 </div> 

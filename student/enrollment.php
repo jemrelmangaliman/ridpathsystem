@@ -270,8 +270,19 @@ $syID = $getSchoolYear['schoolYearID'];
                                             <div class="row mx-1 my-3">
                                                 <div class="col">
                                                     
-                                                    <a href="examination_home.php" id="exambuttonlink"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button">Examination Page</button></a> 
-                                                    <small class="text-danger" style="font-size: 11px;">Examination is required to proceed with enrollment</small> 
+                                                    <?php 
+                                                    $ExamAccessData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM examaccess"));
+                                                    $examlink = '';
+                                                    $buttonstatus = 'disabled';
+                                                    $warningmessage = 'You cannot access the exam yet.';
+                                                    if($ExamAccessData['accessstatus'] == 1) {
+                                                        $examlink = 'href="examination_home.php"';
+                                                        $buttonstatus = '';
+                                                        $warningmessage = 'Examination is required to proceed with enrollment';
+                                                    }
+                                                    ?>
+                                                    <a <?php echo $examlink; ?> id="exambuttonlink"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button" <?php echo $buttonstatus; ?>>Examination Page</button></a> 
+                                                    <small class="text-danger" style="font-size: 11px;"><?php echo $warningmessage; ?></small> 
                                                 </div>
                                             </div>
                                             
