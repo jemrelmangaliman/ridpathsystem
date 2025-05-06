@@ -1,6 +1,18 @@
 <?php
+session_start();
+$conn = require '../config/config.php';
+
+$ExamAccessData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM examaccess"));
+
+if($ExamAccessData['accessstatus'] == 0) {
+    $_SESSION['action-error'] = "You cannot access this page yet.";
+    header("Location: ../student/dashboard.php");
+    exit();
+}
+
 require '../shared/header_student.php';
 $tempid = $_SESSION['user_id'];
+
 
 $fetchQuery = "SELECT * FROM enrollmentrecords ER LEFT JOIN enrollmentstatus ES ON ER.enrollmentStatusID = ES.statusID WHERE ER.studentID = '$tempid'";
 $fetchedData = mysqli_query($conn, $fetchQuery);

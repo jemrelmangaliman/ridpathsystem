@@ -17,7 +17,6 @@ $birthday = date('M d, Y', strtotime($DataArray['birthday']));
 $address = ($DataArray['address'] != null ) ? $DataArray['address']  : 'Not yet defined';
 $disabled = 'disabled';
 $buttontype = 'submit';
-$examaccess = $DataArray['allowexam'];
 
 //get current school year
 $getSchoolYear = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM schoolyear WHERE isactive='Yes'"));
@@ -282,7 +281,7 @@ $syID = $getSchoolYear['schoolYearID'];
                                                         $warningmessage = 'Examination is required to proceed with enrollment';
                                                     }
                                                     ?>
-                                                    <a <?php echo $examlink; ?> id="exambuttonlink"><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button" <?php echo $buttonstatus; ?>>Examination Page</button></a> 
+                                                    <a <?php echo $examlink; ?> ><button class="btn btn-success w-100 ml-auto mr-auto" id="page-btn" type="button" <?php echo $buttonstatus; ?>>Examination Page</button></a> 
                                                     <small class="text-danger" style="font-size: 11px;"><?php echo $warningmessage; ?></small> 
                                                 </div>
                                             </div>
@@ -423,13 +422,11 @@ $syID = $getSchoolYear['schoolYearID'];
                 </div>
             </div>
 
-            <input type="hidden" id="access" value="<?php echo $examaccess; ?>">
+
     </div>
     <!-- End of Main Content -->
     <script>
-        if (document.getElementById('access').value != 'Yes') {
-            document.getElementById('exambuttonlink').style.display = 'none';
-        }
+
     </script>
     <!-- Bootstrap JavaScript and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
